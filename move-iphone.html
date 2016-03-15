@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>模拟苹果解锁</title>
+	<style>
+	* { margin: 0; padding: 0;}
+	body { font-size: 12px; font-family: "arial"; color: #000; background: #fff;}
+	a { text-decoration: none; color: #000;}
+	li { list-style: none;}
+	#iphone { width: 426px; height: 640px; background: url(img/iphone1.jpg) no-repeat; margin: 10px auto; position: relative;}
+	#lock { width: 358px; height: 62px; position: absolute; left: 50%; bottom: 33px; margin-left: -179px;}
+	#lock span { width: 93px; height: 62px; background: url(img/iphonebtn.jpg) no-repeat; position: absolute; left: 0; top: 0; cursor: pointer;}
+	</style>
+	<script src="jquery-min.js"></script>
+	<script src="jquery-easing.js"></script>
+</head>
+<body>
+	<div id="iphone">
+		<div id="lock">
+			<span></span>
+		</div>
+	</div>
+	<script>
+		$(function() {
+			var $iphone = $('#iphone'),
+			$lock = $('#lock'),
+			lockWidth = $lock.width(),
+			$btn = $lock.find('span'),
+			btnWidth = $btn.width(),
+			btnWidth = $btn.width();
+			
+			$btn.on('mousedown', function(ev) {
+				var disX = ev.clientX - $btn.position().left,
+				maxL = lockWidth - btnWidth;
+				$(document).on('mousemove', function(ev) {
+					var L = ev.clientX - disX;
+					L = L < 0 ? 0 : L > maxL ? maxL : L;
+					$btn.css({'left':L});
+					return false;
+				}).on('mouseup', function() {
+					$(document).off('mousemove');
+					$(document).off('mouseup');
+					$btn.releaseCapture && $btn.releaseCapture();
+					if ($btn.position().left < (lockWidth - btnWidth) / 2) {
+						$btn.animate({'left':0}, 400, "easeOut")	
+					} else {	
+						$btn.animate({'left':maxL}, 400, "easeOut");	
+						$btn.queue(function() {
+							$iphone.css('background-image','url(img/iphone2.jpg)');
+							$btn.hide();
+							$btn.dequeue();
+						})						
+					}
+				});
+				this.setCapture && this.setCapture();
+				return false;		
+			})
+		})
+	</script>
+</body>
+</html>

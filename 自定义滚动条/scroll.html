@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>自定义滚动条</title>
+	<style>
+	* { margin: 0; padding: 0;}
+	body { font-size: 14px; font-family: "arial"; color: #000; background: #3e3e3e;}
+	a { text-decoration: none; color: #000;}
+	li { list-style: none;}
+	img { display: block; border:none;}
+	.box { width: 600px; margin: 20px auto;}
+	.list { width: 600px; height: 144px; position: relative; overflow: hidden; margin-bottom: 10px;}	
+	.list ul { position: absolute; top: 0; left: 0;}
+	.list li { float: left; margin-right: 8px; display: inline;}
+	.list li.last { margin-right: 0;}
+	.list li a { width: 124px; padding: 10px 10px 0; background: #000; color: #fff; border-radius: 8px; display: block;}
+	.list a span { height: 34px; display: block; line-height: 34px; text-align: center;}
+	.scrollWrap { width: 600px; height: 19px; position: relative;}
+	.scrollWrap a { width: 30px; height: 19px; background: url(img/03.gif) no-repeat; position: absolute; top: 0;}
+	.scrollWrap .leftBar { background-position: 0 0; left: 0;}
+	.scrollWrap .rightBar { background-position: -30px 0; right: 0;}
+	.scrollWrap .leftStop { background-position: 0 -19px; left: 0;}
+	.scrollWrap .rightStop { background-position: -30px -19px; right: 0;}
+	.scroll { width: 544px; height: 15px; background: #000; position: absolute; z-index: 1; left: 28px; border-top: 1px solid #545454; border-bottom: 1px solid #545454; padding: 1px 0;}
+	.scrollBar { width: 150px; height: 15px; background: url(img/01.gif) repeat-x; position: absolute; left: 0; cursor: e-resize;}
+	.scrollBar div { width: 6px; height: 15px; background: url(img/02.gif) no-repeat; position: absolute;}
+	.scrollBar .Bar_l { left: -6px; background-position: 0 0;}
+	.scrollBar .Bar_r { right: -6px; background-position: -6px 0;}
+	#desc { color: #ccc;width: 578px;padding: 10px;margin: 0 auto;line-height: 2;border: 1px dashed #666;}
+	#desc dd {margin-left: 2em;}
+	</style>
+	<script src="jquery-min.js"></script>
+	<script src="jquery-easing.js"></script>
+</head>
+<body>
+	<div class="box">
+		<div class="list">
+			<ul>
+				<li><a href="#"><img src="img/1.jpg"><span>iPhone4</span></a></li>
+				<li><a href="#"><img src="img/2.jpg"><span>iPad2</span></a></li>
+				<li><a href="#"><img src="img/3.jpg"><span>iPod touch</span></a></li>
+				<li><a href="#"><img src="img/4.jpg"><span>iPod classic</span></a></li>
+				<li><a href="#"><img src="img/5.jpg"><span>iPhone4</span></a></li>
+				<li><a href="#"><img src="img/6.jpg"><span>iPad2</span></a></li>
+				<li><a href="#"><img src="img/7.jpg"><span>iPod touch</span></a></li>
+				<li><a href="#"><img src="img/8.jpg"><span>iPod classic</span></a></li>
+				<li><a href="#"><img src="img/9.jpg"><span>iPhone4</span></a></li>
+				<li class="last"><a href="#"><img src="img/10.jpg"><span>iPad2</span></a></li>
+			</ul>
+		</div>
+		<div class="scrollWrap">
+			<a href="javascript:;" class="leftBar"></a>
+			<a href="javascript:;" class="rightBar"></a>
+			<div class="scroll">
+				<div class="scrollBar">
+					<div class="Bar_l"></div>
+					<div class="Bar_r"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<dl id="desc">
+    <dt>功能说明：</dt>
+    <dd>① 拖动滚动条，图片列表缓冲滑动至目标点；</dd>
+    <dd>② 滚动条两端鼠标移入自动滑动；</dd>
+    <dd>③ 滚动条滑动到两端自动更换为停止标识；</dd>
+    <dd>④ 点击滚动条黑色背景区，滚动条及图片列表缓冲滑动至目标点；</dd>
+    <dd>⑤ 支持键盘左右键；</dd>
+    <dd>⑥ 支持鼠标滚轮。</dd>
+	</dl>
+	<script>
+		/*
+			思路:每次运动到目标点，执行一次检查
+			1.图片列表容器动态设置宽度
+			2.拖动滚动条	
+		*/
+		$(function() {
+			var $box = $('.box'),
+					$list = $('.box .list'),
+					$ul = $('.box ul'),
+					$lis = $('.box li'),
+					$left = $('.scrollWrap .leftBar'),
+					$right = $('.scrollWrap .rightBar'),
+					$scroll = $('.scrollWrap .scroll'),
+					$bar = $scroll.find('.scrollBar');
+			var disX = 0,
+					timer = null,
+					iScale = 0;
+			var mgright = parseInt($lis.eq(0).css('margin-right')),
+					maxL = $scroll.width() - $bar.width();
+			//图片列表容器动态设置宽度
+			$ul.css('width', ($lis.eq(0).width() + mgright) * $lis.length - mgright);
+
+			//拖动滚动条
+			$bar.on('mousedown', function(ev) {
+				disX = ev.clientX - $(this).position().left;
+				$(document).on('mousemove', function(ev) {
+					var disL = ev.clientX - disX;
+					disL = disL <= 0 ? 0 : disL >= maxL ? maxL : disL;
+					$bar[0].style.left = disL + 'px';
+					iScale = disL / maxL;
+					return false;
+				}).on('mouseup', function() {
+					$(document).off('mousemove');
+					$(document).off('mouseup');
+					isStop();
+					startMove($ul[0], parseInt(iScale*($list.width()-$ul.width())));
+				})
+				return false;
+			})
+
+			//阻止滚动条点击事件冒泡
+			$bar.on('click', function(ev) {
+				ev.stopPropagation();
+			})
+
+			//滚动条左右按钮鼠标移入及键盘左右键按下事件
+			$left[0].onmouseover = $right[0].onmouseover = document.onkeydown = function(ev) {
+				clearInterval(timer);
+				var ev = ev || window.event;
+				var iSpeed = 0;
+				if (this == $left[0] || ev.keyCode == 37) {
+					iSpeed = -5;
+				} else if (this == $right[0] || ev.keyCode == 39) {
+					iSpeed = 5;
+				}
+				timer = setInterval(function() {
+					togetherMove($bar.position().left + iSpeed, 1);
+				}, 30)
+			}
+
+			//滚动条左右按钮鼠标移出及键盘抬起事件
+			$left[0].onmouseout = $right[0].onmouseout = document.onkeyup = function(ev) {
+				clearInterval(timer);
+			} 
+
+			//滚动条可移动区域点击事件
+			$scroll.on('click', function(ev) {
+				var iTarget = ev.clientX - $scroll.offset().left - $bar.width()/2;
+				togetherMove(iTarget);
+			})
+
+			//鼠标滚轮事件
+			$box.on('mouseover', function(ev) {
+				function mouseWheel(ev) {
+					console.log(ev.wheelDelta || ev.detail)
+					var delta = ev.wheelDelta ? ev.wheelDelta : -ev.detail * 40
+					var iTarget = delta > 0 ? -50 : 50;
+					togetherMove($bar.position().left + iTarget)
+				}
+				addHandler(this, "mousewheel", mouseWheel);
+				addHandler(this, "DOMMouseScroll", mouseWheel);
+			})
+
+			//滚动条和图片列表同时移动
+			function togetherMove(iTarget, buffer) {
+				if (iTarget <= 0) {
+					timer && clearInterval(timer);
+					iTarget = 0;
+				} else if (iTarget >= maxL) {
+					timer && clearInterval(timer);
+					iTarget = maxL;
+				}
+				iScale = iTarget / maxL;
+				startMove($bar[0], iTarget, function(){isStop()}, buffer);
+				startMove($ul[0], parseInt(iScale*($list.width()-$ul.width())), function(){isStop()}, buffer);
+			}
+
+			//判断滚动条是否到达边界
+			isStop();
+			function isStop() {
+				$left.attr('class', 'leftBar');
+				$right.attr('class', 'rightBar');
+				switch($bar.position().left) {
+					case 0:
+						$left.hasClass('leftStop') || $left.addClass('leftStop');
+						break;
+					case maxL:
+						$right.hasClass('rightStop') || $right.addClass('rightStop');
+						break;
+				}
+			}
+		})
+		function startMove(obj, iTarget, endFn, buffer) {
+			clearInterval(obj.timer);
+			obj.timer = setInterval(function() {
+				doMove(obj, iTarget, endFn, buffer);
+			}, 25)
+		}
+
+		function doMove(obj, iTarget, endFn, buffer) {
+			var iStart = parseInt($(obj).css('left'));
+			var iSpeed = (iTarget - iStart) / (buffer || 5);
+			iSpeed = iSpeed > 0 ? Math.ceil(iSpeed) : Math.floor(iSpeed);
+			iStart == iTarget ? (clearInterval(obj.timer), endFn && endFn()) : obj.style.left = iStart + iSpeed + 'px';
+		}
+
+		function addHandler(element, type, handler){
+		    return element.addEventListener ? element.addEventListener(type, handler, false) : element.attachEvent("on" + type, handler)
+		}
+	</script>
+</body>
+</html>

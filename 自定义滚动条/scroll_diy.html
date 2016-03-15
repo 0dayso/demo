@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>自定义滚动条</title>
+	<style>
+	* { margin: 0; padding: 0;}
+	body { font-size: 14px; font-family: "arial"; color: #000; background: #3e3e3e;}
+	a { text-decoration: none; color: #000;}
+	li { list-style: none;}
+	img { display: block;}
+	.box { width: 600px; margin: 20px auto;}
+	#list { width: 600px; height: 144px; position: relative; overflow: hidden; margin-bottom: 10px;}	
+	#list ul { position: absolute; top: 0; left: 0;}
+	#list li { float: left; margin-right: 8px;}
+	#list li:last-child { margin-right: 0;}
+	#list li a { width: 124px; padding: 10px 10px 0; background: #000; color: #fff; border-radius: 8px; display: block;}
+	#list a span { height: 34px; display: block; line-height: 34px; text-align: center;}
+	#scrollWrap { width: 600px; height: 19px; position: relative;}
+	#scrollWrap a { width: 30px; height: 19px; background: url(img/03.gif) no-repeat; position: absolute; top: 0;}
+	#scrollWrap .leftBar { background-position: 0 0; left: 0;}
+	#scrollWrap .rightBar { background-position: -30px 0; right: 0;}
+	.scroll { width: 544px; height: 15px; background: #000; position: absolute; z-index: 1; left: 28px; border-top: 1px solid #3e3e3e; border-bottom: 1px solid #3e3e3e; padding: 1px 0;}
+	.scrollBar { width: 150px; height: 15px; background: url(img/01.gif) repeat-x; position: absolute; left: 0; cursor: e-resize;}
+	.scrollBar div { width: 6px; height: 15px; background: url(img/02.gif) no-repeat; position: absolute;}
+	.scrollBar .Bar_l { left: -6px; background-position: 0 0;}
+	.scrollBar .Bar_r { right: -6px; background-position: -6px 0;}
+	#desc { color: #ccc;width: 578px;padding: 10px;margin: 0 auto;line-height: 2;border: 1px dashed #666;}
+	#desc dd {margin-left: 2em;}
+	</style>
+	<script src="jquery-min.js"></script>
+	<script src="jquery-easing.js"></script>
+</head>
+<body>
+	<div class="box">
+		<div id="list">
+			<ul>
+				<li><a href="#"><img src="img/1.jpg"><span>iPhone4</span></a></li>
+				<li><a href="#"><img src="img/2.jpg"><span>iPad2</span></a></li>
+				<li><a href="#"><img src="img/3.jpg"><span>iPod touch</span></a></li>
+				<li><a href="#"><img src="img/4.jpg"><span>iPod classic</span></a></li>
+				<li><a href="#"><img src="img/5.jpg"><span>iPhone4</span></a></li>
+				<li><a href="#"><img src="img/6.jpg"><span>iPad2</span></a></li>
+				<li><a href="#"><img src="img/7.jpg"><span>iPod touch</span></a></li>
+				<li><a href="#"><img src="img/8.jpg"><span>iPod classic</span></a></li>
+				<li><a href="#"><img src="img/9.jpg"><span>iPhone4</span></a></li>
+				<li><a href="#"><img src="img/10.jpg"><span>iPad2</span></a></li>
+			</ul>
+		</div>
+		<div id="scrollWrap">
+			<a href="javascript:;" class="leftBar"></a>
+			<a href="javascript:;" class="rightBar"></a>
+			<div class="scroll">
+				<div class="scrollBar">
+					<div class="Bar_l"></div>
+					<div class="Bar_r"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<dl id="desc">
+    <dt>功能说明：</dt>
+    <dd>① 拖动滚动条，图片列表缓冲滑动至目标点；</dd>
+    <dd>② 滚动条两端鼠标移入自动滑动；</dd>
+    <dd>③ 滚动条滑动到两端自动更换为停止标识；</dd>
+    <dd>④ 点击滚动条黑色背景区，滚动条及图片列表缓冲滑动至目标点；</dd>
+    <dd>⑤ 支持键盘左右键；</dd>
+    <dd>⑥ 支持鼠标滚轮。</dd>
+	</dl>
+	<script>
+		/*
+			思路:每次运动到目标点，执行一次检查
+			1.图片列表容器动态设置宽度
+			2.拖动滚动条	
+		*/
+		$(function() {
+			var $list = $('#list'),
+			list_width = $list.width(),
+			$ul = $('#list ul'),
+			$lis = $ul.find('li'),
+			$scroll = $('.scroll'),
+			scroll_width = $scroll.width(),
+			$scrollBar = $('.scrollBar'),
+			scrollBar_width = $scrollBar.width(),
+			$left = $('.leftBar'),
+			$right = $('.rightBar'),
+			ul_width = $lis.length * ($lis.eq(0).width() + parseInt($lis.eq(0).css('margin-right'))) - parseInt($lis.eq(0).css('margin-right'));
+			$ul.css('width', ul_width);
+
+			var max_bar = scroll_width - scrollBar_width,
+			max_list = ul_width - list_width,
+			percent = max_list / max_bar,
+			disL = 0,	
+			timer = null,
+			min_left = $scroll.offset().left,
+			max_left = $scroll.offset().left + max_bar,
+			ul_max_left = $ul.offset().left,
+			ul_min_left = $ul.offset().left - max_list,
+			onOff = !0,
+			isStop = function() {
+				$scrollBar.position().left == 0 ? $left.css('background-position','0 -19px') : $left.css('background-position','0 0');
+				$scrollBar.position().left == max_bar ? $right.css('background-position','-30px -19px') : $right.css('background-position','-30px 0');
+			},
+			moveAll = function(ul_left,bar_left) {	
+				onOff = 0;
+				if (arguments.length > 1) {
+					$scrollBar.stop();		
+					$scrollBar.animate({
+						left : bar_left
+					}, 1000, 'easeOut');
+					$scrollBar.queue(function() {
+						isStop();
+						$(this).dequeue();
+					});
+				}
+				$ul.stop();				
+				$ul.animate({
+					left : ul_left
+				}, 1000, 'easeOut');
+				$ul.queue(function() {
+					onOff = !0;
+					isStop();
+					$(this).dequeue();
+				});
+			},
+			autoPlay = function(num) {											
+				$scrollBar.offset({left:($scrollBar.offset().left+num)});	
+				if( $scrollBar.offset().left < min_left ) {
+					$scrollBar.offset({left:min_left});
+				} else if ( $scrollBar.offset().left > max_left ) {
+					$scrollBar.offset({left:max_left});
+				}
+				$ul.offset({left:($ul.offset().left+(-num*percent))});	
+				if( $ul.offset().left < ul_min_left ) {
+					$ul.offset({left:ul_min_left});
+				} else if ( $ul.offset().left > ul_max_left ) {
+					$ul.offset({left:ul_max_left});
+				}
+				isStop();
+			};
+			//左右按钮样式
+			isStop();
+			//拖动
+			$scrollBar.on('mousedown', function(ev) {
+				if (!onOff) return false;
+				var x = ev.clientX - $scrollBar.position().left;
+				$(document).on('mousemove', function(ev) {
+					disL = ev.clientX - x;
+					disL = disL < 0 ? 0 : disL > max_bar ? max_bar : disL;
+					$scrollBar.css('left', disL);
+					return false;
+				}).on('mouseup', function() {
+					$(document).off('mousemove');
+					$(document).off('mouseup');		
+					var disX = -disL * percent;
+					moveAll(disX);
+				});
+				return false;
+			})
+			//点击
+			$scroll.on('click', function(ev) {
+				if (!onOff) return false;
+				var old_left = $scrollBar.position().left,
+				x = ev.clientX - $scroll.offset().left,
+				new_left = x - scrollBar_width/2,
+				old_ul_left = $ul.position().left,
+				dis_ul = 0;
+				new_left = new_left < 0 ? 0 : new_left > max_bar ? max_bar : new_left;
+				disL = new_left - old_left;		
+				dis_ul = -disL * percent;
+				ul_left = dis_ul + old_ul_left;
+				moveAll(ul_left,new_left);
+			});
+			$scrollBar.on('click', function(ev) {
+				ev.stopPropagation();
+			})
+			//鼠标滑入
+			$right.on({
+				'mouseenter' : function() {
+					clearInterval(timer);
+					timer = setInterval(function() {
+						autoPlay(5);
+					}, 30)
+				},
+				'mouseleave' : function() {
+					clearInterval(timer);
+				}
+			})
+			$left.on({
+				'mouseenter' : function() {
+					clearInterval(timer);
+					timer = setInterval(function() {
+						autoPlay(-5);
+					}, 30)
+				},
+				'mouseleave' : function() {
+					clearInterval(timer);
+				}
+			})
+			//键盘控制
+			$(document).on('keydown', function(ev) { //左 37 右 39
+				if (ev.keyCode == '37') {
+					clearInterval(timer);
+					timer = setInterval(function() {
+						autoPlay(-1);
+					}, 10)
+				} else if (ev.keyCode == '39') {
+					clearInterval(timer);
+					timer = setInterval(function() {
+						autoPlay(1);
+					}, 10)
+				}
+			}).on('keyup', function(ev) {
+				clearInterval(timer);
+			})
+			//滚轮控制
+			var addHandler = function(element, type, fn) {
+				    if (element.addEventListener) {
+				        element.addEventListener(type, fn, false);
+				    } else if(element.attachEvent) {
+				        element.attachEvent("on" + type, function() {
+				            fn.call(element)
+				        });
+				    } else {
+				        element['on'+type] = fn;
+				    }
+					},
+					wheel = function (obj, callback) {
+		        var wheelType = 'mousewheel';
+		        try {
+		            document.createEvent('MouseScrollEvents');
+		            wheelType = 'DOMMouseScroll';
+		        } catch(e){};
+
+		        addHandler(obj, wheelType, function(event){
+		            if ( "wheelDelta" in event ) {//统一为+/-120 正数向上 负数向下
+		                var delta = event.wheelDelta;
+		                if ( window.opera && opera.version < 10 )//opera10以下方向与ff相同
+		                    delta = -delta;
+		                event.delta = Math.round(delta) / 120;//修正safari的浮点bug
+		            } else if ( "detail" in event ) {
+		                event.wheelDelta = -event.detail * 40;//为FF提供更大众化的wheelDelta
+		                event.delta = event.wheelDelta / 120;//添加私有的delta
+		            }
+		            callback.call(obj,event);//修正IE的this指向问题
+		        });
+      		};
+      wheel($('.box')[0], function(ev) {
+      	var delta = -ev.delta,
+      			old_left = $scrollBar.position().left,
+      			new_left = old_left + delta * (max_bar/6),
+      			new_ul_left = 0;
+      	ev.preventDefault();
+      	new_left = new_left < 0 ? 0 : new_left > max_bar ? max_bar : new_left;
+      	ul_left = $ul.position().left - (new_left - old_left) * percent;
+      	moveAll(ul_left,new_left);
+      })
+		})
+
+	</script>
+</body>
+</html>

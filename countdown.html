@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>倒计时</title>
+	<style>
+	* { margin: 0; padding: 0;}
+	body { font-size: 16px; font-family: "arial"; color: #fff;}
+	div { width: 560px; background: #000; text-align: center; margin: 50px auto; padding: 20px;}
+	input[type="text"] { width: 50px; font-size: 16px; border:2px solid #ccc; text-align: center; background: #fff; line-height: 1.5; margin: 0 10px;}
+	p { margin-bottom: 15px;}
+	button { width: 50px; height: 26px; font-size: 14px; font-weight: bold; vertical-align: middle;}
+	span { vertical-align: middle; letter-spacing: 3px; margin-left: 20px;}
+	</style>
+	<script src="jquery-min.js"></script>
+</head>
+<body>
+	<div>
+		<p>距<input type="text" value="2015">年<input type="text" value="8">月<input type="text" value="6">日<input type="text" value="00">时<input type="text" value="00">分<input type="text" value="00">秒</p>
+		<button>还剩</button>
+		<span></span>
+	</div>
+
+	<script>
+		$(function() {	//(new Date("2012/12/25 20:11:11")).getTime() 获取指定时间毫秒数
+			var $txt = $('input[type="text"]'),
+			countdown = function() {
+				var str = '',
+				end = '',
+				now = (+new Date()),
+				differ = '',
+				html = '',
+				targetTime = [];
+				$txt.each(function() {
+					targetTime.push($(this).val());
+				});		
+				for (var i in targetTime) {
+					if (i < 2) {
+						str += targetTime[i] + '/';
+					} else if (i == 2) {
+						str += targetTime[i] + ' ';
+					} else if (i > 2) {
+						str += targetTime[i] + ':';
+					}
+				}
+				str = str.substr(0, str.length-1);
+				end = (new Date(str)).getTime();
+				differ = parseInt(end - now);
+				html = parseInt(differ/86400000) + '天' + parseInt(differ%86400000/3600000) + '时' + parseInt(differ%86400000%3600000/60000) + '分' + parseInt(differ%86400000%3600000%60000/1000) + '秒';
+				$('span').html(html);
+				setTimeout(arguments.callee,1000);
+			};			
+			$('button').click(function() {
+				countdown();
+			})
+		})				
+	</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+  div { margin:3px; width:40px; height:40px;
+        position:absolute; left:0px; top:30px;
+        background:green; display:none; }
+  div.newcolor { background:blue; }
+  div.newcolor2 { background: red; }
+  </style>
+  <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+</head>
+<body>
+  <button id="start">Start</button>
+  <button id="stop">Stop</button>
+  <div></div>
+<script>$("#start").click(function () {
+      $("div").show("slow");
+      $("div").animate({left:'+=400'},3000);
+      $("div").queue(function () {
+        $(this).attr("class","newcolor");
+        $(this).dequeue();
+      });
+      $("div").animate({left:'-=200'},1500);
+      $("div").queue(function () {
+        $(this).attr("class","newcolor2");
+        $(this).dequeue();
+      });
+      $("div").slideUp();
+    });
+    $("#stop").click(function () {
+      $("div").queue("fx", []);
+      $("div").stop();
+    });</script>
+ 
+</body>
+</html>

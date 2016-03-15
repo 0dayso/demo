@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>A*star算法</title>
+	<style>
+	* { margin: 0; padding: 0;}
+	body { font-size: 12px; font-family: "arial"; color: #333;}
+	.clear { zoom: 1;}
+	.clear:after { content: ""; display: block; height: 0; clear: both;}
+	#list { margin: 50px auto 0; border-top: 1px solid #000; border-left: 1px solid #000; list-style: none;}
+	#list li { border-right: 1px solid #000; border-bottom: 1px solid #000; float: left;}
+	#list .red { background: red;}
+	#list .blue { background: blue;}
+	#list .green { background: green;}
+	#btn { width: 100px; height: 30px; margin: 50px auto 0; display: block;}
+	</style>
+</head>
+<body>
+	<ul id="list" class="clear"></ul>
+	<input id="btn" type="button" value="开始寻路" />
+	<script>			
+		var oList = document.getElementById('list');
+		var oBtn = document.getElementById('btn');
+		var map = [
+					0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+					0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+					0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,
+					0,0,0,0,1,0,0,2,0,0,0,0,0,0,0,
+					0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,
+					0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,
+					0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,
+					0,0,0,0,0,0,0,2,0,0,3,0,0,0,0,
+					0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,
+					0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+					0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+					0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+					0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+					0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+					0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+				];
+		var size = 20;
+		var cols = Math.sqrt(map.length);		
+		var beginLi = document.getElementsByClassName('red')[0];
+		var endLi = document.getElementsByClassName('green')[0];
+		var closeLi = document.getElementsByClassName('blue');
+		//初始化
+		init();
+		function init() {
+			oList.style.width = cols * (size + 1) + 1 + 'px';
+			for (var i = 0, ml = map.length; i < ml; i++) {
+				var oLi = document.createElement('li');
+				oList.appendChild(oLi);
+				oLi.style.width = size + 'px';
+				oLi.style.height = size + 'px';
+				switch (map[i]) {
+					case 1:
+						oLi.className = 'red';
+						break;
+					case 2:
+						oLi.className = 'blue';
+						break;
+					case 3:
+						oLi.className = 'green';
+						break;
+				};
+			};
+
+			
+			
+			oBtn.onclick = searchRoad;
+		}
+		
+		function searchRoad() {
+			
+		}
+
+		//A*star算法公式
+		function f(n) {
+			return g(n) + h(n);
+		}
+		function g(n) {
+			var a = n.offsetLeft - beginLi.offsetLeft;
+			var b = n.offsetTop - beginLi.offsetTop; 
+			return Math.sqrt(a*a + b*b);
+		}
+		function h(n) {
+			var a = n.offsetLeft - endLi.offsetLeft;
+			var b = n.offsetTop - endLi.offsetTop; 
+			return Math.sqrt(a*a + b*b);
+		}
+
+	</script>
+</body>
+</html>

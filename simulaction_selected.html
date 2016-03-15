@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>模拟select控件</title>
+	<style>
+	* { margin: 0; padding: 0;}
+	body { font-size: 12px; font-family: "arial"; color: #333; background: #23384e;}
+	a { text-decoration: none; color: #000;}
+	#search, #search .box, #search form, #search span, #search a { background: url(img/search.jpg) no-repeat; height: 34px;}
+	#search { width: 350px; position: relative; margin: 10px auto;}
+	#search .box { background-position: right 0;}
+	#search form { background-position: 0 -34px; margin: 0 20px 0 40px; overflow: hidden;} 
+	#search span { width: 184px; height: 22px; line-height: 22px; background-position: 0 -68px; margin-top: 4px; float: left; padding: 0 8px; color: #fff; cursor: pointer;}
+	#search a { width: 80px; height: 24px; text-align: center; line-height: 24px; float: left; background-position: 0 -90px; margin: 4px 0 0 10px;}
+	#search a:hover { background-position: -80px -90px; color: #f00;} 
+	#search ul { width: 198px; position: absolute; left: 40px; top: 26px; border: 1px solid #fff; display: none;}
+	#search li { height: 24px; line-height: 24px; background: #000; color: #fff; text-indent: 10px; list-style: none; border-bottom: 1px dotted #fff; cursor: pointer;}
+	#search .last { border: none;}
+	</style>
+	<script src="jquery-min.js"></script>
+</head>
+<body>
+	<div id="search">
+		<div class="box">
+			<form>
+				<span>请选择游戏名称</span>
+				<a href="javascript:;">搜 索</a>
+			</form>
+		</div>
+		<ul>
+			  <li>地下城与勇士</li>
+		      <li>魔兽世界（国服）</li>
+		      <li>魔兽世界（台服）</li>
+		      <li>热血江湖</li>
+		      <li>神鬼传奇</li>
+		      <li>大话西游II</li>
+		      <li class="last">QQ幻想世界</li>
+		</ul>
+	</div>	
+
+	<script>
+		$(function() {
+			var onOff = !0,
+					$span = $('#search span');
+			$span.click(function() {
+				onOff ? $('#search ul').show() : $('#search ul').hide();
+				onOff = !onOff;
+			});
+			$('#search li').hover(function() {
+				$(this).css('background','#ccc');
+			},function() {
+				$(this).css('background','#000');
+			}).click(function() {
+				$span.html( $(this).html() );
+				$(this).parent().hide();
+				onOff = !0;
+			})
+		})
+	</script>
+</body>
+</html>

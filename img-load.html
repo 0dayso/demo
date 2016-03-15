@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图片加载相关</title>
+	<style>
+	* { margin: 0; padding: 0;}
+	body { font-size: 12px; font-family: "arial"; color: #fff; background: #000;}
+	a { text-decoration: none; color: #000;}
+	li { list-style: none;}
+	div { width: 600px; height: auto; min-height: 400px; background: url(img/loading.gif) no-repeat 50% 50%;}
+	</style>
+	<script src="jquery-min.js"></script>
+</head>
+<body>
+	<div><img src="http://a.hiphotos.baidu.com/image/pic/item/03087bf40ad162d9da99ac4d13dfa9ec8a13cd68.jpg" /></div>
+	<span>切换</span>
+	<script>
+		$(function() {
+			var data = [
+						'http://g.hiphotos.baidu.com/image/pic/item/5bafa40f4bfbfbed5d17f82e7af0f736afc31f11.jpg',
+						'http://d.hiphotos.baidu.com/image/pic/item/960a304e251f95ca6a825ce7cb177f3e67095268.jpg',
+						'http://h.hiphotos.baidu.com/image/pic/item/d4628535e5dde711571cb699a5efce1b9c166197.jpg'
+					],
+					rand = function(n) {
+						return Math.random()*n | 0;
+					};
+
+			$('span').click(function() {
+				var html = '<img src="'+data[rand(3)]+'" />';
+				$('div').html(html);
+			})
+			$('div img').load(function() {
+				alert('ok')
+			})
+			
+		})
+	</script>
+</body>
+</html>

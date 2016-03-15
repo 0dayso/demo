@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>控制div属性</title>
+	<style>
+	* { margin: 0; padding: 0;}
+	body { font-size: 12px; font-family: "arial"; color: #333;}
+	a { text-decoration: none; color: #000;}
+	#outer { width: 500px; text-align: center; margin: 0 auto;}
+	#outer input { width: 42px; height: 22px; line-height: 22px; margin:5px}
+	#div1 { width: 100px; height: 100px; background: #000; margin: 5px auto;}
+	</style>
+	<script src="jquery-min.js"></script>
+</head>
+<body>
+	<div id="outer">
+		<input type="button" value="变高" />
+		<input type="button" value="变宽" />
+		<input type="button" value="变色" />
+		<input type="button" value="隐藏" />
+		<input type="button" value="重置" />
+		<div id="div1"></div>
+	</div>
+	<script>
+		var aInp = document.getElementsByTagName('input');
+		var oDiv1 = document.getElementById('div1');
+		var arrAttr = ['height', 'width', 'background', 'visibility'];
+		var arrValue = ['200px', '200px', '#f00', 'hidden'];
+
+		for (var i = 0; i < aInp.length; i++) {
+			aInp[i].index = i;
+			aInp[i].onclick = function() {				
+				this.index == aInp.length - 1 ? (oDiv1.style.cssText = '') : changeStyle(oDiv1, arrAttr[this.index], arrValue[this.index]);	//优先级：&& > =	
+			}
+		};
+		function changeStyle(elem, attr, value) {
+			console.log(attr)
+			elem.style[attr] = value;
+		}
+	</script>
+</body>
+</html>

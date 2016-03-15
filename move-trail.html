@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>移动效果——按轨迹移动</title>
+	<style>
+	* { margin: 0; padding: 0;}
+	body { font-size: 12px; font-family: "arial"; color: #000; background: #fff;}
+	a { text-decoration: none; color: #000;}
+	li { list-style: none;}
+	div { width: 50px; height: 50px; background: url(img/houzi.gif) no-repeat; position: absolute; top: 100px; left: 100px;}
+	</style>
+	<script src="jquery-min.js"></script>
+</head>
+<body>
+	<p>选择移动方式：</p>
+	<button>根据鼠标点击位置移动</button>
+	<button>根据鼠标拖动轨迹移动</button>
+	<div></div>	
+
+	<script>
+		$(function() {
+			var onOff = 0,
+			$div = $('div'),
+			$btns = $('button'),
+			$p = $('p'),
+			data = [{x:$div.offset.left, y:$div.offset.top}],
+			move1 = function(ev) {
+				$div.css('background-image','url(img/houzi2.gif)')
+				.animate({
+					top:ev.clientY,
+					left:ev.clientX
+				}, 1000);
+				$div.queue(function() {
+					$div.css('background-image','url(img/houzi.gif)');
+					$div.dequeue();
+				});
+			};
+			$btns.mousedown(function(ev) {
+				ev.stopPropagation();
+				onOff = $(this).index();
+			})
+			$(document).on('mousedown',function(ev) {
+				console.log('onOff:'+onOff);
+				if (onOff == 1) {
+					$div.queue(function() {
+						move1(ev);
+						$div.dequeue();
+					})		
+				} else if (onOff == 2) {
+					data.unshift({x:ev.clientX, y:ev.clientY});
+					$(document).on('mousemove', function(ev) {
+						data.unshift({x:ev.clientX, y:ev.clientY});
+					}).on('mouseup', function(ev) {
+						$(document).off('mousemove');
+						$(document).off('mouseup');
+						~function() {
+							$div.css('background-image','url(img/houzi2.gif)')
+							var timer = null;
+							timer && clearTimeout(timer);
+							var pos = data.pop();
+							if (!!pos) {
+								$div.css({'top':pos.y, 'left':pos.x});
+							} else {
+								$div.css('background-image','url(img/houzi.gif)')
+								return;
+							}
+							timer = setTimeout(arguments.callee, 20);
+						}();			
+						return false;			
+					})
+					return false;
+				}															
+			})
+		})
+	</script>
+</body>
+</html>

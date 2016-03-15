@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>幻灯--缓动</title>
+	<style>
+	* { margin: 0; padding: 0;}
+	body { font-size: 12px; font-family: "arial"; color: #fff; background: #000;}
+	a { text-decoration: none; color: #000;}
+	li { list-style: none;}
+	#slider { width: 490px; height: 170px; margin: 30px auto; border:8px solid #fff; border-radius: 10px; background:#ccc; position: relative; overflow: hidden;}
+	#slider .con { width: 490px; height: auto; position: absolute; top: 0; left: 0; z-index: 1;}
+	#slider .btns { position: absolute; bottom: 0; right: 0; z-index: 2;}
+	#slider .btns li { width: 20px; height: 20px; background: #F90; border-radius: 20px; line-height: 20px; text-align: center; cursor: pointer; float: left; margin-left: 6px; display: inline;}
+	#slider .btns .active { background: #f60;}
+	</style>
+	<script src="jquery-min.js"></script>
+</head>
+<body>
+	<div id="slider">
+		<ul class="con">
+			<li><a href="#"><img src="img/01.jpg"></a></li>
+			<li><a href="#"><img src="img/02.jpg"></a></li>
+			<li><a href="#"><img src="img/03.jpg"></a></li>
+			<li><a href="#"><img src="img/04.jpg"></a></li>
+			<li><a href="#"><img src="img/05.jpg"></a></li>
+		</ul>
+		<ul class="btns">
+			<li class="active">1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+		</ul>
+	</div>
+
+	<script>
+		$(function() {
+			var now = 0,
+			$con = $('#slider .con'),
+			$items = $con.find('li'),
+			$itemHeight = $items.height(),
+			$btn = $('#slider .btns').find('li'),
+			move = function(index) {
+				var sTop = -$itemHeight * index;
+				$con.animate({top:sTop}, 1000);
+				$btn.eq(index).addClass('active')
+				.siblings('li').removeClass('active');
+			},
+			autoPlay = function() {
+				now ++;
+				now = now > $items.length - 1 ? 0 : now;
+				move(now); 
+			},
+			timer = setInterval(autoPlay, 2000);		
+
+			$btn.each(function(i) {
+				$btn.eq(i).on('mouseenter',function() {
+					$con.stop();
+					move(i);
+					now = i;
+				})
+			})	
+			$('#slider').on({
+				'mouseenter':function() {
+					clearInterval(timer);
+				},
+				'mouseleave':function() {
+					clearInterval(timer);
+					timer = setInterval(autoPlay, 2000);
+				}
+			})
+		})
+	</script>
+</body>
+</html>

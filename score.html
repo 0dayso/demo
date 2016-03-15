@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>打分</title>
+	<style>
+	* { margin: 0; padding: 0;}
+	body { font: 12px/1.5 Arial; color: #333;}
+	.clear { zoom: 1;}
+	.clear:after { content:''; display:block; clear:both; }
+	#star { width: 600px; margin: 10px auto;}
+	#star p,#star ul{ height: 19px; line-height: 19px; float: left; display: inline;}
+	#star p { line-height: 22px;}
+	#star ul { margin: 0 10px;}
+	#star li { width: 24px; height: 19px; background: url(img/star.png) no-repeat; float: left; text-indent: -9999px; list-style: none; cursor: pointer;}
+	</style>
+	<script src="jquery-min.js"></script>
+</head>
+<body>
+	<div id="star" class="clear">
+		<p>点击星星就能打分</p>
+		<ul>
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+		</ul>
+		<p></p>
+	</div>
+
+	<script>
+		$(function() {
+			var data = [
+				'1分 不咋地',
+				'2分 一般般',
+				'3分 还可以',
+				'4分 比较好',
+				'5分 非常棒'
+			],
+			now = -1,
+			fnAdd = function(i) {
+				for (var j = 0; j <= i; j++) {
+					$('#star li').eq(j).css('background','url(img/star.png) no-repeat 0 -28px');
+				}
+			},
+			fnRemove = function() {
+				$('#star li').css('background','url(img/star.png) no-repeat 0 0');
+			};
+			$('#star li').each(function(i,v) {
+				$('#star li').eq(i).on('mouseenter',function() {
+					fnRemove();
+					fnAdd(i);
+				}).on('mouseleave',function() {
+					fnRemove
+				}).on('click',function() {
+					$('#star p:last').html(data[i]);
+					fnAdd(i);
+					now = i;	
+				});
+			})	
+
+			$('#star ul').on('mouseleave',function() {
+				fnAdd(now);
+			})
+		})				
+	</script>
+</body>
+</html>

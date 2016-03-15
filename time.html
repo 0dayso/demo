@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>网页时钟</title>
+	<style>
+	* { margin: 0; padding: 0;}
+	body { font-size: 12px; font-family: "arial"; color: #333;}
+	
+	</style>
+	<script src="jquery-min.js"></script>
+</head>
+<body>
+	<span></span>时
+	<span></span>分
+	<span></span>秒
+
+	<script>
+		$(function() {
+			var $span = $('span'),
+					format = function(num) {
+						return num.toString().replace(/^(\d)$/, "0$1");
+					};
+			~function() {
+				var oDate = new Date(),
+						dateArr = [oDate.getHours(), oDate.getMinutes(), oDate.getSeconds()];
+				for (var i in dateArr) $span[i].innerHTML = format(dateArr[i]);		
+				setTimeout(arguments.callee,1000);					
+			}();			
+		})				
+	</script>
+</body>
+</html>

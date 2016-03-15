@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>全选、反选</title>
+	<style>
+	* { margin: 0; padding: 0;}
+	body { font-size: 12px; font-family: "arial"; color: #333;}
+	a { text-decoration: none; color: #000;}
+	.wrap { width: 150px; height: auto; margin: 10px auto; border: 1px solid #000; border-radius: 5px; padding: 10px 5px; background: #fbfbfb;}
+	.wrap p { line-height: 22px; margin: 5px 0 0 10px;}
+	.wrap p:nth-of-type(1) { border-bottom: 1px solid #000; line-height: 30px;}
+	.wrap input { vertical-align: middle;}
+	.wrap label { padding: 0 10px; cursor: pointer;}
+	</style>
+	<script src="jquery-min.js"></script>
+</head>
+<body>
+	<div class="wrap">
+		<p><input id="checkAll" type="checkbox"><label for="checkAll">全选</label><a href="javascript:;">反选</a></p>
+		<p><input id="c1" type="checkbox"><label for="c1">选项（一）</label></p>
+		<p><input id="c2" type="checkbox"><label for="c2">选项（二）</label></p>
+		<p><input id="c3" type="checkbox"><label for="c3">选项（三）</label></p>
+		<p><input id="c4" type="checkbox"><label for="c4">选项（四）</label></p>
+		<p><input id="c5" type="checkbox"><label for="c5">选项（五）</label></p>
+		<p><input id="c6" type="checkbox"><label for="c6">选项（六）</label></p>
+		<p><input id="c7" type="checkbox"><label for="c7">选项（七）</label></p>
+		<p><input id="c8" type="checkbox"><label for="c8">选项（八）</label></p>
+		<p><input id="c9" type="checkbox"><label for="c9">选项（九）</label></p>
+		<p><input id="c10" type="checkbox"><label for="c10">选项（十）</label></p>
+	</div>
+
+	<script>
+		$(function() {
+			var $getAll = $('input:first'),
+				$getOpp = $('.wrap a:first'),
+				$item = $('input:not(:first)'),
+				//判断是否全部选中
+				isAll = function() {
+					var isTrue = !0;
+					$item.each(function() {
+						if (!$(this).prop('checked')) 
+							isTrue = 0;						
+					})
+					return !!isTrue;
+				};
+			$getAll.change(function() {
+				console.log($('input').prop('checked'))
+				// debugger;
+				$('input').prop('checked',$getAll.prop('checked'));
+			});
+			$getOpp.click(function() {
+				$item.each(function() {
+					$(this).prop('checked',!$(this).prop('checked'));
+				})
+				$getAll.prop('checked',isAll());
+			});
+			$item.change(function() {
+				$getAll.prop('checked',isAll());
+			})
+		})
+	</script>
+</body>
+</html>
