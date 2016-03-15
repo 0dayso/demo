@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>100du模块化布局</title>
+	<link rel="icon" href="img/favicon.ico" type="image/x-icon" /> 
+	<link rel="stylesheet" href="css/style.css">
+	<script src="js/jquery-1.11.0.min.js"></script>
+	<script src="js/tween.js"></script>
+	<script src="js/100.js"></script>
+</head>
+<body>
+	<div id="header" class="gradient">
+		<p class="city">
+			切换城市：
+			<a class="active" href="#">北京</a>
+			<a href="#">上海</a>
+			<a href="#">福州</a>
+			<a href="#">广州</a>
+			<a href="#">青岛</a>
+		</p>
+		<p class="join">
+			<a class="ico1" href="#">加盟100度</a> |
+			<a class="ico2" href="#">店铺管理</a>
+		</p>
+	</div>
+	<div id="nav">
+		<ul class="nav_l">
+			<li><a class="bg1" href="#">美食</a></li>
+			<li><a class="bg2" href="#">夜店</a></li>
+			<li><a class="bg3" href="#">购物</a></li>
+			<li><a class="bg4" href="#">文化</a></li>
+			<li><a class="bg5" href="#">休闲</a></li>
+		</ul>
+		<h1 title="带你去最hot的地方">
+			<a href="#"><img src="img/logo.png" alt="100du.com"></a>
+		</h1>
+		<ul class="nav_r">
+			<li><a class="bg6" href="#">烧客空间</a></li>
+			<li><a class="bg7" href="#">知道分子</a></li>
+			<li><a class="bg8" href="#">白吃白拿</a></li>
+			<li><a class="bg9" href="#">烧客论坛</a></li>
+			<li><a class="bg10" href="#">企业俱乐部</a></li>
+		</ul>
+	</div>
+	<div id="search" class="gradient">
+		<div class="bar">
+			<ul id="menu">
+				<li class="active">搜店</li>
+				<li>地址</li>
+				<li>优惠券</li>
+				<li>全文</li>
+				<li>视频</li>
+			</ul>
+		</div>
+		<div class="form">
+			<form action="">
+				<input class="txt" type="text" value="例如：荷棠鱼坊烤鱼 或 樱花日本料理" />
+				<input class="sub" type="submit" />
+			</form>
+		</div>
+		<p class="search_text">金钱豹、大江南、湘水之珠、德瑀楼 荷棠鱼坊烤鱼、SOHO尚都、湘味楼...</p>
+		<div class="img"></div>
+		<div class="update">
+			<div class="wrap">
+				<ul>
+				</ul>
+			</div>
+			<a id="updateUpBtn" class="triangle_up" href="javascript:;"></a>
+			<a id="updateDownBtn" class="triangle_down_red" href="javascript:;"></a>
+		</div>
+	</div>
+	<div class="content clear">
+		<div class="main fl">
+			<div class="main_wrap clear">
+				<div class="section fl">
+					<h2 class="video_title">WHAT<sup>,</sup> HOT</h2>
+					<div class="video"><img src="img/video.jpg" alt=""></div>
+					<ul class="video_list">
+						<li><a href="#">现场实录：杭州机场系统崩溃</a></li>
+						<li><a href="#">现场实录：杭州机场系统崩溃</a></li>
+						<li><a href="#">现场实录：杭州机场系统崩溃</a></li>
+					</ul>
+				</div>
+				<div class="options fr">
+					<ul class="nav tabNav1">
+						<li class="fl active">
+							<strong>HOT SHOP <span>红店铺</span></strong>
+							<a class="triangle_down_red" href="javascript:;"></a>
+						</li>
+						<li class="fr gradient">
+							<strong>EW SHOP <span>新开张</span></strong>
+							<a class="triangle_down_gray" href="javascript:;"></a>
+						</li>
+					</ul>
+					<div class="con">
+						<div class="hot_list">
+							<ul class="tabCon1" style="display:block">
+								<li>
+									<div class="img"><a href="#"><img src="img/hot_img.jpg" alt=""></a></div>
+									<div class="text">
+										<a href="#"><strong>御舟和涵珍园国际酒店</strong></a>
+										<p>区域：朝阳/CBD</p>
+										<p>人均：180元</p>
+										<p>人气：12321</p>
+									</div>
+								</li>
+								<li>
+									<div class="img"><a href="#"><img src="img/hot_img.jpg" alt=""></a></div>
+									<div class="text">
+										<a href="#"><strong>御舟和涵珍园国际酒店</strong></a>
+										<p>区域：朝阳/CBD</p>
+										<p>人均：180元</p>
+										<p>人气：12321</p>
+									</div>
+								</li>
+								<li>
+									<div class="img"><a href="#"><img src="img/hot_img.jpg" alt=""></a></div>
+									<div class="text">
+										<a href="#"><strong>御舟和涵珍园国际酒店</strong></a>
+										<p>区域：朝阳/CBD</p>
+										<p>人均：180元</p>
+										<p>人气：12321</p>
+									</div>
+								</li>
+							</ul>
+							<ul class="tabCon1" style="display:none">
+								<li>
+									<div class="img"><a href="#"><img src="img/hot_img.jpg" alt=""></a></div>
+									<div class="text">
+										<a href="#"><strong>园国际酒店</strong></a>
+										<p>区域：朝阳/CBD</p>
+										<p>人均：180元</p>
+										<p>人气：12321</p>
+									</div>
+								</li>
+								<li>
+									<div class="img"><a href="#"><img src="img/hot_img.jpg" alt=""></a></div>
+									<div class="text">
+										<a href="#"><strong>园国际酒店</strong></a>
+										<p>区域：朝阳/CBD</p>
+										<p>人均：180元</p>
+										<p>人气：12321</p>
+									</div>
+								</li>
+								<li>
+									<div class="img"><a href="#"><img src="img/hot_img.jpg" alt=""></a></div>
+									<div class="text">
+										<a href="#"><strong>御舟和涵珍园国际酒店</strong></a>
+										<p>区域：朝阳/CBD</p>
+										<p>人均：180元</p>
+										<p>人气：12321</p>
+									</div>
+								</li>
+							</ul>
+							<a class="more" href="#" title="更多">more</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="main_ad"><a href="#" target="_blank"><img src="img/ad/ad1.jpg" /></a></div>
+
+			<div class="main_wrap clear">
+				<div class="section fl"></div>
+				<div class="section fr"></div>
+			</div>
+
+			<div class="main_wrap clear">
+				<div class="options fl"></div>
+				<div class="section fr"></div>
+			</div>
+
+			<div class="main_ad"><a href="#" target="_blank"><img src="img/ad/ad1.jpg" /></a></div>
+
+			<div class="main_wrap clear">
+				<div class="section fl"></div>
+				<div class="section fr"></div>
+			</div>
+
+			<div class="main_wrap clear">
+				<div class="section fl"></div>
+				<div class="section fr"></div>
+			</div>	
+			
+		</div>
+		<div class="side fr">
+			<div class="side_section"></div>
+			<div class="ad_border"><a href="#" target="_blank"><img src="img/ad/side_ad1.jpg" /></a></div>
+			<div class="side_ad"><a href="#" target="_blank"><img src="img/ad/side_ad2.jpg" /></a></div>
+			<div class="side_section"></div>
+			<div class="side_section"></div>
+			<div class="side_section"></div>
+			<div class="side_section"></div>
+			<div class="side_section"></div>
+		</div>
+	</div>
+	<div id="footer"></div>
+</body>
+</html>

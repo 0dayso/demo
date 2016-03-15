@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>拖拽原理2</title>
+<style>
+#div1{ position: absolute; width: 100px; height: 100px; background: red;}
+</style>
+<script>
+/*	
+	拖拽问题：
+	浏览器有默认拖动页面中文字和图片行为：
+	标准下：return false 阻止浏览器默认行为
+	ie下  ：用全局捕获事件解决
+
+*/
+
+window.onload = function(){
+	var oDiv = document.getElementById('div1');
+
+	oDiv.onmousedown = function(ev){
+		var ev = ev || event;
+		//鼠标down下去瞬间 鼠标到div左边和上边的距离
+		var disX = ev.clientX - this.offsetLeft;
+		var disY = ev.clientY - this.offsetTop;
+
+		//非标准下ie  当鼠标点下时，利用全局捕获监听接下来的所有事件，让document.onmousemove事件无法执行，相当于阻止了浏览器默认行为
+		//给div设置全局捕获，把除了div其他所有元素的onmousemove事件全部拉过来。所以只有div有onmousemove 关于文字或图片等其他元素的onmousemove事件都暂时失效
+		if(oDiv.setCapture){
+			oDiv.setCapture();
+		}
+
+		document.onmousemove = function(ev){
+			var ev = ev || event;			
+			//鼠标移动后div的位置
+			oDiv.style.left = ev.clientX - disX + 'px';
+			oDiv.style.top = ev.clientY - disY + 'px';
+		}
+
+		document.onmouseup = function(){
+			document.onmousemove = null;
+			//当鼠标抬起时，释放全局捕获，让接下来的事件恢复正常。
+			if(oDiv.releaseCapture){
+				oDiv.releaseCapture;
+			}
+
+		}
+
+		return false;//阻止浏览器默认拖拽文字、图片行为
+	}	
+}
+
+</script>
+</head>
+
+<body>
+1111111111
+<div id="div1"></div>
+
+</body>
+</html>

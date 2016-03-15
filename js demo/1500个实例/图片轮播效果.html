@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+脚本说明: 
+ 
+ <style type="text/css">
+#img1 {position:absolute; width:300px; height:100px; left:220px; top:125px; z-index:1; visibility:hidden;}
+#img2 {position:absolute; width:300px; height:100px; left:220px; top:125px; z-index:2}
+</style>
+
+<SCRIPT LANGUAGE="JavaScript">
+<!-- Begin
+var ie5=(document.getElementById && document.all);
+var ns6=(document.getElementById && !document.all);
+
+nPlus = 5   //the % of fading for each step
+speed = 50  //the speed
+
+// You don't have to edit below this line
+nOpac = 100
+function FadeImg(){
+    if(document.getElementById){
+        document.getElementById('img1').style.visibility="visible";
+        imgs = document.getElementById('img2');
+	opacity = nOpac+nPlus;
+	nOpac = opacity;
+	setTimeout('FadeImg()',speed);
+    if(opacity>100 || opacity<0){
+        nPlus=-nPlus;
+    }
+    if(ie5){
+        imgs.style.filter="alpha(opacity=0)";
+	imgs.filters.alpha.opacity = opacity;
+    }
+    if(ns6){
+        imgs.style.MozOpacity = 0 + '%';
+	imgs.style.MozOpacity = opacity + '%';
+    }
+  }
+}
+window.onload=FadeImg;
+//  End -->
+</script>
+<div id="img1">
+  <img src="img1.jpg" border=0 width=300 height=100>
+</div>
+<div id="img2">
+  <img src="img2.jpg" border=0 width=300 height=100>
+</div>
+
+
+
+
+ 
+
+	
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+</head>
+
+<body>
+
+请输入QQ号码：<input type="text" />
+<input type="button" value="判断" />
+
+
+<br />
+1、有没有输入<br />
+2、输入的是不是数字<br />
+3、不能有0在前面<br />
+4、不能是小数<br />
+5、输入的数字必须在5位以上、10位以内<br />
+
+<script>
+//总结： 
+//1.parseInt和parseFloat处理字符串时 从左到右依次查找有效数字
+//直到出现无效数字 返回所查找的有效数字 例如'12px'=12 '123.23.23'='123.23'
+//2.输入框内容值为string
+	var txt = document.getElementsByTagName('input')[0],
+			btn = document.getElementsByTagName('input')[1];
+	
+	btn.onclick = function() {
+		if (!txt.value) {
+			alert('空')
+		} else {
+			// alert(typeof txt.value)	//输入框内容默认为string
+			if ( !isNaN(Number(txt.value)) ) {
+				if (txt.value.charAt(0) == '0') {
+					alert('第一个数字不能为0')
+				}
+				if ( parseInt(txt.value) != parseFloat(txt.value) ) {
+					alert('不能是小数')
+				}
+				if (txt.value.length < 5 || txt.value.length > 10) {
+					alert('位数为5-10之间')
+				}
+			} else {
+				alert('不是有效数字')
+			}
+			
+		}
+	}
+</script>
+
+</body>
+</html>

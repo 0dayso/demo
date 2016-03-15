@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<ul id="ul1" class="box" title="ulul">
+		<li>
+			<ul>
+				<li>11</li>
+				<li>111</li>
+				<li>111</li>
+			</ul>
+		</li>
+		<li>2</li>
+		<li>3</li>
+	</ul>
+	<ul id="ul2"></ul>
+	<script>
+		!function() {
+			if (console && console.log)
+				console.log()
+			else
+				console.log = alert;
+		}();
+		// document.write('<script type="text/javascript" src="demo.js"><\/script>');
+		// window.onload = function() {
+		// 	document.write('hello');		//文档加载完成后使用 重写整个文档
+		// }
+
+		//Element类型
+		var ul = document.getElementById('ul1'),
+			ali = ul.getElementsByTagName('li');	//所有的li元素
+		// if (ul.tagName.toLowerCase() == 'ul') {		//标签名分大小写 统一转化成小写再判断
+		// 	console.log('element is ul');
+		// }
+
+		//属性操作  getAttribute()  setAttribute()  removeAttribute()  attributes(DOM结构序列化为HTML字符串可以用上)
+		// console.log(ul.className == ul.getAttribute('class'));	//传递给getAttribute的特性名要与实际的特性名一样
+		// ul.setAttribute('class','box1');
+		// ul.removeAttribute('class');
+		// console.log(ul.attributes);	//元素所有属性
+
+		//子节点
+		// console.log(ul.childNodes.length);	//最近的子节点
+		// console.log(ali.length);			
+		// for (var i = 0, len = ul.childNodes.length; i < len; i++) {
+		// 	if (ul.childNodes[i].nodeType == 1) {
+		// 		ul.childNodes[i].style.cssText = 'background:#ccc';
+		// 	}
+		// };
+
+		//Text类型 文本节点分开 splitText()
+		// var div = document.createElement('div');
+		// 	textNode = document.createTextNode('hello world');
+		// div.appendChild(textNode);
+		// document.body.appendChild(div);
+
+		// var newNode = div.firstChild.splitText(5);
+		// console.log(newNode);	//" world"
+		// console.log(div.firstChild);	//"hello"
+
+		//DocumentType
+		// console.log(document.doctype.name);		//html
+
+		//DocumentFragment 文档片段  相当于文档中垃圾箱  用来暂时存贮节点用的 
+		// var fragment = document.createDocumentFragment(),
+		// 	ul2 = document.getElementById('ul2');
+		// for (var i = 0; i < 3; i++) {
+		// 	var l = document.createElement('li');
+		// 	l.appendChild(document.createTextNode('lili'+i));
+		// 	fragment.appendChild(l);
+		// };
+		// console.log(fragment.childNodes);	//3个li 添加到文档之后 就没有子节点了
+		// ul2.appendChild(fragment);		//将文档片段中子节点全部添加到文档中 文档片段本身永远不会被添加到文档中
+
+
+
+	</script>
+</body>
+</html>

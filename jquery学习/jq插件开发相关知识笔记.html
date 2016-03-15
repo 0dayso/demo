@@ -1,0 +1,151 @@
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div><a href="http://www.baidu.com" target="_blank">百度一下</a></div>
+	<div><a href="http://www.sina.com" target="_blank">新浪</a></div>
+	<div><a href="http://www.qq.com" target="_blank">腾讯</a></div>
+	<p>我不是a标签，不会受到任何a标签的影响</p>
+
+	<script type="text/javascript" src="jquery-min.js"></script>
+	<script type="text/javascript">
+	$(function() {
+		
+			// extend()方法合并前后，后面的会覆盖前面的
+			// var newObj = $.extend({'name':'fengge','age':'28'},{'name':'weige','sex':'man'});		
+			// console.log(newObj);	//Object {name: "weige", age: "28", sex: "man"} 
+			
+			// //如果只有一个参数 就是将该参数合并到jq全局对象中
+			// $.extend({
+			// 	'hello' : function() {
+			// 		alert('hello')
+			// 	}
+			// })
+			// $.hello();		//hello
+
+			// //将hello方法合并到jquery实例对象中
+			// $.fn.extend({
+			// 	hello : function() {
+			// 		alert('hello')
+			// 	}
+			// })
+			// $('#btn').click(function() {
+			// 	$(this).hello();
+			// })
+
+			// //$.extend(boolean,dest,src1,src2); 如果boolean为true执行深复制
+			// //参数不为true
+			// var obj = $.extend({'name':'fengge','location':{'sheng':'AnHui','shi':'WuHu'}},
+			// 	{'age':'24','location':{'xian':'wuwei','shi':'chaohu'}});
+			// console.log(obj);		//{'age':'24','name':'fengge','location':{'xian':'wuwei','shi':'chaohu'}};
+			// //参数为true
+			// var obj = $.extend(true,{'name':'fengge','location':{'sheng':'AnHui','shi':'WuHu'}},
+			// 	{'age':'24','location':{'xian':'wuwei','shi':'chaohu'}});
+			// console.log(obj);		{'age':'24','location':{'sheng':'AnHui','shi':'chaohu','xian':'wuwei'},'name':'fengge'};
+
+			// //在jq全局对象中扩展net命名空间
+			// $.extend({net:{}});
+			// //将hello方法添加到net命名空间中
+			// $.extend($.net,{
+			// 	hello : function() {
+			// 		alert('hello')
+			// 	}
+			// })
+			// $.net.hello();	//hello
+		
+
+		//jq插件编写方式
+		//第一种 $.extend()  自定义一些辅助静态方法比较方便 例如自定义console.log
+		// $.extend({
+		// 	log : function(msg) {
+		// 		var date = new Date(),
+		// 				y = date.getFullYear(),
+		// 				month = date.getMonth() + 1,
+		// 				d = date.getDate(),
+		// 				h = date.getHours(),
+		// 				m = date.getMinutes(),
+		// 				s = date.getSeconds(),
+		// 				time = y + '/' + month + '/' + d + ' ' + h + ':' + m + ':' + s;
+		// 		console.log('I am study ' + msg + ' on ' + time );	
+		// 	}
+		// })
+		// $.log('jQuery');	//I am study jQuery on 2015/6/15 11:26:38 
+
+		//第二种 $.fn.extend()
+
+		//最简单的插件
+		// $.fn.myPlugin = function() {
+		// 	//this指的是调用该插件时，用jq选择器选中的元素 此处为$('a')
+		// 	this.css('color','red');	
+		// 	//支持链式调用 只需return一下
+		// 	return this.each(function() {
+		// 		//这里的this就不是jQuery包装类型了，需要用$(this)
+		// 		$(this).append(' ' + $(this).attr('href'));
+		// 	})
+		// }
+		// //调用
+		// $('a').myPlugin();
+
+		//让插件接收参数
+		// $.fn.myPlugin = function(options) {
+		// 	//设置默认参数
+		// 	var defaults = {
+		// 		color : 'red',
+		// 		fontSize : '12px'
+		// 	}
+		// 	//参数合并 保护默认参数:将空对象作为extend()第一个参数，不会修改defaults默认参数
+		// 	var setting = $.extend({},defaults,options);	
+		// 	// debugger;
+		// 	return this.css({'color':setting.color,'font-size':setting.fontSize});
+		// }
+		// $('a').myPlugin({'color':'blue','fontSize':'20px'})
+		// .eq(1).css('color','yellow').end()
+		// .eq(0).css({'color':'green'}).end()
+		// .eq(2).css({'font-size':'30px'});
+	})
+	
+
+	//jq插件编写--面向对象
+	;(function($,window,document,undifined) {
+		$(function() {
+			//定义Beautiful构造函数
+			var Beautiful = function(ele,opt) {
+				this.$element = ele;
+				this.defaults = {
+					color : 'red',
+					fontSize : '12px',
+					textDecoration : 'none'
+				}
+				this.options = $.extend({},this.defaults,opt);
+				debugger;
+			};
+			//定义Beautiful的方法
+			Beautiful.prototype = {
+				showBeauti : function() {
+					return this.$element.css({
+						'color' : this.options.color,
+						'fontSize' : this.options.fontSize,
+						'textDecoration' : this.options.textDecoration
+					});
+				}
+			}
+			//在插件中使用Beautiful对象
+			$.fn.myPlugin = function(options) {
+				//创建Beautiful实例
+				var beautiful = new Beautiful(this,options);
+				//调用其方法
+				return beautiful.showBeauti();
+			}
+			//
+			$('a').myPlugin({
+				color : 'blue',
+				fontSize : '30px',
+				textDecoration : 'underline'
+			}).eq(0).css('color','red');
+		})
+	})(jQuery,window,document)
+	</script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>全局捕获函数</title>
+<style>
+
+</style>
+<script>
+window.onload = function(){
+	var aInput = document.getElementsByTagName('input');
+
+	aInput[0].setCapture();//给第一个按钮设置全局捕获，之后他会监听所有事件(监听一次) 
+	aInput[0].onclick = function(){
+		alert(1)
+	}
+	aInput[1].onclick = function(){
+		alert(2)
+	} 
+	aInput[0].releaseCapture();//释放全局捕获
+}
+</script>
+</head>
+
+<body>
+<input type="button" value="按钮一" />
+<input type="button" value="按钮二" />
+
+</body>
+</html>

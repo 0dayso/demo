@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>无标题文档</title>
+<link rel="stylesheet" href="css.css" />
+<script type="text/javascript" src="js.js"></script>
+<script>
+ 
+  window.onload = function()
+  {
+	  var oDiv = document.getElementById('playBox');
+	  var oPre = getByClass(oDiv,'pre')[0];
+	  var oNext = getByClass(oDiv,'next')[0];
+	  var oUlBig = getByClass(oDiv,'oUlplay')[0];
+	  var aBigLi = oUlBig.getElementsByTagName('li');
+	  var oDivSmall = getByClass(oDiv,'smalltitle')[0]
+	  var aLiSmall = oDivSmall.getElementsByTagName('li');
+	  
+	  function tab()
+	  {
+	     for(var i=0; i<aLiSmall.length; i++)
+	     {
+		    aLiSmall[i].className = '';
+	     }
+	     aLiSmall[now].className = 'thistitle'
+	     startMove(oUlBig,'left',-(now*aBigLi[0].offsetWidth))
+	  }
+	  var now = 0;
+	  for(var i=0; i<aLiSmall.length; i++)
+	  {
+		  aLiSmall[i].index = i;
+		  aLiSmall[i].onclick = function()
+		  {
+			  now = this.index;
+			  tab();
+		  }
+	 }
+	  oPre.onclick = function()
+	  {
+		  now--
+		  if(now ==-1)
+		  {
+			  now = aBigLi.length;
+		  }
+		   tab();
+	  }
+	   oNext.onclick = function()
+	  {
+		   now++
+		  if(now ==aBigLi.length)
+		  {
+			  now = 0;
+		  }
+		  tab();
+	  }
+	  var timer = setInterval(oNext.onclick,2000)
+	  oDiv.onmouseover = function()
+	  {
+		  clearInterval(timer)
+	  }
+	   oDiv.onmouseout = function()
+	  {
+		  timer = setInterval(oNext.onclick,2000)
+	  }
+	 
+  }
+</script>
+</head>
+
+<body style="background:black; height:2000px;">
+  <div id="playBox">
+    <div class="pre"></div>
+    <div class="next"></div>
+    <div class="smalltitle">
+      <ul>
+        <li class="thistitle"></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
+    <ul class="oUlplay">
+       <li><a href="http://www.swichian.com/"><img src="images/1.jpg"</a></li>
+       <li><a href="http://www.swichian.com/"><img src="images/2.jpg"</a></li>
+       <li><a href="http://www.swichian.com/"><img src="images/3.jpg"</a></li>
+       <li><a href="http://www.swichian.com/"><img src="images/4.jpg"</a></li>
+       <li><a href="http://www.swichian.com/"><img src="images/5.jpg"</a></li>
+       <li><a href="http://www.swichian.com/"><img src="images/6.jpg"</a></li>
+    </ul>
+  </div>
+  <div style="width:100px; margin:0 auto; "><p><a style="color:#fff; font:Arial, Helvetica, sans-serif;font-size:12px;" href="http://weibo.com/u/1808858257">JS作者：吴松</a></p></div>
+</body>
+</html>

@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="jquery-min.js"></script>
+	<style>
+	#form1{ width: 500px;}
+	/*input:focus,textarea:focus{ border: 1px solid #00f; background-color: #ccc;}*/
+	#form1 .focus{ border: 1px solid #00f; background-color: #ccc; outline: none;}
+	#form1 span{ width: 16px; height: 16px; text-align: center; line-height: 16px; display: inline-block; background: #ccc;}
+	#msg{ height: 200px;}
+	.content{ width: 120px; font-size: 12px; float: left;margin-right: 10px;}
+	.content span{ background: #ccc; padding: 2px; margin-top: 5px; display: block; cursor: pointer;}
+	.highlight{ color: #f00;}
+	.onError{color: #f00;}
+	.onSuccess{ color: #0f0;}
+	</style>
+</head>
+<body>
+	<script>
+	$(function() {
+		//1.单行文本框应用
+		// $(':input').focus(function() {
+		// 	$(this).addClass('focus')
+		// }).blur(function() {
+		// 	$(this).removeClass('focus')
+		// })
+		//2.多行文本框应用 (改变高度)
+		// $('.big').click(function() {
+		// 	if ( !$('#msg').is(':animated') ) {
+		// 		if ($('#msg').height() < 500) {
+		// 			var t = $('#msg').height() + 50;
+		// 			$('#msg').animate({height:t},400)
+		// 		}
+		// 	}
+		// })
+		// $('.litter').click(function() {
+		// 	if ( !$('#msg').is(':animated') ) {
+		// 		if ($('#msg').height() > 200) {
+		// 			var t = $('#msg').height() - 50;
+		// 			$('#msg').animate({height:t},400)
+		// 		}
+		// 	}
+		// })
+		//复选框应用 全选、反选、全不选  在获取设置类似checked,disabled等属性时，用prop() 改方法只返回true/false
+		$('#checkAll').click(function() {
+			$('[name=sports]').each(function() {
+				$(this).prop('checked',true)	
+				// this.checked = true;
+			})
+		})
+		$('#checkNo').click(function() {
+			$('[name=sports]').each(function() {
+				$(this).prop('checked',false)
+				// this.checked = false;
+			})
+		})
+		$('#checkReversed').click(function() {
+			$('[name=sports]').each(function() {
+				$(this).prop('checked',!$(this).prop('checked'))
+				// this.checked = !this.checked;		//用原生DOM操作比较容易
+			})
+		})
+		//原生方法
+		$('#checkAll2').click(function() {
+			var _this = this;
+			$('[name=sports]').each(function() {
+				this.checked = _this.checked;
+			})
+		})
+		$('[name=sports]').click(function() {
+			var tmp = $('[name=sports]').length,
+					flag = true;
+			if (tmp != $('[name=sports]:checked').length)
+				flag = false;
+			$('#checkAll2')[0].checked = flag;
+		})
+
+		//下拉框应用
+		//1.选中项添加到右侧
+		$('#add').click(function() {
+			var $selected = $('#select1 option:selected');
+			$selected.appendTo( $('#select2') );
+		})
+		//2.全部添加到右侧
+		$('#add_all').click(function() {
+			var $selects = $('#select1 option');
+			$selects.appendTo( $('#select2') );
+		})
+		//双击某个选项添加给对方
+		// $('#select1 option').dblclick(function() {
+		// 	$(this).appendTo( $('#select2') )
+		// })
+		$('#select1').dblclick(function() {
+			var $option = $('option:selected',this);	//当前被选中项
+			$option.appendTo( $('#select2') )
+		})
+
+		//表单提交验证
+		$('#form2 .must').each(function() {
+			var sp = '<strong class="highlight">*</strong>';
+			$(this).append(sp);
+		})
+		$('#form2 :input').blur(function() {
+			var $parent = $(this).parent();
+			$parent.find('.hint').remove();
+			if ($(this).is('#username')) {
+				if ( this.value == '' || this.value.length < 6 ) {
+					var errorMsg = '用户名为6个字符以上';
+					$parent.append('<span class="hint onError">'+errorMsg+'</span>');
+				} else {
+					var successMsg = '用户名正确';
+					$parent.append('<span class="hint onSuccess">'+successMsg+'</span>');
+				}
+			}
+			if ($(this).is('#email')) {
+				if ( this.value == '' || !(/.+@.+\.\w{2,4}$/.test(this.value)) ) {
+					var errorMsg = '邮箱格式不正确';
+					$parent.append('<span class="hint onError">'+errorMsg+'</span>')
+				} else {
+					var successMsg = "邮箱正确";
+					$parent.append('<span class="hint onSuccess">'+successMsg+'</span>')
+				}
+			}
+		})
+		$('#send').click(function() {
+			$('#form2 :input').trigger('blur');
+			var $error_length = $('#form2 .onError').length;
+			if ($error_length) {
+				return false;
+			}
+			alert('提交成功');
+		})
+
+	})
+	</script>
+	<!-- <form>
+		<fieldset>
+			<legend>个人基本信息</legend>
+			<div>
+				<label for="username">名称：</label>
+				<input type="text" id="username">
+			</div>
+			<div>
+				<label for="pass">密码：</label>
+				<input type="password" id="pass">
+			</div>
+			<div>
+				<span class="big">+</span>
+				<span class="litter">-</span>
+			</div>
+			<div>
+				<label for="msg">详细信息：</label>
+				<textarea id="msg" cols="30" rows="10"></textarea>
+			</div>
+		</fieldset>
+	</form> -->
+	<form id="form1" action="#">
+		<input type="checkbox" id="checkAll2" value="全选" />全选
+		<input type="checkbox" name="sports" value="足球" />足球
+		<input type="checkbox" name="sports" value="篮球" />篮球
+		<input type="checkbox" name="sports" value="排球" />排球
+		<input type="checkbox" name="sports" value="羽毛球" />羽毛球
+		<input type="button" id="checkAll" value="全选" />
+		<input type="button" id="checkNo" value="全不选" />
+		<input type="button" id="checkReversed" value="反选">
+		<input type="button" id="len" value="选中数量" />
+	</form>
+	<div class="content">
+		<select multiple id="select1" style="width:100px; height:160px;">
+			<option value="选项1">选项1</option>
+			<option value="选项2">选项2</option>
+			<option value="选项3">选项3</option>
+			<option value="选项4">选项4</option>
+			<option value="选项5">选项5</option>
+			<option value="选项6">选项6</option>
+		</select>
+		<div>
+			<span id="add">选中项添加到右侧&gt;&gt;</span>
+			<span id="add_all">全部添加到右侧&gt;&gt;</span>
+		</div>
+	</div>
+	<div class="content">
+		<select multiple id="select2" style="width:100px; height:160px;"></select>
+		<div>
+			<span id="remove">&lt;&lt;选中项删除到左侧</span>
+			<span id="remove_all">&lt;&lt;全部删除到左侧</span>
+		</div>
+	</div>
+	<form action="http://www.baidu.com" method="get" id="form2">
+		<div class="item must">
+			<label for="username">用户名：</label>
+			<input type="text" name="username" id="username">
+		</div>
+		<div class="item must">
+			<label for="email">邮箱：</label>
+			<input type="text" name="email" id="email">
+		</div>
+		<div class="item">
+			<label for="info">个人信息</label>
+			<input type="text" name="info" id="info">
+		</div>
+		<div class="sub">
+			<input type="submit" value="提交" id="send" />
+			<input type="reset" value="重置" id="send" />
+		</div>
+	</form>
+</body>
+</html>

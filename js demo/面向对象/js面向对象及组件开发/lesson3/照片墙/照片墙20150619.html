@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>照片墙</title>
+	<style>
+	*{ margin: 0; padding: 0;}
+	#box{ width: 660px; height: auto; margin: 50px auto; position: relative;}
+	#box img{ width: 200px; height: 150px; float: left; margin: 10px;}
+	</style>
+	<script type="text/javascript" src="move.js"></script>
+</head>
+<body>
+	<script>
+	window.onload = function() {
+		//改定位布局
+		var box = document.getElementById('box'),
+				aImg = box.getElementsByTagName('img'),
+				btn = document.getElementById('btn'),
+				allPos = [],
+				zindex;
+
+		for (var i = 0, aL = aImg.length; i < aL; i++) {
+			var pos = [];
+			pos.push(aImg[i].offsetLeft,aImg[i].offsetTop);
+			allPos.push(pos);
+		};
+
+		for (var i = 0; i < aImg.length; i++) {
+			aImg[i].style.position = 'absolute';
+			aImg[i].style.left = allPos[i][0] + 'px';
+			aImg[i].style.top = allPos[i][1] + 'px';
+			aImg[i].style.margin = 0;
+		};	
+
+		//添加拖拽
+		for (var i = 0; i < aImg.length; i++) {
+			drag(aImg[i]);
+			aImg[i].index = i;
+		};
+
+		//随机排列
+		btn.onclick = function() {
+			var arr = [0,1,2,3,4,5,6,7,8];
+			arr.sort(function(a,b) {
+				return Math.random() - 0.5;
+			})
+
+			for (var i = 0; i < aImg.length; i++) {
+				startMove(aImg[i],{'left':allPos[arr[i]][0],'top':allPos[arr[i]][1]});
+				aImg[i].index = arr[i];
+			};
+
+		}
+
+		//封装拖拽
+		function drag(obj) {
+			zindex = 1;
+			obj.onmousedown = function(ev) {
+				obj.style.zIndex = zindex++;
+				var ev = ev || window.event,
+						disX = 0,
+						disY = 0;
+				disX = ev.clientX - obj.offsetLeft;
+				disY = ev.clientY - obj.offsetTop;
+				document.onmousemove = function(ev) {
+					var ev = ev || window.event;
+					obj.style.left = ev.clientX - disX + 'px';
+					obj.style.top = ev.clientY - disY + 'px';
+
+					for (var i = 0; i < aImg.length; i++) {
+						aImg[i].style.border = '';
+					};
+
+					//取离obj最近的元素
+					var nL = nearObj(obj);
+
+					if (nL) {
+						nL.style.border = '2px solid #f00';
+					}
+
+					// preventDefault(ev);
+				}
+				document.onmouseup = function() {
+					document.onmousemove = null;
+					document.onmouseup = null;
+					var nL = nearObj(obj);
+					var tmp = 0;
+					
+					if (nL)	{
+						startMove(obj,{'left':allPos[nL.index][0],'top':allPos[nL.index][1]});
+						startMove(nL,{'left':allPos[obj.index][0],'top':allPos[obj.index][1]});
+						nL.style.border = '';
+						tmp = obj.index;
+						obj.index = nL.index;
+						nL.index = tmp;
+					}	else {
+						startMove(obj,{'left':allPos[obj.index][0],'top':allPos[obj.index][1]});
+						obj.style.border = '';
+					}
+
+				}
+
+				return false;
+			}
+		}
+		
+		//封装碰撞检测
+		function pz(obj1,obj2) {
+			var L1 = obj1.offsetLeft,
+					R1 = obj1.offsetLeft + obj1.offsetWidth,
+					T1 = obj1.offsetTop,
+					B1 = obj1.offsetTop + obj1.offsetHeight,
+					L2 = obj2.offsetLeft,
+					R2 = obj2.offsetLeft + obj2.offsetWidth,
+					T2 = obj2.offsetTop,
+					B2 = obj2.offsetTop + obj2.offsetHeight;
+			if ( R1 < L2 || L1 > R2 || B1 < T2 || T1 > B2 ) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+		//被拖拽元素最近的元素
+		function nearObj(obj) {
+			var num = 9999,
+					index = -1;
+			for (var i = 0; i < aImg.length; i++) {
+				if ( pz(obj,aImg[i]) && obj != aImg[i] ) {
+					var c = jl(obj,aImg[i]);
+					if (c < num) {
+						num = c;
+						index = i;
+					}
+				}
+			};
+			
+			if (index != -1) {
+				return aImg[index]
+			} else {
+				return false;
+			}
+		}
+		//元素左上角之间距离
+		function jl(obj1,obj2) {
+			var a = obj1.offsetLeft - obj2.offsetLeft,
+					b = obj1.offsetTop - obj2.offsetTop;
+			return Math.sqrt(a*a + b*b);
+		}
+
+		function preventDefault( e ) { 
+	    if ( e && e.preventDefault ) 
+	        e.preventDefault(); 
+	    else
+	        window.event.returnValue = false; 
+	    return false; 
+		}
+
+	}
+
+</script>
+	<input id="btn" type="button" value="随机" />
+	<div id="box">
+		<img src="photo/1.jpg" />
+		<img src="photo/2.jpg" />
+		<img src="photo/3.jpg" />
+		<img src="photo/4.jpg" />
+		<img src="photo/5.jpg" />
+		<img src="photo/6.jpg" />
+		<img src="photo/7.jpg" />
+		<img src="photo/8.jpg" />
+		<img src="photo/9.jpg" />
+	</div>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<canvas id="drawing" width="1000" height="1000" style="background:#000;">浏览器不支持canvas</canvas>
+	<script>
+	!function() {
+		var drawing = document.getElementById('drawing');
+		if (!drawing.getContext) return;
+		var ctx = drawing.getContext('2d');
+
+		//绘制轨迹
+		// function drawTrack() {
+		// 	ctx.beginPath();
+		// 	for (var i = 0; i < 8; i++) {
+		// 		ctx.moveTo(500+(i+1)*50,500);
+		// 		ctx.arc(500,500,(i+1)*50,0,2*Math.PI,false);
+		// 	}
+		// 	ctx.closePath();
+		// 	ctx.strokeStyle = '#fff';
+		// 	ctx.stroke();
+		// }
+		//绘制运行轨迹
+		function drawTrack() {
+			for (var i = 0; i < 8; i++) {
+				//绘制路径
+				ctx.beginPath();
+				ctx.arc(500,500,(i+1)*50,0,2*Math.PI,false);
+				ctx.closePath();
+				//描边
+				ctx.strokeStyle = '#fff';
+				ctx.stroke();	
+			};
+		}
+		drawTrack();
+		//绘制星球
+		function Star(x,y,radius,circle,sColor,eColor) {
+			//星球需要哪些属性
+			//星球坐标
+			this.x = x;
+			this.y = y;
+			//星球半径
+			this.radius = radius;
+			//设置周期
+			this.circle = circle;
+			//设置起始颜色和结束颜色
+			this.sColor = sColor;
+			this.eColor = eColor;
+
+			this.color = null;
+			//设置一个计数器
+			this.time = 0;
+			this.draw = function() {
+				//保存之前的内容
+				ctx.save();
+				//重置(0,0)坐标到画布中心位置
+				ctx.translate(500,500);
+				//旋转角度
+				ctx.rotate(this.time*(2*Math.PI/this.circle));
+				//画路径
+				ctx.beginPath();
+				ctx.arc(this.x,this.y,this.radius,0,2*Math.PI,false);
+				ctx.closePath();
+				//颜色设置
+				this.color = ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.radius);
+				this.color.addColorStop(0,sColor);
+				this.color.addColorStop(1,eColor);
+				ctx.fillStyle = this.color;
+				ctx.fill();
+				//恢复画布之前的内容
+				ctx.restore();
+				this.time ++;
+			}
+		}
+
+		//创建一个太阳的构造函数
+		function Sun() {
+			Star.call(this,0,0,20,0,"#FFFF00","#FF9900");
+		}
+		//创建一个水星的构造函数
+    function Mercury(){
+      Star.call(this,0,-50,10,87.70,"#A69697","#5C3E40");
+    }
+    //创建一个金星的构造函数
+    function Venus(){
+     Star.call(this,0,-100,10,224.701,"#C4BBAC","#1F1315");
+    }
+    //创建一个地球的构造函数
+    function Earth(){
+     Star.call(this,0,-150,10,365.2422,"#78B1E8","#050C12");
+    }
+    //创建一个火星的构造函数
+    function Mars(){
+     Star.call(this,0,-200,10,686.98,"#CEC9B6","#76422D");
+    }
+    //创建一个木星的构造函数
+    function Jupiter(){
+     Star.call(this,0,-250,10,4332.589,"#C0A48E","#322222");
+    }
+    //创建一个土星的构造函数
+    function Saturn(){
+     Star.call(this,0,-300,10,10759.5,"#F7F9E3","#5C4533");
+    }
+    //创建一个天王星的构造函数
+    function Uranus(){
+     Star.call(this,0,-350,10,30799.095,"#A7E1E5","#19243A");
+    }
+    //创建一个海王星的构造函数
+    function Neptune(){
+     Star.call(this,0,-400,10,60152,"#0661B2","#1E3B73");
+    }
+
+    //创建各星球实例
+    var sun = new Sun();
+    var mercury = new Mercury();
+    var venus = new Venus();
+    var earth = new Earth();
+    var mars = new Mars();
+    var jupiter = new Jupiter();
+    var saturn = new Saturn();
+    var uranus = new Uranus();
+    var neptune = new Neptune();
+
+    //运动
+    function move() {
+    	ctx.clearRect(0,0,1000,1000);
+    	drawTrack();
+    	//调用各星球绘制方法
+    	sun.draw();
+    	mercury.draw();
+    	venus.draw();
+    	earth.draw();
+    	mars.draw();
+    	jupiter.draw();
+    	saturn.draw();
+    	uranus.draw();
+    	neptune.draw();
+    }
+    setInterval(move,10);
+	}()		
+	</script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>Document</title>
+<style>
+
+</style>
+<script>
+window.onload = function(){
+	var oText = document.getElementById('text1');	
+	var oLogin = document.getElementById('login');
+	var oDel = document.getElementById('del');
+
+
+	//下次登陆 判断如果存过该值
+	if(getCookie('user')){
+		oText.value = getCookie('user');
+	}
+
+	oLogin.onclick = function(){
+		alert('登陆成功');
+		//设置cookie
+		setCookie('user',oText.value,5);
+	}
+
+	oDel.onclick = function(){
+		//删除设置的cookie user
+		removeCookie('user')
+		oText.value = '';
+	}
+
+
+//获取cookie函数
+function getCookie(key){
+	//通过分号空格拆分开所有cookie
+	var arr1 = document.cookie.split('; ');
+	for (var i = 0; i < arr1.length; i++) {
+		//通过等号拆分单个cookie键值
+		var arr2 = arr1[i].split('=');
+		if( arr2[0]==key ){
+			return decodeURI(arr2[1]);
+		}
+	};
+}
+
+//设置cookie函数
+function setCookie(key,value,t){
+	var oDate = new Date();
+	oDate.setDate( oDate.getDate() + t );
+	document.cookie = key + '=' + encodeURI(value) + ';expires=' + oDate.toGMTString();
+}
+
+//删除cookie函数
+function removeCookie(key){
+	setCookie(key,'',-1);
+}
+
+
+
+}
+</script>
+</head>
+
+<body>
+<input id="text1" type="text" />
+<input id="login" type="button" value="登陆" />
+<input id="del" type="button" value="删除" />
+
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	*{ margin: 0; padding: 0;}
+	#fullbg{ width: 100%; height: 100%; background: #000; opacity: 0.5; -moz-opacity:0.5; filter:alpha(opacity=50); position: absolute; left: 0; top:0; z-index: 10000; display: none;}
+	#myDialog{ width: 300px; height: 300px; background: #999; position: absolute; z-index: 10001; display: none;}
+	#myDialog p{ height: 30px; line-height: 30px; background: #ccc;}
+	#myDialog p a{ position: absolute; right: 0;} 
+	#btn{ position: absolute; top: 1000px;}
+	</style>
+	<script type="text/javascript" src="../jquery-min.js"></script>
+	<script type="text/javascript" src="dialog.js"></script>
+	<script type="text/javascript">
+	$(function() {
+		$('#btn').click(function(ev) {
+			ev.stopPropagation();
+			$().myDialog();
+		})
+		// $('#box').drag();
+	})
+	</script>
+</head>
+<body style="height:3000px;">
+	<input type="button" id="btn" value="弹出框" />
+	<div id="fullbg"></div>
+	<div id="myDialog">
+		<p><a id="dialogClose" href="javascript:;">关闭</a></p>
+	</div>
+	<!-- <div id="box" style="width:100px; height:100px; background:red; position:absolute; left:0; top:0;"></div> -->
+</body>
+</html>

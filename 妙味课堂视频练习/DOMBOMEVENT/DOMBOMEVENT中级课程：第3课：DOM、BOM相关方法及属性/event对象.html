@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>event对象</title>
+
+<script>
+/*
+	事件对象 ：event(全局对象)
+	事件函数 ：由事件触发的函数
+
+	标准下：事件函数的第一个参数即是event对象
+	非标准下：用event对象 
+	document.onclick = function(ev) {
+		var ev = ev || event;
+	}
+*/
+window.onload = function() {
+	document.onclick = fn;
+	function fn(ev) {
+		var ev = ev || event;
+		// alert(ev.clientX)
+		// console.log(ev);
+	}
+}
+
+</script>
+</head>
+
+<body>
+
+</body>
+</html>

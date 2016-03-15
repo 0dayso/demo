@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>模拟滚动条</title>
+<style>
+#div1{ position: absolute; left: 10px; top: 10px; width: 30px; height: 500px; background: #ccc;}
+#div2{ position: absolute; left: 0px; top: 0; width: 30px; height: 30px; background: #f00;}
+#div3{ position: absolute; left: 50px; top: 10px; width: 500px; height: 0; background: #0ff;}
+</style>
+<script>
+
+
+window.onload = function(){
+	var oDiv1 = document.getElementById('div1');
+	var oDiv2 = document.getElementById('div2');
+	var oDiv3 = document.getElementById('div3');
+
+	oDiv2.onmousedown = function(ev){
+		var ev = ev || event;
+		var disY = ev.clientY - this.offsetTop;
+
+		document.onmousemove = function(ev){
+			var ev = ev || event;	
+			var t = ev.clientY - disY;
+			if(t < 0){
+				t = 0;
+			}else if(t > oDiv1.offsetHeight - oDiv2.offsetHeight){
+				t = oDiv1.offsetHeight - oDiv2.offsetHeight;
+			}
+			oDiv2.style.top = t + 'px';
+
+			var percentX = t / ( oDiv1.offsetHeight - oDiv2.offsetHeight );
+			document.title = percentX;
+
+			oDiv3.style.height = percentX * 500 + 'px';
+
+
+		}
+
+		document.onmouseup = function(){
+			document.onmousemove = document.onmouseup = null;
+		}
+
+		return false;//阻止浏览器默认拖拽文字、图片行为
+	}	
+}
+
+</script>
+</head>
+
+<body>
+
+<div id="div1">
+	<div id="div2"></div>
+</div>
+<div id="div3"></div>
+</body>
+</html>

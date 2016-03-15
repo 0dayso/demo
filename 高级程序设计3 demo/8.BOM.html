@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body style="margin:0; padding:0;">
+	<script>
+	//声明全局变量 通过window.color方式可以用delete操作符删除
+	// var age = 29;
+	// window.color = 'red';
+
+	// delete window.age;			//ie9-报错
+	// delete window.color;		//ie9-报错
+
+	// alert(window.age);			//29
+	// alert(window.color);		//undefined
+
+
+	//尝试访问未声明变量会报错 但是通过window.变量 方法访问相当于访问属性不会报错
+	// var newValue = oldValue;		//报错 oldValue is not defined
+	// var newValue = window.oldValue;	//不会报错 只是访问window的oldValue属性 可用来判断某个未声明变量是否存在(防止报错) 	
+
+
+	//8.1.5导航和打开窗口
+	// var wroxWin = window.open('http://www.lw9413.com/','wroxWindow',
+	// 													'height=400,width=400,top=10,left=10,resizable=no');
+	// wroxWin.resizeTo(500,500);
+	// wroxWin.moveTo(100,100);
+
+	//弹出框屏蔽
+	// var blocked = false;
+	// try {
+	// 	var wroxWin = window.open('http://www.baidu.com/','_blank');
+	// 	if (wroxWin == null) {
+	// 		blocked = true;
+	// 	}
+	// } catch(e) {
+	// 	blocked = true;
+	// }
+	// if (blocked) {
+	// 	alert('the proup was blocked!')
+	// }
+
+	//setTimeout setInterval 主要使用setTimeout 
+
+	//系统对话框 alert() confirm()  prompt()
+	// if (confirm('确定吗？')) {
+	// 	alert('yes')
+	// } else {
+	// 	alert('no')
+	// }
+
+	// var result = prompt('你的名字是？','风哥');		//点击确定之后 返回输入框的值
+	// if (!!result) {
+	// 	alert(result)
+	// }
+
+	// window.print();			//显示打印对话框
+	// window.find();					//显示查找对话框
+
+	//location对象 
+	//1.查询字符串参数：location.search
+	//2.location.replace("http://...");
+	// window.location.href = "http://www.baidu.com/";
+	// setTimeout(function() {
+	// 	location.reload(true)		//从服务器重新加载  如果没有参数则会缓存加载
+	// },2000)
+
+	
+	//navigator对象
+		//1.检测插件
+		//2.注册处理程序
+
+	//history对象 保存着用户上网历史记录
+	history.go(1); //前进一页
+	history.go(-1); //后退一页
+	history.go("wrox.com"); //跳转到最近的wrox.com页面
+	history.length; //历史记录数量
+
+	</script>
+</body>
+</html>

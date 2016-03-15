@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	*{ margin: 0; padding: 0;}
+	#div1{ width: 100px; height: 100px; position: absolute; left: 400px; top: 100px; background: #f00;}
+	</style>
+</head>
+<body>
+	<div id="div1">
+	</div>
+	<script type="text/javascript">
+	var oDiv1 = document.getElementById('div1');
+
+	oDiv1.onmouseover = function() {
+		var json = {
+			'width' : 200,
+			'height' : 200
+		};
+		move(this, json, 10);
+	}
+
+	// oDiv1.onmouseout = function() {
+	// 	move(this, -100, -10);
+	// }
+
+	function move(obj, json, disT) {
+		clearInterval(obj.timer);
+		obj.timer = setInterval(function() {
+			for (var attr in json) {
+				if (parseInt(css(obj, attr)) == json[attr]) {
+					clearInterval(obj.timer)
+				} else {
+					obj.style[attr] = parseInt(css(obj, attr)) + disT + 'px';
+				}
+			};			
+		}, 10)
+	}
+
+	function css(obj, attr) {
+		if (obj.currentStyle) {
+			return obj.currentStyle[attr];
+		} else if (window.getComputedStyle) {
+			return document.defaultView.getComputedStyle(obj, null)[attr];
+		}
+	}
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>css3新增</title>
+	<style>
+	/*
+		transform不用加前缀各浏览器也支持 多个transform中间用空格 旋转 缩放 倾斜
+	*/
+	* { margin: 0; padding: 0;}
+	div { width: 100px; height: 100px; background: red; -margin: 50px;}
+	.div1 { -webkit-transform: rotate(45deg); -moz-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg) translate(50px,50px); }
+	.div1:hover { transform: scale(1.5,1.0) translate(50px,50px) skew(10deg,10deg);}
+	.div2 { position: absolute; animation: moves 5s infinite; -webkit-animation: moves 5s infinite;}
+	@keyframes moves { 0%{ top: 0px; left: 0px; background: red} 25%{ top: 0; left: 100px; background: yellow} 50%{ top: 100px; left: 100px; background: blue} 75%{ top: 100px; left: 0; background: green;} 100%{ top: 0; left: 0; background: red}}
+	@-webkit-keyframes moves { 0%{ top: 0px; left: 0px; background: red} 25%{ top: 0; left: 100px; background: yellow} 50%{ top: 100px; left: 100px; background: blue} 75%{ top: 100px; left: 0; background: green;} 100%{ top: 0; left: 0; background: red}}
+	/*渐变*/
+	.border { width:500px; height:100px; background: #ccc; border: 10px solid #f00; transition:all 2s; -webkit-transition:all 2s;}
+  .border:hover { width: 600px; border-color:#000; transition:all 2s; -webkit-transition:all 2s;}
+	
+	#div3 { width: 200px; height: 100px; border: 2px solid #000; background: #0f0; position: absolute; top: 400px; right: 200px;}
+
+
+	</style>
+</head>
+<body>
+	<div class="div1"></div>
+	<div class="div2"></div>
+	<div id="div3">transform和animation测试</div>
+	<!-- 边框变色css3动画 -->
+  <div class="border"></div>
+
+	<script>
+	// function bookMark(url, title) {
+ //    var d = url || window.location.href, e = title || document.title;
+ //    try {
+ //      window.external.AddFavorite(d, e)
+ //    } catch (a) {
+ //      try {
+ //        window.sidebar.addPanel(e, d, '')
+ //      } catch (a) {
+ //           window.alert('请您尝试同时按下Ctrl和D键收藏本页')
+ //      }
+ //    }
+	// }
+	// bookMark();
+	</script>
+</body>
+</html>

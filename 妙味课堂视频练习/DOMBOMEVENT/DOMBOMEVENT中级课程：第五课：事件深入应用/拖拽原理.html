@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>拖拽原理</title>
+<style>
+#div1{ position: absolute; width: 100px; height: 100px; background: red;}
+</style>
+<script>
+window.onload = function(){
+	var oDiv = document.getElementById('div1');
+
+	oDiv.onmousedown = function(ev){
+		var ev = ev || event;
+		//鼠标down下去瞬间 鼠标到div左边和上边的距离
+		var disX = ev.clientX - this.offsetLeft;
+		var disY = ev.clientY - this.offsetTop;
+
+		//如果是oDiv.onmousemove会出现Bug
+		document.onmousemove = function(ev){
+			var ev = ev || event;			
+			//鼠标移动后div的位置
+			oDiv.style.left = ev.clientX - disX + 'px';
+			oDiv.style.top = ev.clientY - disY + 'px';
+		}
+
+		document.onmouseup = function(){
+			document.onmousemove = null;
+		}
+
+		return false;//阻止浏览器默认行为
+	}	
+}
+
+</script>
+</head>
+
+<body>
+<div id="div1"></div>
+
+</body>
+</html>

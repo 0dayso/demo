@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>下拉菜单 阻止事件冒泡小例子</title>
+<style>
+div{ width: 100px; height: 200px; border:1px solid #F00; display: none;}
+
+</style>
+<script>
+window.onload = function() {
+	/*
+		事件冒泡优点大于缺点 所以默认存在
+		阻止事件冒泡：在需要阻止事件冒泡的事件函数中加上 event.cancelBubble=true
+	*/
+
+	var oInp = document.getElementsByTagName('input')[0];
+	var oDiv = document.getElementsByTagName('div')[0];
+
+	oInp.onclick = function(ev) {
+		var ev = ev || event;
+		ev.cancelBubble = true;	//阻止当前对象的当前事件冒泡 此处是点击事件只会阻止oInp的点击事件冒泡 不会阻止鼠标移入等冒泡
+		oDiv.style.display = 'block';
+	}
+	oDiv.onclick = function(ev) {
+		var ev = ev || event;
+		ev.cancelBubble = true;
+	}
+	document.onclick = function() {
+		oDiv.style.display = 'none';
+	}
+}
+</script>
+</head>
+
+<body>
+	<input type="button" value="点击" />
+	<div></div>
+</body>
+</html>

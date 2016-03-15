@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body style="margin:0; padding:0;">
+	<script>
+	window.onload = function() {
+		var EventUtil = {
+
+			//绑定事件
+			addHandle : function(element, type, handle) {
+				if (element.addEventListener) {
+					element.addEventListener(type, handle, false);
+				} else if (element.attachEvent) {
+					element.attachEvent("on"+type, handle);
+				} else {
+					element["on"+type] = handle;
+				}
+			},
+
+			//解除事件绑定
+			removeHandle : function(element, type, handle) {
+				if (element.removeEventListener) {
+					element.removeEventListener(type, handle, false);
+				} else if (element.detachEvent) {
+					element.detachEvent("on"+type, handle);
+				} else {
+					element["on"+type] = null;
+				}
+			},
+
+			//获取event对象
+			getEvent : function(ev) {
+				return ev ? ev : window.event;
+			},
+
+			//获取目标元素
+			getTarget : function(ev) {
+				return ev.target || ev.srcElement;
+			},
+
+			//阻止浏览器默认行为
+			preventDefault : function(ev) {
+				if (ev.preventDefault) {
+					ev.preventDefault();
+				} else {
+					ev.returnValue = false;
+				}
+			},
+
+			//阻止事件冒泡
+			stopPropagation : function(ev) {
+				if (ev.stopPropagation) {
+					ev.stopPropagation();
+				} else {
+					ev.cancelBubble = true;
+				}
+			},
+
+			//获取鼠标滚轮增量值(delta)
+			getWheelDelta : function(ev) {
+				if (ev.wheelDelta) {
+					// return client.engine.opera && client.engine.opera < 9.5 ? -ev.wheelDelta : ev.wheelDelta;
+					return ev.wheelDelta;
+				} else {
+					return -ev.detail * 40;
+				}
+			}
+		};	
+
+		var form = document.forms[0],
+				elements = form.elements,
+				txt1 = form['txt1'],
+				txt2 = form['txt2'],
+				txt3 = form['txt3'],
+				sel = form['sel'],
+				sel2 = form['sel2'],
+				sex = form['sex'];
+		// console.log(elements.length);
+		// console.log(elements[0].type);
+		for (var i = 0; i < sex.length; i++) {
+			sex[i].onclick = function() {
+				alert(this.value)
+			}
+		};
+
+		//选中第一项
+		sel.options[0].selected = true;
+		//添加选项
+		//1.DOM添加节点
+		var option = document.createElement('option');
+		option.value = '台球';
+		option.text = '台球';
+		sel.insertBefore(option, sel.options[1]);
+
+		//2.new Option(text, value) ie8-有问题
+		//3.new Option()  add()
+		// var newOption = new Option('乒乓球', 'yumaoqiu');
+		// sel.add(newOption, undefined);
+
+		//移动选择项
+		// sel2.appendChild(sel.options[0]);		//appendChild(node) 当页面中有node时相当于从sel中移除node,再添加进sel2.
+
+
+		sel.onchange = function() {
+			// console.log(sel.value);
+			// for (var i = 0; i < sel.options.length; i++) {
+			// 	if (sel.options[i].selected) {
+			// 		console.log(sel.options[i].index);
+			// 		console.log(i);
+			// 	}
+			// };
+
+			//选中项下标
+			console.log(sel.selectedIndex);
+			var selectedOption = sel.options[sel.selectedIndex];	//选中项
+			console.log(selectedOption)
+
+		}
+
+		//文本框脚本
+		//自动切换焦点
+		var autoFocus = function(ev) {
+			var ev = EventUtil.getEvent(ev),
+					target = EventUtil.getTarget(ev);
+
+			// console.log(target.value.length);
+			// console.log(target.maxLength);
+			if (target.value.length == target.maxLength) {
+				var form = target.form;
+				for (var i = 0; i < form.elements.length; i++) {
+					if (form.elements[i] == target) {
+						if (form.elements[i+1]) {
+							form.elements[i+1].focus();
+						}
+					}
+				};
+			}
+		}
+
+		EventUtil.addHandle(txt1, 'keyup', autoFocus);
+		EventUtil.addHandle(txt2, 'keyup', autoFocus);
+		EventUtil.addHandle(txt3, 'keyup', autoFocus);
+
+
+		//表单序列化
+		var richedit = document.getElementById('richedit'),
+				createlink = document.getElementById('createlink'),
+				save = document.getElementById('save'),
+				bold = document.getElementById('bold'),
+				test = document.getElementById('test');
+		richedit.contentEditable = 'true';
+		bold.onclick = function() {
+			// document.execCommand('bold', false, null);
+			document.execCommand('fontsize', false, '7');
+		}
+		createlink.onclick = function() {
+			document.execCommand('createlink', false, 'http://www.baidu.com/');
+		}
+		save.onclick = function() {
+			var div = document.createElement('div');
+			div.id = 'richeditDiv';
+			div.innerHTML = richedit.innerHTML;
+			document.body.appendChild(div);
+		}
+		test.onclick = function() {
+			//当前编辑区域是否允许传入创建链接命令
+			// alert(document.queryCommandEnabled('createlink'));	//true
+			//当前编辑区域是否已经执行过加粗命令
+			// alert(document.queryCommandState('bold'));
+			//取得执行命令时传入的值 execCommand第三个参数
+			// alert(document.queryCommandValue('fontsize'));		//7
+			// alert(document.queryCommandValue('createlink'));	//空
+		}
+	}
+	
+
+	</script>
+	<form action="">
+		<input type="text" name="txt1" maxlength="3" size="6" />
+		<input type="text" name="txt2"  maxlength="3" size="6" />
+		<input type="text" name="txt3" maxlength="3" size="6" />
+		<input type="text" size="20" maxlength="20" value="" />
+		<input type="radio" name="sex" value="男" checked />男
+		<input type="radio" name="sex" value="女" />女
+		<select name="sel">
+			<option value="篮球">篮球</option>
+			<option value="足球" selected>足球</option>
+			<option value="排球">排球</option>
+		</select>
+		<select name="sel2" id="">
+			<option value="音乐">音乐</option>
+		</select>
+	</form>
+
+	<div id="richedit" style="width:300px; height:300px; border:1px solid #ccc;" contenteditable></div>
+	<a href="javascript:;" id="bold">字体设置</a>
+	<a href="javascript:;" id="createlink">创建链接</a>
+	<a href="javascript:;" id="save">保存</a>
+	<a href="javascript:;" id="test">检测命令</a>
+</body>
+</html>

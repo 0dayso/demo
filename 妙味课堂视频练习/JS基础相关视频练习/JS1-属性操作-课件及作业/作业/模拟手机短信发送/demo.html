@@ -1,0 +1,105 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<style>
+body,div,input,p,img,span{ margin:0; padding: 0;}
+.box1{ width: 240px; height: 420px; border:4px solid #000000; position: relative; margin:50px auto;}
+#div2{ padding: 20px 10px; height: 338px; overflow-y:auto; overflow-x:hidden;}
+.left{ width: 220px; line-height: 24px; font-size: 12px; margin-top: 10px; overflow: hidden;}
+.left img{ width: 24px; height: 24px; display: block; float: left;}
+.left span{ float: left; margin-left: 6px; background:#CCC; padding: 0 5px; display: block; max-width: 180px; word-break:break-all; word-wrap:normal;}
+.right{ width: 220px; line-height: 24px; font-size: 12px; margin-top: 10px; overflow: hidden;}
+.right img{ width: 24px; height: 24px; float: right;}
+.right span{ float: right; text-align: left; margin-right: 6px; background: #F00; color: #FFF; padding: 0 5px; max-width: 180px; word-break:break-all; word-wrap:normal;}
+#div1{ width: 240px; height: 42px; line-height: 42px; position: absolute; left: 0; bottom: 0; background: #f1f1f1;}
+#imgBox{ width: 24px; height: 24px; float: left; padding: 0 5px; cursor: pointer;}
+#img1{ vertical-align: middle;}
+#btn1{ cursor: pointer;}
+</style>
+
+
+<script>
+window.onload = function(){
+	var getId = function(id) {
+		return document.getElementById(id)
+	},
+	getTag = function(parent, tag) {
+		return (parent || document).getElementsByTagName(tag)
+	},
+	addEvent = function(ele, type, fn) {
+		try {
+			ele.addEventListener(type, fn, false);
+		} catch(e) {
+			ele.attachEvent("on"+type, fn);
+		}
+	};
+
+	var oDiv2 = getId('div2'),
+			oimgBox = getId('imgBox'),
+			oImg = getId('img1'),
+			oText = getId('text1'),
+			oBtn = getId('btn1'),
+			bool = true;
+
+	var show = function() {
+		var p = '<p>' + oimgBox.innerHTML + '<span>说：' + oText.value + '</span></p>';
+		oDiv2.innerHTML += p;
+		oDiv2.lastChild.className = bool ? 'right' : 'left';
+		oDiv2.lastChild.scrollIntoView();							//找到元素所在位置(显示元素在页面视窗上)
+		oText.value = '';
+	},
+	imgChange = function() {
+		this.src = bool ? 'img/2.png' : 'img/1.png';
+		bool = !bool;
+	},
+	enter = function() {
+		document.onkeydown = function(event){
+		  var e = event || window.event || arguments.callee.caller.arguments[0]; 
+	  	if(e && e.keyCode==13){ // enter 键
+		    show();
+		  } 
+		}; 
+	},
+	outer = function() {
+		document.onkeydown = null;
+	};
+
+	oImg.onclick = imgChange;
+	oBtn.onclick = show;
+	addEvent(oText, 'focus', function() {
+		enter();
+	})
+	addEvent(oText, 'blur', function() {
+		outer();
+	})
+
+	// document.onclick = function() {
+	// 	if (document.activeElement == oText) {
+	// 		alert('yes')
+	// 	}
+	// }
+	
+}
+
+
+</script>
+
+</head>
+
+<body>
+<div class="box1" id="box1">
+	<div id="div2">
+
+	</div>
+	<div id="div1">
+		<div id="imgBox"><img id="img1" src="img/1.png" width="24" height="24" /></div>
+		<input id="text1" type="text" style="width:150px;" />
+		<input id="btn1" type="button" value="发送" />
+	</div>
+
+</div>
+
+</body>
+</html>

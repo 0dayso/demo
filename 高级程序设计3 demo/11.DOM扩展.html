@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body id="body">
+	<ul id="ul1">
+		<li>1</li>
+		<li>2</li>
+		<li>3</li>
+	</ul>
+	<input id="btn" type="button" value='click' />
+	<form id="form" action="" style="position:absolute; top:2000px;">
+		<input type="text" />
+		<input type="button" value="按钮">
+	</form>
+	<script>
+	try {
+		console && console.log;
+	} catch(e) {
+		console.log = function(str) {
+			return alert(str)
+		}	
+	}
+	
+
+	//1.选择符API  querySelector()  querySelectorAll()返回NodeList列表  ie8+支持
+	// var ul = document.querySelector('#ul1');	//返回匹配的第一个元素
+	// console.log(ul.id);							//ul1
+	// var li1 = ul.querySelector('li');
+	// console.log(li1.innerHTML);					//1
+	// var lis = ul.querySelectorAll('li');
+	// console.log(lis.length);						//3
+
+	//2.元素遍历 childElementCount firstElementChild lastElementChild nextElementSibling previousElementSibling	ie9+支持 
+	var ul = document.getElementById('ul1');
+	function getFirst(par) {
+		return par.firstElementChild || par.firstChild;
+	}	
+	function getNext(node) {
+		return node.nextElementSibling || node.nextSibling;
+	}
+	//子节点个数
+	function getChildNums(par) {
+		return par.childElementCount || par.childNodes.length;
+	}
+	// var first = getFirst(ul);
+	// console.log(first.innerHTML);			//1
+	// var second = getNext(first);
+	// console.log(second.innerHTML);			//2
+
+	// var childNums = getChildNums(ul);
+	// console.log(childNums);						//3
+
+
+	//3.HTML5
+
+	//3.1getElementsByClassName()	获取类  ie9+支持
+	//3.2焦点管理 document.activeElement DOM中当前获得了焦点的元素  	兼容
+	//			document.hasFocus()检测文档是否获得了焦点 判断用户是否正在交互	兼容
+	// var btn = document.getElementById('btn');
+	// btn.focus();
+	// console.log(document.activeElement.id);			//btn
+	// console.log(document.hasFocus());				//true
+	//3.3 HTMLDocument变化
+	//3.3.1 readyState 属性  complete 加载完成  loading加载中
+	
+	// window.onload = function() {
+	// 	if (document.readyState == 'loading') {
+	// 		alert('loading...')
+	// 	} else if (document.readyState == 'complete') {
+	// 		alert('load success')						//load success
+	// 	}
+	// }
+
+	//3.3.2兼容模式 document.compatMode属性 浏览器采用了哪种渲染模式
+		//标准模式 CSS1compat	混杂模式 BackCompat
+	// if (document.compatMode == 'CSS1compat') {
+	// 	alert("standards mode")			
+	// } else {
+	// 	alert(document.compatMode);
+	// }
+
+	//3.3.3 head属性 document.head Chrome和Safari支持
+	// var head = document.head || document.getElementsByTagName('head')[0];	
+	// console.log(head.innerHTML);
+
+
+	//3.4.字符集属性 charset
+	// console.log(document.charset)		//UTF-8 
+
+
+	//innerHTML(不包括自身) 和 outerHTML(包括自身)
+	// ul.innerHTML = '<p>this is a paragraph</p>';
+	// console.log(ul.outerHTML);	
+	//innerHTML比DOM插入元素效率高 不过也要注意性能问题
+	//例如
+	// var items = '';
+	// for (var i = 0; i < 10; i++) {
+	// 		items += '<li>'+i+'</li>';		//用变量 而不是直接用ul.innerHTML 减少处理innerHTML次数 提升性能
+	// 	};	
+	// ul.innerHTML += items;
+
+	//scrollIntoView()方法
+	// document.forms[0].scrollIntoView();		//显示元素 与获取焦点相似		chrome不支持scrollIntoView()
+	// getFirst(document.forms[0]).focus();			//ie ff 会切换到当前有焦点的元素上 chrome不会
+
+
+	//11.4专有扩展
+	//11.4.1 文档模式 <meta http-equiv="X-UA-Compatible" content="IE=Edge">		始终以最新的文档模式渲染页面
+	// var mode = document.documentMode;					//11
+	// console.log(mode);
+
+	//11.4.2 children 元素下所有元素节点
+	var childs = ul.childNodes;
+	console.log(childs.length)		//7
+	var childs2 = ul.children;
+	console.log(childs2.length)		//3
+
+	</script>
+</body>
+</html>

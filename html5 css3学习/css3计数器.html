@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>css3计数器</title>
+	<style>
+	/*body {
+	  counter-reset: icecream;
+	}
+	input:checked {
+	  counter-increment: icecream;
+	}
+	.total::before {
+	  content: counter(icecream);
+	}
+	#div1{ width: 200px; height: 200px; background: #f00; border: 2px solid #000; position: absolute; top: 300px; left: 300px; clip: rect(10px,180px,180px,10px);}*/
+	body {
+	  counter-reset: sum;
+	}
+
+	input {
+	  position: absolute;
+	  clip: rect(0 0 0 0);	
+	}
+	label {
+		  display: inline-block;
+		  min-width: 80px;
+		  line-height: 40px;
+		  margin-bottom: 10px;
+		  text-align: center;
+		  font: bold 20px/40px 'microsoft yahei';
+		  background-color: #beceeb;
+		  cursor: pointer;
+	}
+
+	#number1:checked { counter-increment: sum 64; }
+	#number2:checked { counter-increment: sum 16; }
+	#number3:checked { counter-increment: sum -32; }
+	#number4:checked { counter-increment: sum 128; }
+	#number5:checked { counter-increment: sum 4; }
+	#number6:checked { counter-increment: sum -8; }
+
+	.sum::before {
+	  content: '= ' counter(sum);
+	}
+
+	#number1:checked ~ 
+	#number2:checked ~ 
+	#number3:not(:checked) ~ 
+	#number4:not(:checked) ~ 
+	#number5:not(:checked) ~ 
+	#number6:checked ~ 
+	.sum::after {
+	  content: ' (万岁！)';
+	}
+	</style>
+</head>
+<body>
+	<!-- <strong>下面中国十大冰淇淋你吃过几个？</strong>
+	<ol>
+	    <li><input type="checkbox" id="icecream1"><label for="icecream1">哈根达斯</label></li>
+	    <li><input type="checkbox" id="icecream2"><label for="icecream2">和路雪wall's</label></li>
+	    <li><input type="checkbox" id="icecream3"><label for="icecream3">八喜冰淇淋</label></li>
+	    <li><input type="checkbox" id="icecream4"><label for="icecream4">DQ冰淇淋</label></li>
+	    <li><input type="checkbox" id="icecream5"><label for="icecream5">蒙牛冰淇淋</label></li>
+	    <li><input type="checkbox" id="icecream6"><label for="icecream6">雀巢冰淇淋</label></li>
+	    <li><input type="checkbox" id="icecream7"><label for="icecream7">伊利冰淇淋</label></li>    
+	    <li><input type="checkbox" id="icecream8"><label for="icecream8">乐可可冰淇淋</label></li>
+	    <li><input type="checkbox" id="icecream9"><label for="icecream9">新城市冰淇淋</label></li>
+	    <li><input type="checkbox" id="icecream10"><label for="icecream10">明治MEIJI</label></li>
+	</ol>
+	你总共选择了 <strong class="total"></strong> 款冰淇淋！
+	<div id="div1"></div> -->
+	<p><strong>选择下面的数值，使其计算结果为72：</strong></p>
+	<input type="checkbox" id="number1"><label for="number1">64</label>
+	<input type="checkbox" id="number2"><label for="number2">+16</label>
+	<input type="checkbox" id="number3"><label for="number3">-32</label>
+	<input type="checkbox" id="number4"><label for="number4">+128</label>
+	<input type="checkbox" id="number5"><label for="number5">+4</label>
+	<input type="checkbox" id="number6"><label for="number6">-8</label>
+	<strong class="sum"></strong>
+</body>
+</html>

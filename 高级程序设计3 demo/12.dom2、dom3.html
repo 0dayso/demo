@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	#div1{ padding:10px;}
+	</style>
+</head>
+<body style="margin:0; padding:0;">
+	<div id="div1" style="width:100px; height:100px; background-color:red; border:1px solid #000;"></div>
+	<script>
+	//检测浏览器是否支持 DOM2级定义的CSS2
+	// var supportsDOM2CSS2 = document.implementation.hasFeature("CSS2", "2.0");
+	// var supportsDOM2CSS = document.implementation.hasFeature("CSS", "2.0");
+	// alert(supportsDOM2CSS);	//IE 不支持
+	// alert(supportsDOM2CSS2);//IE除了Edge模式支持 其他IE10 IE9等均不支持
+
+	//小技巧：可以判断是否为IE浏览器(高版本的chrome ff均支持)
+	// if (document.implementation.hasFeature("CSS", "2.0")) {
+	// 	alert('非IE')
+	// } else {
+	// 	alert('IE')
+	// }
+
+
+	//style 特性相关操作 只支持行内style
+	//cssText 兼容
+	var div = document.getElementById('div1');
+	div.style.cssText = 'width:200px; height:200px; background-color:blue;';
+	// console.log(div.style.cssText);
+
+	//style.length  ie9+
+	// alert(div.style.length);
+	// var prop;
+	// for (var i = 0; i < div.style.length; i++) {
+	// 	prop = div.style[i];			//获取每个属性名
+	// 	alert(prop + ":" + div.style.getPropertyValue(prop));		//每个属性值
+	// };
+
+	//2.计算后的样式(只读的)		兼容所有浏览器
+	function getCss(ele, attr) {
+		if (ele.currentStyle) {
+			console.log('currentStyle');
+			return ele.currentStyle[attr]		//IE
+		} else {
+			console.log('getComputedStyle');
+			return document.defaultView.getComputedStyle(ele, null)[attr]	//非IE  第二个参数是伪元素字符串如":after" 没有则为null
+		}
+	}
+	// console.log(getCss(div1, 'width'));
+
+
+	//元素大小
+
+	//窗口可视大小
+	function getViewport() {
+		if (document.compatMode == "BackCompat") {			//浏览器是否为混杂模式运行 ie7以前
+			return {
+				width :　document.body.clientWidth,
+				height : document.body.clientHeight
+			}
+		} else {																				//标准模式
+			return {
+				width : document.documentElement.clientWidth,
+				height : document.documentElement.clientHeight
+			}
+		}
+	}
+	// document.onclick =function() {
+	// 	alert(getViewport().width);
+	// }
+
+	//滚动大小  文档总高度
+	// document.onclick = function() {
+	// 	alert('clientHeight:'+getViewport().height);				//chrome:979  ff:919   ie标准：986  ie非标准：982
+	// 	docHeight = document.documentElement.scrollHeight || document.body.scrollHeight;	
+	// 	alert('scrollHeight:'+docHeight);										//chrome:220  ff:919   ie标准：986  IE非标准：220
+	// }
+
+	//确定文档总高度时 要取clientHeight和scrollHeight中的最大值	
+	// document.onclick = function() {
+	// 	var d = document.documentElement || document.body;
+	// 			docHeight = Math.max(d.clientHeight, d.scrollHeight);
+	// 			docWidth = Math.max(d.clientWidth, d.scrollWidth);
+	// 	alert(docHeight)
+	// }
+
+	</script>
+</body>
+</html>

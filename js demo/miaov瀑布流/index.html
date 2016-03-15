@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	* { margin: 0; padding: 0;}
+	#container { position: relative; border: 1px solid #f00; margin: 50px auto 0; height: auto;}
+	#container img { position: absolute;}
+	#loading { width: 100%; height: 100px; background: url(loading.gif) no-repeat center #FFF; position: fixed; bottom: 0; left: 0;}
+	</style>
+	<script src="http://libs.useso.com/js/jquery/1.9.1/jquery.min.js"></script>
+</head>
+<body>
+	<div id="container"></div>
+	<div id="loading"></div>
+
+	<script>
+		var container = $('#container');
+		var loader = $('#loading');
+		var iCells = 0;
+		var iWidth = 200;
+		var iSpace = 10;
+		var iOuterWidth = iWidth + iSpace;
+		var url = 'http://www.wookmark.com/api/json/popular?callback=?';
+		var arrL = [];
+		var arrT = [];
+		var iPage = 0;
+		var iBtn = true;
+		var setCell = function() {
+			iCells = Math.floor($(window).innerWidth() / iOuterWidth);
+			iCells = iCells > 6 ? 6 : iCells < 3 ? 3 : iCells;
+			container.css('width', iOuterWidth*iCells-iSpace);
+		};
+		setCell();
+		//图片初始left和top
+		for (var i = 0; i < iCells; i++) {
+			arrT.push(0);
+			arrL.push(iOuterWidth * i);
+		}
+		getData();
+		function getData() {
+			if (!iBtn) return;
+			iBtn = false;
+			iPage ++;
+			$('#loading').show();
+			$.getJSON(url, {page : iPage}, function(data) {		
+				$.each(data, function(index,obj) {
+					var oImg = $('<img />');
+					var iHeight = obj.height * iWidth / obj.width;
+					oImg.css({'width':iWidth, 'height':iHeight});
+					var _index = min();
+					oImg.css({'top':arrT[_index], 'left':arrL[_index]});
+					arrT[_index] += iHeight + 10;
+					var image = new Image();
+					image.onload = function() {
+						oImg.attr('src', this.src)
+					}
+					image.src = obj.preview;
+					container.append(oImg);
+					setTimeout(function() {
+						$('#loading').hide();
+					}, 1000)
+					iBtn = true;
+				})
+			})
+		}
+		function min() {	//top最小的列
+			var min = arrT[0];
+			var _index = 0;
+			for (var i = 0; i < arrT.length; i++) {
+				if (arrT[i] < min) {
+					min = arrT[i];
+					_index = i;
+				}
+			};
+			return _index;
+		}
+		$(window).on('scroll', function() {
+			var _index = min();
+			var wHeight = $(window).innerHeight() + $(window).scrollTop();
+			if (arrT[_index] + 50 < wHeight) {
+				getData();
+			}
+		})
+
+		$(window).on('resize', function() {	//改变窗口重新排列
+			var iLen = iCells;	//原来列数
+			setCell();	//重置列数
+			if (iLen == iCells) return;
+			arrL = [];
+			arrT = [];
+			for (var i = 0; i < iCells; i++) {
+				arrT.push(0);
+				arrL.push(iOuterWidth * i);
+			}
+			container.find('img').each(function() {			
+				var _index = min();
+				$(this).animate({left:arrL[_index], top:arrT[_index]}, 1000);
+				arrT[_index] += $(this).height() + 10;				
+			});
+		})
+
+	</script>
+</body>
+</html>

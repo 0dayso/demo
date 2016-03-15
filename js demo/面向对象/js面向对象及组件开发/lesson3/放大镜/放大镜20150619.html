@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	*{ margin: 0; padding: 0;}
+	#small{ width: 180px; height: 180px; position: relative; margin: 100px;}
+	#small span{ width: 100px; height: 100px; background: blue; opacity: 0.4; filter:alpha(opacity=40); position: absolute; left: 0; top: 0; cursor: move; display: none; z-index: 10000;}
+	#big{ width: 500px; height: 500px; border: 1px solid #f00; position: absolute; top: 0; right: -600px; overflow: hidden; display: none; z-index: 10000;}
+	#big img{ position: absolute; left: 0; top: 0;}
+	</style>
+</head>
+<body>
+	<script>
+	// window.onload = function() {
+	// 	var small = document.getElementById('small'),
+	// 			b2 = small.getElementsByTagName('img')[0],
+	// 			sp = small.getElementsByTagName('span')[0],
+	// 			big = document.getElementById('big'),
+	// 			b1 = big.getElementsByTagName('img')[0];
+
+	// 	small.onmouseenter = function() {
+	// 		sp.style.display = 'block';
+	// 		big.style.display = 'block';
+	// 	}		
+
+	// 	small.onmouseleave = function() {
+	// 		sp.style.display = 'none';
+	// 		big.style.display = 'none';
+	// 	}
+
+	// 	small.onmousemove = function(ev) {
+	// 		var ev = ev || window.event,
+	// 				L = ev.clientX - small.offsetLeft - sp.offsetWidth/2,
+	// 				T = ev.clientY - small.offsetTop - sp.offsetHeight/2; 
+
+	// 		if ( L < 0 ) 
+	// 			L = 0;
+	// 		else if ( L > small.offsetWidth - sp.offsetWidth )
+	// 			L = small.offsetWidth - sp.offsetWidth;
+	// 		if ( T < 0 ) 
+	// 			T = 0;
+	// 		else if ( T > small.offsetHeight - sp.offsetHeight )
+	// 			T = small.offsetHeight - sp.offsetHeight;
+	// 		sp.style.left = L + 'px';
+	// 		sp.style.top = T + 'px';
+
+	// 		var perLeft = sp.offsetLeft/(small.offsetWidth - sp.offsetWidth);
+	// 		b1.style.left = -(b1.offsetWidth - big.offsetWidth) * perLeft + 'px';
+	// 		var perTop= sp.offsetTop/(small.offsetHeight - sp.offsetHeight);
+	// 		b1.style.top = -(b1.offsetHeight - big.offsetHeight) * perTop + 'px';
+	// 	}
+	// }
+	</script>
+	<div id="small">
+		<img src="b2.jpg">
+		<span></span>
+		<div id="big">
+			<img src="b1.jpg" />
+		</div>
+	</div>
+	<!-- move.js测试 -->
+	<div id="move" style="width:100px; height:100px; background:red; position:absolute; left: 0; top: 300px;"></div>
+	<script src="../move.js"></script>
+	<script>
+	var m = document.getElementById('move');
+	m.onclick = function() {
+		startMove(m,{'left':'500'});
+	}
+	</script>
+</body>
+</html>

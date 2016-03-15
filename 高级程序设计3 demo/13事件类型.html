@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	li{ margin-top: 30px; background: #ccc;}
+	</style>
+</head>
+<body style="margin:0; padding:0;">
+	<input type="button" id="ck" value="模拟鼠标点击事件" />
+	<div id="div1"><input type="button" id="btn" value="click" /></div>
+	<ul id="ul1">
+		<li id="li1">111111</li>
+		<li id="li2">222222</li>
+		<li id="li3">333333</li>
+	</ul>
+	<a href="http://www.baidu.com/">百度</a>
+	<input type="text" id="txt" />
+	<script>
+	/*
+		事件对象封装
+	*/
+	var EventUtil = {
+
+		//绑定事件
+		addHandle : function(element, type, handle) {
+			if (element.addEventListener) {
+				element.addEventListener(type, handle, false);
+			} else if (element.attachEvent) {
+				element.attachEvent("on"+type, handle);
+			} else {
+				element["on"+type] = handle;
+			}
+		},
+
+		//解除事件绑定
+		removeHandle : function(element, type, handle) {
+			if (element.removeEventListener) {
+				element.removeEventListener(type, handle, false);
+			} else if (element.detachEvent) {
+				element.detachEvent("on"+type, handle);
+			} else {
+				element["on"+type] = null;
+			}
+		},
+
+		//获取event对象
+		getEvent : function(ev) {
+			return ev ? ev : window.event;
+		},
+
+		//获取目标元素
+		getTarget : function(ev) {
+			return ev.target || ev.srcElement;
+		},
+
+		//阻止浏览器默认行为
+		preventDefault : function(ev) {
+			if (ev.preventDefault) {
+				ev.preventDefault();
+			} else {
+				ev.returnValue = false;
+			}
+		},
+
+		//阻止事件冒泡
+		stopPropagation : function(ev) {
+			if (ev.stopPropagation) {
+				ev.stopPropagation();
+			} else {
+				ev.cancelBubble = true;
+			}
+		},
+
+		//获取鼠标滚轮增量值(delta)
+		getWheelDelta : function(ev) {
+			if (ev.wheelDelta) {
+				// return client.engine.opera && client.engine.opera < 9.5 ? -ev.wheelDelta : ev.wheelDelta;
+				return ev.wheelDelta;
+			} else {
+				return -ev.detail * 40;
+			}
+		}
+
+	}
+
+
+	//DOM3级事件支持
+	// alert(document.implementation.hasFeature("UIEvent", "3.0"));		//ie9+ true  ie8- false
+	//焦点事件	document.activeElement	DOM中当前获得焦点的元素
+	//					document.hasFocus()			确定文档是否获得了焦点
+	var btn = document.getElementsByTagName('input')[0],
+			ul1 = document.getElementById('ul1');
+	// btn.onclick = function() {
+		// alert(document.activeElement.id);
+	// 	alert(document.hasFocus())
+	// }
+
+	//鼠标事件
+	//mouseenter 鼠标光标移入到元素上触发 不会冒泡 鼠标再次移入到子元素上不会重复触发
+
+	// btn.onmouseenter = function() {
+	// 	alert('1')		//
+	// }
+
+	// ul1.onmouseenter = function() {
+	// 	console.log('enter'+2)
+	// }
+	// ul1.onmouseover = function() {
+	// 	console.log('mouse'+2)
+	// }
+	// ul1.onmouseleave = function() {
+	// 	console.log('leave'+2)
+	// }
+	// ul1.onmouseout = function() {
+	// 	console.log('out'+2)
+	// }
+
+	//鼠标位置
+	//clientX,clientY 可视区坐标位置 (不包括滚动距离)
+	//pageX,pageY	页面坐标位置 (包括滚动距离 ie8-不支持)
+	//screenX,screenY 屏幕坐标位置 (鼠标距离屏幕距离)
+
+	// document.onclick = function(ev) {
+	// 	var ev = ev || event;
+	// 	alert('clientX:'+ev.clientX+'clientY:'+ev.clientY);
+	// 	alert('pageX:'+ev.pageX+'pageY:'+ev.pageY);
+	// 	alert('screenX:'+ev.screenX+'screenY:'+ev.screenY);
+	// }
+
+
+	//修改键 shiftKey,ctrlKey,altKey,metaKey 发送鼠标事件时相应的值是否为真 检测是否按下了
+
+	// document.onclick = function(ev) {
+	// 	var ev = ev || event;
+	// 	alert(ev.shiftKey)
+	// }
+
+	//相关元素 onmouseover和onmouseout事件触发时和目标元素相关的元素
+	function getRelatedTarget(ev) {
+		if (ev.relatedTarget) {
+			return ev.relatedTarget;
+		} else if (ev.toElement) {
+			return ev.toElement
+		} else if (ev.fromElement) {
+			return ev.fromElement
+		} else {
+			return null
+		}
+	}
+
+	ul1.onmouseout = function(ev) {
+		var ev = ev || event,
+				target = ev.target || ev.srcElement,
+				re = getRelatedTarget(ev);
+		// alert('focus from '+target.tagName+' to '+re.tagName)
+	}
+
+
+	//鼠标按钮 当发送onmousedown和onmouseup事件时要区分鼠标按钮		0->左键 2->右键	1->中键
+	function getBtn(ev) {
+		//检测是否支持DOM2鼠标事件
+		if (document.implementation.hasFeature('MouseEvents', '2.0')) {
+			return ev.button;
+		} else {
+			switch(ev.button) {
+				case 0:
+				case 1:
+				case 3:
+				case 5:
+				case 7:
+					return 0;
+				case 2:
+				case 6:
+					return 2;
+				case 4:
+					return 1;
+			}
+		}
+	}
+
+	// document.onmousedown = function(ev) {
+	// 	var ev = ev || event;
+	// 	alert(getBtn(ev));
+	// }
+
+	//鼠标滚轮事件 确认滚轮增量值
+	(function() {
+		function handleMouseWheel(ev) {
+			var ev = EventUtil.getEvent(ev),
+					delta = EventUtil.getWheelDelta(ev);
+			alert(delta);
+		} 
+
+		EventUtil.addHandle(document, "mousewheel", handleMouseWheel);
+		EventUtil.addHandle(document, "DOMMouseScroll", handleMouseWheel);
+	})()
+
+
+	//键盘与文本事件 keyCode键值
+	// var txt = document.getElementById('txt');
+	// EventUtil.addHandle(txt, "keyup", function(ev) {
+	// 	var ev = EventUtil.getEvent(ev);
+	// 	console.log(ev.keyCode);
+	// });
+
+
+	/*HTML5事件  contentmenu右键菜单事件  beforeunload 页面卸载之前触发		
+							DOMContentLoaded文档树加载完成即执行代码 不理会页面中图片、js、css等文件是否下载完毕		ie8-不支持
+							ie下 readystatechange事件 文档或元素的加载状态
+							obj.readyState = loaded(数据加载完成) interactive(交互)   complete(完成)  通常交互是在完成之前 但是不确定
+	*/
+	// EventUtil.addHandle(window, "beforeunload", function(ev) {
+	// 	var ev = EventUtil.getEvent(ev),
+	// 			message = "您确认关闭页面吗？";	//提示用户信息 confirm() 让用户确定关闭页面或者留在页面
+	// 	ev.returnValue = message;
+	// 	return message;
+	// })
+	// EventUtil.addHandle(document, "DOMContentLoaded", function(ev) {
+	// 	var box = document.getElementById('box');
+	// 	alert(box.id);
+	// })
+
+	// EventUtil.addHandle(document, "readystatechange", function(ev) {
+	// 	if (document.readyState == 'loaded' || document.readyState == 'complete') {
+	// 		EventUtil.removeHandle(document, "readystatechange", arguments.callee);
+	// 		var box = document.getElementById('box');
+	// 		alert(box.id);
+	// 	}
+	// })
+
+	//hashchange事件 url及其参数列表发生变化时触发
+	//检测浏览器是否支持hashchange事件
+	// var isSupported = ("onhashchange" in window) && (document.documentMode === 'undifined' || document.documentMode > 7);	//ie7-不支持
+	// alert(!!isSupported);
+	// alert(window.location)
+	// EventUtil.addHandle(window, "hashchange", function(ev) {
+	// 	alert("oldURL:" + ev.oldURL + "newURL" + ev.newURL )
+	// })
+
+	
+
+	//内存和性能问题
+	//1.事件委托
+	var oUl = document.getElementById('ul1');
+	EventUtil.addHandle(oUl, "click", function(ev) {
+		var ev = EventUtil.getEvent(ev),
+				target = EventUtil.getTarget(ev);
+		// switch (target.id) {
+		// 	case "li1" :
+		// 		alert("我是li1");
+		// 		break;
+		// 	case "li2" :
+		// 		alert("li2");
+		// 		break;
+		// 	case  "li3" :
+		// 		alert("li3");
+		// 		break;
+		// }
+		alert(target.innerHTML)
+	})
+
+	//2.移除事件处理程序
+	var div = document.getElementById('div1');
+	btn.onclick = function() {
+		btn.onclick = null;
+		div.innerHTML = "提交中..."
+	}
+
+
+	//DOM中的事件模拟  
+	var ck = document.getElementById('ck');
+	ck.onclick = function() {
+		setTimeout(function() {
+			alert('模拟鼠标点击事件触发')
+		},2000)
+	}
+	//1.创建事件对象
+	// var ev = document.createEvent('MouseEvents');
+	// //2.初始化事件对象
+	// ev.initMouseEvent('click',true,true,document.defaultView,0,0,0,0,0,false,false,false,false,0,null);
+	// //3.触发事件
+	// ck.dispatchEvent(ev);
+
+	//IE中的事件模拟
+	//1.创建事件对象
+	// var event = document.createEventObject();
+	// //2.初始化事件对象
+	// event.screenX = 100;
+	// event.screenY = 0;
+	// event.clientX = 0;
+	// event.clientY = 0;
+	// event.ctrlKey = false;
+	// event.shiftKey = false;
+	// event.altkey = false;
+	// event.button = 0;
+	// //3.触发事件
+	// ck.fireEvent("onclick",event);
+
+	// alert(document.implementation.hasFeature("Core", "2.0"))	//ie9+ 支持DOM2级
+
+	</script>
+
+	<div id="box"></div>
+</body>
+</html>

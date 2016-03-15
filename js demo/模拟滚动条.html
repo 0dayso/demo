@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>鼠标滚动事件练习——模拟滚动条</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <style>
+        *{ margin: 0; padding: 0;}
+        .content{ width: 400px; height: 500px; margin: 100px auto; border: 5px solid #000; overflow: hidden; position: relative;}    
+        .main{ width: 355px; height: auto; border-right: 5px solid #000; float: left; position: absolute; top: 0; left: 0;}
+        .slider{ width: 40px; height: 500px; background: #ccc; float: right;}
+        .sliderBar{ width: 40px; height: 40px; background: #f00; cursor: pointer; position: absolute; top: 0; right: 0;}
+        </style>
+        <script type="text/javascript">
+            window.onload = function() {
+                var get = function(id) {
+                    return document.getElementById(id)
+                };
+                function addEvent(ele, type, callback, useCapture) {
+                    if (ele.dispatchEvent) {
+                        ele.addEventListener(type, callback, !!useCapture)
+                    } else {
+                        ele.attachEvent("on"+type, callback)
+                    }
+                    return callback;
+                }
+
+                var wheel = function (obj, callback) {
+                    var wheelType = 'mousewheel';
+                    try {
+                        document.createEvent('MouseScrollEvents');
+                        wheelType = 'DOMMouseScroll';
+                    } catch(e){};
+
+                    addEvent(obj, wheelType, function(event){
+                        if ( "wheelDelta" in event ) {//统一为+/-120 正数向上 负数向下
+                            var delta = event.wheelDelta;
+                            if ( window.opera && opera.version < 10 )//opera10以下方向与ff相同
+                                delta = -delta;
+                            event.delta = Math.round(delta) / 120;//修正safari的浮点bug
+                        } else if ( "detail" in event ) {
+                            event.wheelDelta = -event.detail * 40;//为FF提供更大众化的wheelDelta
+                            event.delta = event.wheelDelta / 120;//添加私有的delta
+                        }
+                        callback.call(obj,event);//修正IE的this指向问题
+                    });
+                }
+                function preventDefault(e){
+                    if ( e.preventDefault )
+                        e.preventDefault();
+                    e.returnValue = false;
+                }
+                function range(num, max, min) {
+                    return Math.min( max, Math.max(num, min) )
+                }
+
+                var bar = get('bar'),
+                    con = get('main'),
+                    content = get('content'),
+                    disScroll = get('slider').offsetHeight - bar.offsetHeight,
+                    disCon = get('content').offsetHeight - con.offsetHeight,
+                    sTop = 0,
+                    fn = function (pos) {
+                        bar.style.top =  range( pos, disScroll, 0 ) + 'px';
+                        sTop = bar.offsetTop / disScroll * disCon;
+                        con.style.top = sTop + 'px';
+                    }
+
+                wheel( get('slider'), function(e) {
+                    preventDefault(e);
+                    var pos = bar.offsetTop + ( -1 * e.delta * 20);
+                    fn(pos);
+                });
+
+                bar.onmousedown = function(e) {
+                    var disY = e.clientY - this.offsetTop; 
+                    document.onmousemove = function(e) {
+                        var pos = e.clientY - disY;
+                        fn(pos);
+                    }
+                    document.onmouseup = function() {
+                        document.onmouseup = document.onmousemove = null;
+                    }
+                }
+
+                get('slider').onclick = function(e) {
+                    var disY = e.clientY,
+                        pos = e.clientY - content.offsetTop - bar.offsetHeight / 2;
+                    fn(pos);
+                }
+            }    
+        </script>
+    </head>
+    <body>
+        <div class="content" id="content">
+            <div class="main" id="main">
+                <p>今后，气象爱好者在网上随意发布个人预测的气象信息，可能会遭遇重金罚款。5月1日起，《气象预报发布与传播管理办法》（下称《办法》）开始实行。该《办法》规定，除气象台外，其他任何组织或个人不得以任何形式向社会发布气象预报，违者最高可处以5万元以下罚款。
+
+                对此，多名“气象达人”表示，该禁令不会对他们的网络活动造成影响，但自此会弱化预测的概念，强化气象分析及科普。他们认为，引起人们恐慌、哗众取宠并造成严重后果的气象预报才是最受打击的。不过与几年前的百花齐放相比，近两年来的民间气象预报的确有着热潮消退的趋势。
+
+                更换据点：
+
+                转至更私密的微信发布
+
+                2009年，因为在微博上对上海11月上旬的寒潮侵袭大胆而准确的预测，网友“花藤龙心”一夜成名，被网友封为“气象帝”。此后，“花藤龙心”作为民间气象爱好者的代表，其观点常常出现在各类媒体的气象报道中。但去年以来，人们却很难再看到“花藤龙心”的名字，一些粉丝也到其原来常驻的论坛询问“气象帝”踪迹，怀疑其已隐退。
+
+                事实上，“花藤龙心”早已将“据点”搬到了微博，不再使用原来的ID，但仍在继续普及着气象知识，记录上海天气，做短期天气趋势预测提醒，近来还会给粉丝们一些关于空气污染的提醒。5月1日以后，会不会停止此类信息的发布？对此，“花藤龙心”表示，日常气象信息的探讨应该不会受影响，主要就是预报灾害性天气时不要引起恐慌，“比如有个台风要来，气象局全面分析其登陆可能性，我们也可以研究它会不会登陆，但要注意用探讨的语气，不是肯定式的预测。”
+
+                这一观点也得到其他气象爱好者的认同。曾经十分活跃的气象爱好者“小鬼”对记者表示：“只要不过激，我认为日常的天气预测没什么问题，那只是我讲出来的个人观点而已。受处罚的前提是造成了严重的后果，我想这项规定的发布是打击那些极端的、哗众取宠式易造成人们恐慌情绪的预测。”
+
+                不过，也有气象爱好者对此有所顾虑。气象达人“小善”是近年来比较活跃的气象爱好者，在微博上拥有过万粉丝。2013年，“小善”就因被人举报非法预报，而宣称“退出气象界”。不过，气象部门未作处罚，“小善”也再次回归，继续热衷于气象信息分析。近两个月，粉丝发现“小善”的预报频率锐减，原来他的精力已转移到新“据点”微信。“小善”告诉记者：“最近发得少是因为天气比较平淡，夏天可能多推送一些消息，但夏季主要也是气象分析，不以预测为主。”
+
+                达人隐退：
+
+                “气象帝”兴趣转向炒股
+
+                多年来这些成名于网络的气象爱好者，根据国内外气象网站数据或自行开发的软件做出民间气象预报，拥有大批粉丝。和谨慎的气象部门预报相比，气象爱好者们的预测更为大胆，语言更加生动。
+
+                但记者昨天调查发现，民间气象预报最火的时期已经过去了。伴随着一个个“名账号”的淡出或半隐退，气象爱好者争相预报天气的胜况不再。气象爱好者俱乐部“风云汇”成立于2011年，多名成员透露，“风云汇”已经很久没有线下活动了，“以前会组织一些讲座、专家交流，现在基本上就是群里面聊聊。”
+
+                “小鬼”中学时期因对台风路径感兴趣而开始爱好气象，台风路径为什么这样走？为什么看上去无规律可寻？这样的问题深深吸引着他。大学起他开始着手研究气象信息，毕业后开始发表气象预测，不过如今他也基本“隐退”。
+
+                “小鬼”最后一段密集发布天气相关信息的时段是2013年底，去年起基本退出微博，只偶尔回来看看。
+
+                他告诉记者，因为微信的兴起，他已不怎么玩微博了，基本放弃了开放式的天气预测。“主要是个人没有精力再弄了。当年我开始预报天气时才毕业一年，现在已经毕业四年了，时间过得很快，生活压力大，很多琐碎的事情上来，不像学生或者刚毕业时有那么多业余时间。气象预测是非常耗精力的事情，我现在只当成兴趣爱好，有时候看看发发朋友圈，但不会再像以前那样大范围发布，不想在风口浪尖引起争论什么的。”
+
+                “花藤龙心”的兴趣则早已向股市转移。目前他的微博上，能够看到气象分析和股市分析穿插甚至融合发表的情景。他们不约而同地告诉记者，气象论坛最活跃的永远是学生群体，现在已“交棒”给“90后”、“00后”，作为奔三甚至奔四的群体，曾经活跃的气象爱好者渐渐淡出也是自然而然的事。</p>
+            </div>
+            <div class="slider" id="slider">
+                <div class="sliderBar" id="bar"></div>
+            </div>
+        </div>
+    </body>
+</html>
+

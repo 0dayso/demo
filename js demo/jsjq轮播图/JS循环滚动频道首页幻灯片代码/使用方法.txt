@@ -1,0 +1,9 @@
+JS循环滚动频道首页幻灯片代码，仿优酷电影首页，自动循环滚动，兼容主流浏览器，懒人图库推荐下载！
+
+使用方法：
+1、在head区域引入样式表文件css.css
+2、在head区域引入lrtk.js
+3、打开lrtk.js修改滚动间隔时间，var timer = setInterval(oNext.onclick,3000)
+4、在你的网页中加入<!-- 代码 开始 --><!-- 代码 结束 -->注释区域代码即可。
+
+*更多代码请访问：懒人图库 www.lanrentuku.com/js/

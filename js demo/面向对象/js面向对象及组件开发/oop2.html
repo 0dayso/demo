@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+	var arr = [];
+	function Tab() {}
+	var tab = new Tab();
+
+	//判断是否为数组  1.instanceof 2.constractor 3.toString()
+	//1.instanceof 实例与构造函数在原型链上是否有联系
+	//2.constructor 构造函数的原型的constructor 是否指向构造函数
+	//3.toString() 检测对象类型(推荐方法 当通过iframe判断类型时上面两种方法不适用)
+	// console.log(arr instanceof Array);
+	// console.log(arr instanceof Object);
+	// console.log(Tab.prototype.constructor == Tab);
+	// console.log( Object.prototype.toString.call(arr) == '[object Array]' );		//true
+	var date = new Date();
+	// console.log( Object.prototype.toString.call(date) );	//[object Date] 
+	var reg = new RegExp();
+	// console.log( Object.prototype.toString.call(reg) );		//[object RegExp]
+	var json = {};
+	// console.log( Object.prototype.toString.call(json) );			//[object Object] 
+
+	var iframe = document.createElement('iframe');
+	document.body.appendChild(iframe);
+	var ifArray = window.frames[0].Array;
+	var arr2 = new ifArray();
+	console.log(arr2 instanceof Array);		//false
+	console.log( ifArray.prototype.constructor == Array );		//false
+	console.log( Object.prototype.toString.call(arr2) == '[object Array]' );		//true
+
+	//继承
+	//1.属性的继承：父类在子类构造函数内调用 call
+	//2.方法的继承：for in 循环复制
+	function extend(child,parent) {
+		for ( var attr in parent ) {
+			child[attr] = parent[attr]
+		}
+	}
+	function createPerson(name,sex) {				//父类
+		this.name = name;	
+		this.sex = sex;
+	}
+	createPerson.prototype.showName = function() {
+		alert(this.name)
+	}
+	var p1 = new createPerson('小明','男');
+	// p1.showName();
+
+	function createStar(name,sex,job) {			//子类
+		//继承属性
+		createPerson.call(this,name,sex);
+		this.job = job;
+
+	}
+	//方法继承
+	extend(createStar.prototype,createPerson.prototype);
+
+	createStar.prototype.showJob = function() {
+		alert(this.job)
+	}
+
+	var p2 = new createStar('黄晓明','男','演员');
+	p2.showName();
+
+	</script>
+</body>
+</html>

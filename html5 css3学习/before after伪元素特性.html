@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>::before ::after</title>
+	<style>
+	/*.div1 { width: 300px; height: 200px; background-color: #cd0000;}
+	.div4::after { content: "我是after设置的内容";}
+	.div4::before { content: "before设置的内容";}
+	.div1:empty { background-color: blue;}
+	.dvi2:hover .div3{ background-color: black;}
+	.div3:hover p{ color: #fff;}*/
+
+	/*div { width: 100px; height: 100px; background: #ccc; margin: 20px;}
+	.a:hover .c{ width: 50px; height: 50px; background: blue;}
+	.a:hover .b{ background: #f00;}*/
+
+
+
+	.wrapper {display:table; width: 300px; height: 300px; border: 1px solid #f00;} 
+	.cell {
+	    display:table-cell; 
+	    vertical-align:middle;
+	}
+	.content{ width: 100px; height: 100px; outline: 20px solid #ccc; margin: 0 auto;}
+	</style>
+</head>
+<body>
+	<!-- <p>空div</p>
+	<div class="div1 div2" contenteditable="true"></div>
+	<p>有内容div</p>
+	<div class="div1 div3"><p>有内容</p>div</div>
+	<p>空格div</p>
+	<div class="div1"> </div>
+	<p>伪元素设置内容div empty伪类不认</p>
+	<div class="div1 div4" contenteditable="true"></div> -->
+
+	<!-- <div class="a"><div class="c"></div></div>
+	<div class="b"></div> -->
+
+	<div class="wrapper">  
+	    <div class="cell">
+	        <div class="content"> Content goes here</div>
+	    </div>
+	</div>  
+
+	<script>
+	// var date1 = new Date(0),
+	// 		y1 = date1.getFullYear(),
+	// 		m1 = date1.getMonth(),
+	// 		d1 = date1.getDate(),
+	// 		h1 = date1.getHours(),
+	// 		date2 = new Date(),
+	// 		y2 = date2.getFullYear(),
+	// 		m2 = date2.getMonth(),
+	// 		d2 = date2.getDate(),
+	// 		h2 = date2.getHours();
+	// console.log((y2-y1)+'年'+(m2-m1)+'月'+(d2-d1)+'天')
+
+ 	var Foo = {};
+ 	Foo.method = function() {
+ 		var i = 0;
+ 		return {
+ 			a:function() {
+ 				console.log('aa',i++)
+ 			},
+ 			b:function() {
+ 				console.log('bb',i++)
+ 			}
+ 		}
+ 	}
+ 	console.log(Foo.method().a());
+ 	console.log(Foo.method().b());
+
+ 	// console.log(Foo.method() === Foo.method());//false
+
+ 	var f = Foo.method();
+ 	f.a();
+ 	f.b();
+
+
+ 	var str = "python php ruby javascript jsonp perhapsphpisoutdated",
+ 			arr = str.split(' '),
+ 			arr2 = [];
+ 	for (var i = 0; i < arr.length; i++) {
+ 		if (!(/p/.exec(arr[i]))) continue;
+ 		if (!!(/ph/.exec(arr[i]))) continue;
+ 		arr2.push(arr[i])
+ 	};
+ 	console.log(arr2)
+
+ 	
+ 	var str = '2015-06-05';
+ 	str.replace(/(-)0/g,"$1");
+
+ 	var str = '2015-06-10';
+ 	str.replace(/-(0)/g,function($0,$1){
+ 		return '-'
+ 	})
+
+
+
+  str.replace(/\d*-/,'').replace(/(0)\d/g,function(a,b){});
+
+	</script>
+
+</body>
+</html>

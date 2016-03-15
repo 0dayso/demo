@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<style>
+body,div,ul{ margin: 0; padding: 0;}
+ul,li{ list-style: none;}
+img{ display: block;}
+#box{ width: 720px; height: 600px; background: #CCC; margin: 0 auto; position: relative;}
+#div1{ width: 720px; height: 560px; position: absolute; left: 0; top: 0;}
+#div1 li{ display: none;}
+#div1 li img{ width: 720px; height: 560px;}
+#div1 a{ width: 51px; height: 51px; position: absolute; top: 242px; z-index: 3;}
+#left{ left: 45px;}
+#right{ right: 45px;}
+#div2{ width: 440px; height: 30px; cursor: pointer; padding-left: 280px; padding-top: 10px; position: absolute; top: 560px; left: 0; z-index: 100;}
+#div2 li{ width: 15px; height: 15px; float: left; margin-right: 10px; position: relative;}
+#div2 li span{ position: absolute; top: -80px; left: -42px; z-index: 200; display: none;}
+#div2 li span img{ width: 100px; height: 60px;}
+#div2 li a{ width: 15px; height: 15px; background: url(img/landian.png) no-repeat left top; display: block;}
+#div2 li a.active{ background: url(img/huangdian.png) no-repeat left top;}
+</style>
+<script>
+window.onload = function(){
+	var oDiv1 = document.getElementById('div1');
+	var oUl1 = oDiv1.getElementsByTagName('ul')[0];
+	var aLi1 = oUl1.getElementsByTagName('li');
+	var oUl2 = document.getElementById('div2');
+	var aSpan = oUl2.getElementsByTagName('span');
+	var aA = oUl2.getElementsByTagName('a');
+	var oLeft = document.getElementById('left');
+	var oRight = document.getElementById('right');
+	var num = null;
+
+	for (var i = 0; i < aA.length; i++) {
+		aA[i].index = i;
+		aA[i].onclick = function(){
+			for (var i = 0; i < aLi1.length; i++) {
+				aLi1[i].style.display = 'none';
+				aA[i].className = '';
+			};
+			aLi1[this.index].style.display = 'block';
+			this.className = 'active';
+			return num = this.index;
+		}
+
+		aA[i].onmouseover = function(){
+			for (var i = 0; i < aSpan.length; i++) {
+				aSpan[i].style.display = 'none';
+			};
+			aSpan[this.index].style.display = 'block';
+		}
+
+		aA[i].onmouseout = function(){
+			for (var i = 0; i < aSpan.length; i++) {
+				aSpan[i].style.display = 'none';
+			};
+		}
+	};
+
+	//左右按钮切换
+	oRight.onclick = function(){
+		num ++;
+		if(num==5){
+			num = 0;
+		}
+		for (var i = 0; i < aLi1.length; i++) {
+			aLi1[i].style.display = 'none';
+			aA[i].className = '';
+		};
+		aLi1[num].style.display = 'block';	
+		aA[num].className = 'active';	
+	}	
+
+	oLeft.onclick = function(){
+		num --;
+		if(num<0){
+			num = 4;
+		}
+		for (var i = 0; i < aLi1.length; i++) {
+			aLi1[i].style.display = 'none';
+			aA[i].className = '';
+		};
+		aLi1[num].style.display = 'block';
+		aA[num].className = 'active';
+	}		
+}
+
+</script>
+</head>
+
+<body>
+<div id="box">
+	<div id="div1">
+		<ul>
+			<li style="display:block"><img src="img/1.jpg" alt="" /></li>
+			<li><img src="img/2.jpg" alt="" /></li>
+			<li><img src="img/3.jpg" alt="" /></li>
+			<li><img src="img/4.jpg" alt="" /></li>
+			<li><img src="img/5.jpg" alt="" /></li>
+		</ul>		
+		<a id="left" href="javascript:;"><img src="img/left.png" alt=""></a>
+		<a id="right" href="javascript:;"><img src="img/right.png" alt=""></a>	
+	</div>	
+	<ul id="div2">
+		<li>
+			<span><img src="img/1.jpg" alt="" /></span>
+			<a class="active" href="javascript:;"></a>
+		</li>
+		<li>
+			<span><img src="img/2.jpg" alt="" /></span>
+			<a href="javascript:;"></a>
+		</li>
+		<li>
+			<span><img src="img/3.jpg" alt="" /></span>
+			<a href="javascript:;"></a>
+		</li>
+		<li>
+			<span><img src="img/4.jpg" alt="" /></span>
+			<a href="javascript:;"></a>
+		</li>
+		<li>
+			<span><img src="img/5.jpg" alt="" /></span>
+			<a href="javascript:;"></a>
+		</li>
+	</ul>
+</div>
+
+</body>
+</html>

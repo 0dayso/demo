@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="jquery-min.js"></script>
+	<style>
+	* { margin: 0; padding: 0;}
+	</style>
+</head>
+<body>
+	<div id="div1" style="width:100px; height:100px; background:green; position:absolute; left:50px; top:50px;"></div>
+	<script>
+		$(function() {
+			var div1 = $('#div1');
+			div1.click(function(){
+				var left = $(this).offset().left + '300';
+				$(this).animate({
+					'left' : left,
+					'opacity' : '0.3',
+					'height' : '200'
+				}, 2000, function(){
+					alert($(this).offset().left)
+				})
+			})
+		})
+	</script>
+</body>
+</html>

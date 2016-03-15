@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	*{ margin: 0; padding: 0;}
+	#div1{ width: 100px; height: 200px; position: absolute; left: -100px; top: 100px; background: #f00;}
+	#div2{ width: 30px; height: 60px; background: #000; color: #fff; text-align: center; position: absolute; right: -30px; top: 70px;}
+	#img1{ position: absolute; left: 400px; opacity: 0.3; filter:alpha(opacity=30);}
+	</style>
+</head>
+<body>
+	<div id="div1">
+		<div id="div2">分享到</div>
+	</div>
+	<img id="img1" src="img1.jpg" alt="" />
+	<script type="text/javascript">
+	var oDiv1 = document.getElementById('div1');
+	var oDiv2 = document.getElementById('div2');
+	var oImg1 = document.getElementById('img1');
+
+
+	oDiv1.onmouseover = function() {
+		move(this, 'left', 0, 10)
+	}
+
+	oDiv1.onmouseout = function() {
+		move(this, 'left', -100, -10);
+	}
+
+	// var  percent = '';
+	// if (attr == 'opacity') {
+	// 	attr = Math.round(css(oImg1, 'opacity')*100);
+	// }
+	oImg1.onmouseover = function() {
+		move2(this, 'opacity', 100, 10);
+	}
+	oImg1.onmouseout = function() {
+		move2(this, 'opacity', 30, -10);
+	}
+
+
+	function move(obj, attr, end, disT) {
+		clearInterval(obj.timer);
+		obj.timer = setInterval(function() {
+			if (parseInt(css(obj, attr)) == end) {
+				clearInterval(obj.timer)
+			} else {
+				obj.style[attr] = parseInt(css(obj, attr)) + disT + 'px';
+			}
+		}, 10)
+	}
+
+	function move2(obj, attr, end, disT) {
+		clearInterval(obj.timer);
+		obj.timer = setInterval(function() {			
+			if (op == end) {
+				clearInterval(obj.timer)
+			} else {
+				obj.style.opacity = (op+disT)/100;
+				obj.style.filter = 'alpha(opacity='+(op+disT)+')';
+			}
+		}, 100)
+	}
+
+	function css(obj, attr) {
+		if (obj.currentStyle) {
+			return obj.currentStyle[attr];
+		} else if (window.getComputedStyle) {
+			return document.defaultView.getComputedStyle(obj, null)[attr];
+		}
+	}
+
+	</script>
+</body>
+</html>

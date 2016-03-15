@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="jquery-min.js"></script>
+	<script src="xwDialog.js"></script>
+	<style>
+	*{margin:0; padding:0;}
+	</style>
+</head>
+<body>
+	<input type="button" id="btn_test" value="创建弹窗" />
+	<script>
+	// ;(function($) {
+	// 	$.fn.extend({
+	// 		'color' : function(value) {
+	// 			console.log(this);			//jq对象 而不是dom对象
+	// 			return this.css('color',value);
+	// 		}
+	// 	})
+	// })(jQuery)
+
+	// $(function() {
+	// 	$('div:first').color('red').next().color('blue')
+	// })
+
+	$(function(){
+		$("#btn_test").click(function(){
+		   var d= $.xwDialog().popup();
+		   d.insertTitle("普通提醒").insertContent("您有一封新邮件，请注意查收！")
+		   .insertBtn("现在查收",function(){alert("http://baidu.com") })
+		   .insertBtn("关闭",d.hide)
+		   .setSkin("skin01");
+	   });
+	})
+
+	</script>
+</body>
+</html>

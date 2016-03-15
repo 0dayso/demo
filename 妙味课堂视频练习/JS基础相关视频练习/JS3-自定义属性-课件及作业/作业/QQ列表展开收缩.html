@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<style>
+ul,h2{ margin:0; padding: 0;}
+li{ list-style: none;}
+#list{ width: 200px; margin:50px auto; border: 1px solid #000;}
+#list h2{ height: 30px; line-height: 30px; text-indent: 20px; background: url(ico1.gif) no-repeat 5px center #f1f1f1; cursor: pointer;}
+#list h2.active{ background: url(ico2.gif) no-repeat 5px center yellow;}
+#list ul{ display: none;}
+#list ul li{ height: 24px; line-height: 24px; text-indent: 25px; border-top: 1px solid #000; cursor: pointer;}
+#list ul .hover{ background: #F00;}
+</style>
+
+<script>
+window.onload = function(){
+	var oUl = document.getElementById('list');
+	var aH2 = oUl.getElementsByTagName('h2');
+	var aUl = oUl.getElementsByTagName('ul');
+	var aLi = null;
+	var arrLi = [];
+
+	for (var i = 0; i < aH2.length; i++) {
+
+		aH2[i].index = i;						//设置aH2[i]的索引值属性为i
+		aH2[i].onclick = function(){
+			if(this.className == ''){
+				for (var i = 0; i < aH2.length; i++) {				
+					aH2[i].className = '';
+					aUl[i].style.display = 'none';				
+				};
+
+				this.className = 'active';
+				aUl[this.index].style.display = 'block';
+			}else{
+				for (var i = 0; i < aH2.length; i++) {				
+					aH2[i].className = '';
+					aUl[i].style.display = 'none';				
+				};
+			}
+		}
+	};
+
+	for (var i = 0; i < aUl.length; i++) {	
+		aLi = aUl[i].getElementsByTagName('li');
+
+		for (var j = 0; j < aLi.length; j++) {	
+			arrLi.push( aLi[j] );
+		};
+	};	
+
+	for (var i = 0; i < arrLi.length; i++) {		
+		arrLi[i].onclick = function (){
+
+			if( this.className == ''){
+				this.className = 'hover';
+			}else{
+				this.className = '';
+			}		
+			for(var i=0; i<arrLi.length; i++){
+				if( arrLi[i]!=this ){
+					arrLi[i].className = '';
+				}				
+			}							
+		};	
+		// arrLi[i].onclick = function (){
+			
+		// 	for( var i=0; i<arrLi.length; i++ ){
+		// 		if( arrLi[i] !=this ){
+		// 			arrLi[i].className = '';
+		// 		}
+		// 	}
+		// 	if( this.className == '' ){
+		// 		this.className = 'hover';
+		// 	}else{
+		// 		this.className = '';
+		// 	}
+		// };	
+	};
+}	
+
+</script>
+
+</head>
+
+<body>
+
+<ul id="list">
+	<li>
+		<h2>我的好友</h2>
+		<ul>
+			<li>张三</li>
+			<li>张三</li>
+			<li>张三</li>
+			<li>张三</li>
+		</ul>
+	</li>
+	<li>
+		<h2>我的兄弟</h2>
+		<ul>
+			<li>东哥</li>
+			<li>东哥</li>
+			<li>东哥</li>
+			<li>东哥</li>
+		</ul>
+	</li>
+	<li>
+		<h2>女友</h2>
+		<ul>
+			<li>大青</li>
+			<li>大青</li>
+			<li>大青</li>
+		</ul>
+	</li>
+</ul>
+
+</body>
+</html>

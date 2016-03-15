@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<style>
+div,ul,p,img{ margin:0; padding:0;}
+#div1{ width: 400px; height: 500px; position: relative; background: url(loader_ico.gif) no-repeat center;}
+#div1 img{ width: 400px; height: 500px; display: block;}
+#div1 p,#div1 span{ width: 400px; height: 30px; line-height: 30px; font-size: 16px; text-align: center; background: #333; color: #FFF; position: absolute; left: 0;}
+#div1 span{ top: 0;}
+#div1 p{ bottom: 0;}
+#div1 ul{ width: 30px; position: absolute; top: 0; right: -60px;}
+#div1 ul li{ width: 30px; height: 30px; margin-bottom: 10px; background: #ccc; list-style: none;}
+#div1 ul .active{ background: #F00;}
+</style>
+
+<script>
+window.onload = function(){
+	
+	var oDiv = document.getElementById('div1');
+	var oImg = oDiv.getElementsByTagName('img')[0];
+	var oP = oDiv.getElementsByTagName('p')[0];
+	var oSpan = oDiv.getElementsByTagName('span')[0];
+	var oUl = oDiv.getElementsByTagName('ul')[0];
+	var aLi = oUl.getElementsByTagName('li'); //动态声明元素 等到后面代码里面有li元素时发挥作用
+
+	//存数据
+	arrUrl = ['1.png','2.png','3.png','4.png'];
+	arrText = ['图片一','图片二','图片三','图片四'];
+	var num = 0;
+	//给ul里面添加相应图片数量的li
+	for( var i=0; i<arrUrl.length; i++ ){
+		oUl.innerHTML += '<li></li>';
+	}
+
+	//初始化
+	function fnTab(){
+		oImg.src = arrUrl[num];
+		oP.innerHTML = arrText[num];
+		oSpan.innerHTML = num + 1 + '/' + arrUrl.length;
+
+		for (var i = 0; i < aLi.length; i++) {
+			aLi[i].className = '';
+		}
+		aLi[num].className = 'active';
+	}
+	fnTab();
+
+	for( var i=0; i<aLi.length; i++){
+		//var aLi[i].a = i;				//自定义属性 给每个li设置一个a属性 并让a等于i（i为0,1,2,3等等）
+		aLi[i].index = i; 			//创建自定义属性 ：获取当前li的索引值
+		aLi[i].onclick = function(){
+			num = this.index;
+			fnTab();
+		};
+	}
+}
+
+</script>
+</head>
+
+<body>
+
+<div id="div1">
+	<img src="" />
+	<p>图片真在加载。。。</p>	
+	<span>1/4</span>
+	<ul>
+		<!-- <li class="active"></li>
+		<li></li>
+		<li></li>
+		<li></li> -->
+	</ul>
+</div>
+
+</body>
+</html>

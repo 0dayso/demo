@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script type="text/javascript" src="http://libs.useso.com/js/jquery/1.10.0/jquery.min.js"></script>
+</head>
+<body>
+	<!-- <div class="box">
+		<input class="ck" type="checkbox">
+		<span class="price">10</span>
+		<input class="add" type="button" value="+">
+		<input class="count" type="text" value="1" style="width:50px;">
+		<input class="sub" type="button" value="-">
+		<span class="singerPrice">单品总价：<b></b></span>
+	</div>
+	<div class="box">
+		<input class="ck" type="checkbox">
+		<span class="price">10</span>
+		<input class="add" type="button" value="+">
+		<input class="count" type="text" value="1" style="width:50px;">
+		<input class="sub" type="button" value="-">
+		<span class="singerPrice">单品总价：<b></b></span>
+	</div>
+	<div class="total">所有商品总价：</div>	 -->
+
+
+	<label for="score">积分：</label><input id="score" type="text">
+	<script>
+	$(function() {
+		// count();
+		// $('.ck').on('change',function() {
+		// 	count();
+		// })
+		// $('.add').on('click',function() {
+		// 	var add = parseInt($(this).siblings('.count').val());
+		// 	add++;
+		// 	$(this).siblings('.count').val(add);
+		// 	count();
+		// })
+		// $('.sub').on('click',function() {
+		// 	var sub = parseInt($(this).siblings('.count').val());
+		// 	sub--;
+		// 	sub = sub > 0 ? sub : 0;
+		// 	$(this).siblings('.count').val(sub);
+		// 	count();
+		// })
+		// function count() {
+		// 	var s = 0;
+		// 	$('.box').each(function() {
+		// 		var t = parseFloat($(this).find('.price').html())*parseInt($(this).find('.count').val());
+		// 		$(this).find('.singerPrice').html('单品总价：'+t);
+		// 		if ($(this).find('.ck').prop('checked')) s += t;
+		// 	})
+		// 	$('.total').html('所有商品总价：'+s);
+		// }
+
+		// $('#score').blur(function() {
+		// 	compare();
+		// })
+
+		// function compare() {
+		// 	var score = $('#score').val();
+		// 	if (score > 800)
+		// 		alert('超过')
+		// }
+		 var img = document.createElement('img');
+	    img.style.height = 0;
+	    img.style.width = 0;
+	    img.src = "http//:www.baidu.com/";
+	    img.style.display = 'none';
+	    document.body.appendChild(img);
+	})	
+	</script>
+</body>
+</html>

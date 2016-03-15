@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>六边形demo</title>
+    <style>
+        /*
+            文字是通过定位实现的，如果文字换成其他的，重新定位即可。
+        */
+        * { margin: 0; padding: 0;}
+        .box { position: relative; width: 400px; height: 400px; background: #85a3b5; margin: 50px auto;}
+        .d1 { transform: rotate(120deg);}
+        .d2 { transform: rotate(-60deg);}
+        .d3 { transform: rotate(-60deg); }
+
+        .center { position: absolute; z-index: 10; transform: rotate(30deg); top: 75px; left: 90px;}
+        .center .d1, .center .d2, .center .d3 { width: 208px; height: 260px; overflow: hidden;}
+        .center a { position: absolute; color: #000; font-weight: bold; font-size: 18px; z-index:100; top: 120px; left: 85px; transform: rotate(-30deg); text-decoration: none;}
+        .center .d3 { background: #e9e9ea;}
+
+        .step { position: absolute; top: 130px; left: 134px; z-index: 9; transform: rotate(30deg); opacity: 0; -webkit-transition: opacity, 1s;}
+        .step .d1, .step .d2, .step .d3 { width: 120px; height: 150px; overflow: hidden;}
+        .step a { position: absolute; color: #fff; font-weight: bold; font-size: 18px; z-index:100;transform: rotate(-30deg); top: 65px; left: 38px; text-decoration: none;}
+        .step1 .d3 { background: #f3a762;}
+        .step2 .d3 { background: #f2c238;}
+        .step3 .d3 { background: #b3d367;}
+        .step4 .d3 { background: #bc97c3;}
+        .step5 .d3 { background: #86bfc0;}
+        .step6 .d3 { background: #97d4e4;}
+
+        .step.show { z-index: 11; opacity: 1;}
+        .step1.show { top: 0;}
+        .step2.show { top: 61px; left: 252px;}
+        .step3.show { top: 196px; left: 252px;}
+        .step4.show { top: 258px;}
+        .step5.show { top: 196px; left: 20px;}
+        .step6.show { top: 61px; left: 20px;}
+    </style>
+    <script src="http://libs.useso.com/js/jquery/1.10.0/jquery.min.js"></script>
+</head>
+<body>
+<div class="box">
+    <div class="center">
+        <div class="d1">
+            <div class="d2">
+                <div class="d3">
+                    <a href="#">Css3</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="step step1">
+        <div class="d1">
+            <div class="d2">
+                <div class="d3">
+                    <a href="#">step1</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="step step2">
+        <div class="d1">
+            <div class="d2">
+                <div class="d3">
+                    <a href="#">step2</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="step step3">
+        <div class="d1">
+            <div class="d2">
+                <div class="d3">
+                    <a href="#">step3</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="step step4">
+        <div class="d1">
+            <div class="d2">
+                <div class="d3">
+                    <a href="#">step4</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="step step5">
+        <div class="d1">
+            <div class="d2">
+                <div class="d3">
+                    <a href="#">step5</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="step step6">
+        <div class="d1">
+            <div class="d2">
+                <div class="d3">
+                    <a href="#">step6</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    ;$(function() {
+        $('.center').on({
+            'mouseenter': function() {
+                $('.step').addClass('show');
+            }
+        });
+
+        $('.box').on('mouseleave', function() {
+            $('.step').removeClass('show');
+        });
+    });
+</script>
+
+</body>
+</html>

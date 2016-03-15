@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <script src="jquery-min.js"></script>
+    <style>
+    * { margin: 0; padding: 0;}
+    .box { width: 100%; display:-moz-box; display:-ms-flexbox; display:-webkit-box; display: box; -background: green; overflow: hidden;}
+    .item { -moz-box-flex:1; -webkit-box-flex:1; -ms-flex:1; box-flex:1; margin: 10px 0; -background: #ccc; } 
+    .item:first-child { width: 200px; background: red; margin: 10px; height: 60px; -moz-box-flex:0; -webkit-box-flex:0; -ms-flex:0; box-flex:0;}
+    .item:last-child { background: yellow; margin: 10px;}
+
+    @media screen and (max-width:960px){
+        body{ background: #ccc;}
+    }
+    @media screen and (min-width: 1200px) {
+        body { background: #f1f1f1}
+    }
+    @media screen and (min-width: 961px) and (max-width: 1199px) {
+        body { background: blue;}
+    }
+
+    .box2 {
+        width: 200px; height: 200px; background: green;
+      -moz-border-radius: 15px; /* Firefox */
+      -webkit-border-radius: 15px; /* Safari and Chrome */
+      border-radius: 15px; /* Opera 10.5+, future browsers, and now also Internet Explorer 6+ using IE-CSS3 */
+
+      -moz-box-shadow: 10px 10px 20px #000; /* Firefox */
+      -webkit-box-shadow: 10px 10px 20px #000; /* Safari and Chrome */
+      box-shadow: 10px 10px 20px #000; /* Opera 10.5+, future browsers and IE6+ using IE-CSS3 */
+      
+      behavior: url(ie-css3.htc);  This lets IE know to call the script on all elements which get the 'box' class */  
+    }
+     
+    .box3 { height: 1000px; width: 100%; display: -moz-box; display: -ms-flexbox; display: -webkit-box; display: box; -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    -ms-flex-direction: column;
+    -o-box-orient: vertical;
+    box-orient: vertical;}
+    .box3 .row:first-child { height: 100px; background: red; -moz-box-flex:0; -webkit-box-flex:0; -ms-flex:0; box-flex:0;}
+    .box3 .row:last-child { background: green; -moz-box-flex:1; -webkit-box-flex:1; -ms-flex:1; box-flex:1;}
+
+    </style>
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <!-- display:box和box-flex自适应布局 -->
+    <!-- <div class="box">
+        <div class="item">column 1</div>
+        <div class="item">column 2</div>
+        <div class="item">column 3</div>
+    </div> -->
+
+    <!-- <div class="box3">
+        <div class="row">11</div>
+        <div class="row">22</div>
+    </div> -->
+
+    <!-- 指定元素所有父节点 -->
+    <!-- <div class="class1">
+        <div class="class2">
+            <div id="getP"></div>
+        </div>
+    </div> -->
+
+    <!-- ie-css3 ie6 7 8支持圆角和阴影 -->
+    <!-- <div class="box2"></div>     -->
+
+    <div class="box4" style="width:100px; height:100px; margin:5px; padding:10px 0; border:2px solid #ccc; background:red; display:none; position:absolute; left:100px; top:200px;"></div>
+    <div class="box5" style="width:100px; height:100px; margin:5px; padding:10px 0; border:2px solid #ccc; background:red; visibility:hidden; position:absolute; left:100px; top:200px;"></div>
+
+    <script>
+    // 求一个元素所有父节点
+    // var getParents = function(ele){
+    //     var arr = [];
+    //     while ( !!ele.parentNode ){
+    //         arr.push( ele.parentNode );
+    //         ele = ele.parentNode;
+    //     }
+    //     return arr;
+    // }
+    // console.log( getParents(document.getElementById('getP')) );
+
+    //jq生成元素
+    $(function (){
+        var json = {"name1":"liuwei1","name2":"liuwei2","name3":"liuwei3","name4":"liuwei4"};
+        var item = [];
+        $.each(json, function(key,value){
+            item.push('<li id="'+key+'">'+value+'</li>');
+        });
+        console.log(item);
+
+        $('<ul/>',{
+            'class' : 'ul1',
+            css : {'color':'red','font-size':'20px'},
+            html : item.join('')
+        }).appendTo($('body'));
+    })
+    
+    console.log( $('.box5').offset({ top: 10, left: 30}) );
+    console.log( $('.box5').offset().top );
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+/* reset */
+html, body, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, ol, li, th, td, p, blockquote, pre, form, fieldset, legend, input, button, textarea, hr {
+    list-style: outside none none;
+    margin: 0;
+    padding: 0;
+}
+
+html, body, button, input, select, textarea {
+    outline: medium none;
+    font-family: Microsoft Yahei, Arial, sans-serif
+}
+
+a,img,button,input,textarea,div{-webkit-tap-highlight-color:rgba(255,255,255,0);}
+
+body {
+    font-size: 0.46875rem;
+    background-color: #f2f2f2;
+    color: #2b2b2b;
+    min-width: 320px;
+}
+
+em, i {
+    font-style: normal;
+}
+
+a {
+    text-decoration: none;
+}
+
+a img {
+    border: medium none;
+}
+
+a {
+    color: #2b2b2b;
+}
+
+.clearfix { *zoom:1;}
+
+.clearfix:after { content:"."; display:block; height:0; visibility:hidden; clear:both;}
+
+table, td, th, tbody {
+    box-sizing: border-box;
+}
+
+/*在手机浏览器中，长按可选中文本，但如果在应用中，会给人一种异样的感觉，最好还是禁用此功能为上。*/
+* {
+	-webkit-touch-callout:none;
+	-webkit-user-select:none;
+	-khtml-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+}
+
+/*a链接点击阴影：*/
+a,img,button,input,textarea,div{-webkit-tap-highlight-color:rgba(255,255,255,0);}
+@charset "utf-8";
+
+/*type=number 去除上下箭头*/
+/*在chrome下：*/
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
+    -webkit-appearance: none !important;
+    margin: 0; 
+}
+/*Firefox下：*/
+input[type="number"]{-moz-appearance:textfield;}
+
+
+
+
+
+
+
+
+
+

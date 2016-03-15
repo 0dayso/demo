@@ -1,0 +1,26 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Html5 postMessage数据传递</title>
+</head>
+<body>
+	<div id="div1" style="width:200px; height:200px; border:1px solid #ccc">postMessage_a</div>
+	<iframe src="postMessage_b.html" frameborder="0" width="400" height="200"></iframe>
+	<script>
+	//通过postMessage()方法向iframe页面传递消息
+	window.onload = function() {
+		var ifm = window.frames[0];
+		ifm.postMessage('getColor','http://localhost');
+	}
+
+	//接收返回的信息
+	window.addEventListener('message',function(e) {
+		var color = e.data;
+		document.getElementById('div1').style.backgroundColor = color;
+	},false)
+	
+
+	</script>
+</body>
+</html>

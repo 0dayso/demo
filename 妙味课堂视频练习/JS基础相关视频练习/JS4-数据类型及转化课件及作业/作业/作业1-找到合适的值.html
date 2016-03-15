@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+
+<script>
+
+var arr = [ '100px', 'abc'-6, [], -98765, 34, -2, 0, '300', , function(){alert(1);}, null, document, [], true, '200px'-30,'23.45元', 5, Number('abc'), function(){ alert(3); }, 'xyz'-90 ];
+
+/*
+	1、找到arr里所有的数字：-98765, 34, -2, 0, 5
+	2、找到可以转成数字的：'100px', -98765, 34, -2, 0, '300', '23.45元',  5 
+	3、把转成数字以后，最大值判断出来：300
+	4、把 NaN 所在的位置找出来：1 14 17  19
+*/
+
+//1.找到所有数字 原理：typeof == number 找出所有类型是number的元素 加上isNaN() 判断是否有效数字
+var arrLen = arr.length,
+		arrType = [],
+		arr1 = new Array();
+for (var i = 0; i < arrLen; i++) {
+	arrType.push(typeof arr[i]);	//["string", "number", "object", "number", "number", "number", "number", "string", "undefined", "function", "object", "object", "object", "boolean", "number", "string", "number", "number", "function", "number"] 
+	if (typeof arr[i] == 'number' && !isNaN(arr[i])) {
+		arr1.push(arr[i])
+	}
+};
+// console.log(arrType);
+// console.log(arr1);												//-98765, 34, -2, 0, 5
+
+
+//2.parseFloat()/parseInt() 可将字符串转成数字
+var arr2 = [],
+		arrClone = arr;
+for (var i = 0; i < arrLen; i++) {
+	if (!isNaN(parseFloat(arr[i]))) {
+		arr2.push(parseFloat(arr[i]));
+	}
+};
+// console.log(arr2);												//["100px", -98765, 34, -2, 0, "300", "23.45元", 5] 
+
+//3.求数组最大值
+var max = 0;
+for (var i = 0, arr2Len = arr2.length; i < arr2Len; i++) {
+	if (max < arr2[i]) {
+		max = arr2[i]
+	}
+};
+// console.log(max);														//300
+
+
+//4.找出NaN所在位置 原理：typeof + isNaN()判断
+var arr4 = [];
+for (var i = 0; i < arrLen; i++) {
+	if (typeof arr[i] == 'number' && isNaN(arr[i])) {
+		arr4.push(i)
+	}
+};
+console.log(arr4);														//[1, 14, 17, 19] 
+
+</script>
+
+</head>
+
+<body>
+</body>
+</html>

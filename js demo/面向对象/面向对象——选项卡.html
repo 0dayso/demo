@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	span{ width: 50px; height: 30px; line-height: 30px; text-align: center; display: inline-block; border: 1px solid #ddd; cursor: pointer; margin-right: 10px;}
+	span.active{ background: #f00;}
+	.box{ width: 220px; height: 320px;}
+	.box div{ width: 200px; height: 200px; border: 1px solid #ccc; display: none;}
+	</style>
+</head>
+<body>
+	<div id="box" class="box">
+		<span class="active">1</span>
+		<span>2</span>
+		<span>3</span>
+		<div style="display:block">1111111</div>
+		<div>2222222</div>
+		<div>3333333</div>
+	</div>
+	<div id="box2" class="box">
+		<span class="active">1</span>
+		<span>2</span>
+		<span>3</span>
+		<div style="display:block">1111111</div>
+		<div>2222222</div>
+		<div>3333333</div>
+	</div>
+	<script type="text/javascript" src="http://libs.useso.com/js/jquery/1.10.0/jquery.min.js"></script>
+	<script type="text/javascript">
+		// var btn = document.getElementsByTagName('span'),
+		// 		box = document.getElementById('box'),
+		// 		div = box.getElementsByTagName('div');
+
+		// for (var i = 0; i < btn.length; i++) {
+		// 	btn[i].index = i;
+		// 	btn[i].onclick = function() {
+		// 		for (var j = 0; j < btn.length; j++) {
+		// 			btn[j].className = '';
+		// 			div[j].style.display = 'none';
+		// 		};
+		// 		this.className = 'active';
+		// 		div[this.index].style.display = 'block';
+		// 	}
+		// };
+
+		function Tab(id) {
+			this.init(id);
+		}
+
+		Tab.prototype.init = function(id) {
+			this.box = document.getElementById(id);
+			this.btn = this.box.getElementsByTagName('span');
+			this.div = this.box.getElementsByTagName('div');
+			this.num = 0;
+			var This = this;
+			for (var i = 0; i < this.btn.length; i++) {
+				this.btn[i].index = i;
+				this.btn[i].onclick = function() {
+					This.num = this.index;
+					This.run(this);
+				};
+			};
+			this.autoPlay();
+		}
+
+		Tab.prototype.run = function(_this) {
+			for (var j = 0; j < this.btn.length; j++) {
+				this.btn[j].className = '';
+				this.div[j].style.display = 'none';
+			};
+			_this.className = 'active';
+			this.div[_this.index].style.display = 'block';
+		}
+
+		Tab.prototype.autoPlay = function() {
+			var This = this;
+			this.box.timer = setInterval(function() {
+				This.num ++;
+				This.num = This.num > This.btn.length - 1 ? 0 : This.num;	
+				This.run(This.btn[This.num]);
+			}, 1000);
+			this.box.onmouseover = function() {
+				clearInterval(this.timer);
+			}
+			this.box.onmouseout = function() {
+				clearInterval(this.timer);
+				this.timer = setInterval(function() {
+					This.num ++;
+					This.num = This.num > This.btn.length - 1 ? 0 : This.num;	
+					This.run(This.btn[This.num]);
+				}, 1000);
+			}
+		}
+		var tab1 = new Tab('box');
+		var tab2 = new Tab('box2');
+
+	</script>
+</body>
+</html>

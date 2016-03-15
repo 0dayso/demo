@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <!-- <meta http-equiv="refresh" content="0;url=http://www.hao123.com/" /> -->
+    <script src="http://libs.useso.com/js/jquery/1.10.1/jquery.min.js"></script>
+    <style>
+    /*
+    * { margin: 0; padding: 0;}
+    .box { width: 100%; display:-moz-box; display:-ms-flexbox; display:-webkit-box; display: box; background: green; overflow: hidden;}
+    .item { -moz-box-flex:1; -webkit-box-flex:1; -ms-flex:1; box-flex:1; height: 60px; margin: 10px 0; background: #ccc; } 
+    .item:first-child { width: 200px; background: red; margin: 10px; -moz-box-flex:0; -webkit-box-flex:0; -ms-flex:0; box-flex:0;}
+    .item:last-child { background: yellow; margin: 10px;}
+
+    @media screen and (max-width:960px){
+        body{ background: #ccc;}
+    }
+    @media screen and (min-width: 1200px) {
+        body { background: yellow}
+    }
+    @media screen and (min-width: 961px) and (max-width: 1199px) {
+        body { background: blue;}
+    }*/
+    * { margin: 0; padding: 0;}
+    .bb{
+        height:32px;
+        background-color:#f1ee18;/*所有识别*/
+        background-color:#00deff\9; /*IE6、7、8识别*/
+        +background-color:#a200ff;/*IE6、7识别*/
+        _background-color:#1e0bd1;/*IE6识别*/
+        }
+    #box10 { width: 100%;/* display: -moz-box; display: -webkit-box; display: box;*/}
+    #box10 div {width: 20%; height: 100px; border:1px solid #f00; border-right: none; background: #ccc; -moz-box-sizing:border-box; -webkit-box-sizing:border-box; box-sizing:border-box; float: left;}
+    #box10 div:last-child { border-right: 1px solid #f00;}
+    
+    #box { width: 100%; display: -moz-box; display: -webkit-box; display: box;}
+    #box li { height: 100px; -moz-box-flex:1; -webkit-box-flex:1; box-flex:1; border:1px solid #f00; border-right: none;}
+    #box li:last-child { border-right: 1px solid #f00;}
+    
+    #aa { padding: 10px; margin: 20px;}
+    </style>
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<!-- <body style="height:3000px;">
+<a href="#" id="aa">aaaaaa</a> -->
+<!--     <div class="box">
+        <div class="item">column 1</div>
+        <div class="item">column 2</div>
+        <div class="item">column 3</div>
+    </div>
+<div class="class1">
+    <div class="class2">
+        <div id="getP"></div>
+    </div>
+</div> -->
+
+<!-- <ul id="ul1">
+    <li>1</li>
+    <li>1</li>
+    <li>1</li>
+    <li>1</li>
+    <li>1</li>
+    <li>1</li>
+    <li>1</li>
+    <li>1</li>
+    <li>1</li>
+    <li>1</li>
+</ul>
+
+<ul id="box">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+</ul>
+
+<a id="aa" href="#" target="_blank">点击跳转</a> 
+
+<div id="add" style="width:100px; height:100px; background:#ccc; position:absolute; right:0; bottom:0;"></div>
+
+<input type="text" id="test2">
+
+<div class ="bb"></div>
+
+<div id="blue" style="position:absolute; top:500px; left:500px; width:300px; height:300px; background:#CCC; visibility:hidden">
+    <div style="width:100px; height:100px; background:blue; visibility:visible"></div>
+</div>
+
+<div id="box10">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+</div> -->
+
+<!-- <div id="ccc" style="width:100px; height:100px; background:#ccc;"></div>
+    <script>
+    // $(function() {
+    //     $('#ccc').css('margin','0 auto');
+    // })
+    // var blue = document.getElementById('blue');
+    // function addHandler(element, type, handler){
+    //     return element.addEventListener ? element.addEventListener(type, handler, false) : element.attachEvent("on" + type, handler)
+    // }
+    // addHandler(blue,'mouseover',function(){
+    //     alert(1)
+    // })
+    // function trigger(ele, type) {
+    //     if (document.createEvent) {
+    //        var evtObj = document.createEvent('MouseEvent');
+    //         evtObj.initEvent(type, false, false);
+    //         ele.dispatchEvent(evtObj); 
+    //     } else {
+    //         var evtObj = document.createEventObject();
+    //         ele.fireEvent('on'+type, evtObj);  
+    //     }
+    // }
+    // trigger(blue, 'mouseover');
+    
+
+    // blue.click();
+    // setTimeout(function(){console.log(1)},0);
+    // console.log(2);
+
+    // function s(x,y){
+    //     alert(x+y)
+    // }
+    // var tt = s.bind(this,60,70);
+    // tt();
+
+    // var a = 1, b = 2;
+    // var f = function(){
+    //     console.log(b);
+    //     var b = 3, a = 4;
+    //     console.log(a);55
+    // }
+    // f();   
+
+    // var a = b = 0;
+    // var f = function(){
+    //     var a = b = 1;
+    // }
+    // f();
+    // console.log(a)
+    // console.log(b)
+
+    // var getParents = function(ele){
+    //     var arr = [];
+    //     while ( !!ele.parentNode ){
+    //         arr.push( ele.parentNode );
+    //         ele = ele.parentNode;
+    //     }
+    //     return arr;
+    // }
+    // console.log( getParents(document.getElementById('getP')) );
+    // console.log($('#add')[0].style.right)
+    // console.log(!!$('#add')[0].style.position && parseInt($('#add')[0].style.right) == 0);
+    // $('#add').click(function() {
+    //     $(this).animate({
+    //         left : '+=50'
+    //     },500)
+    // })
+    </script>
+
+    <script type="text/javascript">
+        //5、按顺序写出alert弹出窗口的内容
+        // var name = "The Window";
+        // var object = {
+        //       name : "My Object",
+        //       getNameFunc : function(){
+        //           alert('1.' + this.name);
+        //           return function(){
+        //               return this.name;
+        //           };
+        //       }
+        // };
+        // var func = object.getNameFunc();    //My Object
+        // alert('2.' + func());   //The Window
+        // alert('3.' + func.call(object));    //My Object
+        // alert('4.' + func.apply(object));   //My Object
+        //6、列出三个常见的不同浏览器JS的兼容性问题。 event、addEventListener、currentStyle、getComputedStyle、DOM操作获取元素子节点、
+        //7、用JS写一个实现继承的方法。
+        // function Box1() {
+        //     this.name = 'box1';
+        // }
+        // Box1.prototype.showName = function() {
+        //     alert(this.name)
+        // }
+        // function Box2() {
+        //     this.name = 'box2';
+        // }
+        // Box2.prototype = new Box1();
+        // Box2.prototype.constructor = Box2;
+        // var b2 = new Box2();
+        // b2.showName();
+        //8、用JS实现一个数组合并的方法（要求去重）
+        // var arr1 = [1,2,3,2,32,31,124,13,13];
+        // var arr2 = [123,13213,13,434,5,1,23,43,3];
+        // var merge = function(args) {
+        //     if (args.length == 1) return args;
+        //     var arr = [], hash = {};
+        //     for (var i = 0; i < args.length; i++) {
+        //         for (var j = 0; j < args[i].length; j++) {
+        //            if (!hash[args[i][j]]) {
+        //                 arr.push(args[i][j]);
+        //                 hash[args[i][j]] = true;
+        //            }
+        //        }
+        //     };
+        //     console.log(hash);
+        //     return arr;
+        // };
+        // merge([arr1,arr2]);
+
+        //9、使用正则表达式给所有string对象添加trim方法。
+        // String.prototype.trim = function() {
+        //     return this.replace(/(^\s*)|(\s*$)/g,"");
+        // }
+        //11、哪些方法可以提升网站前端性能？ 技术热情，态度，思想，总结能力，经验。
+        // var a = 'aaa';
+        // eval('function '+a+'(){alert(1)}');
+        // aaa();
+
+        // (function($){
+        //     $.fn.hello = function(aa) {
+        //         alert(aa)
+        //     }
+        // })(jQuery)
+        // $().hello('haha');
+
+        // var strstr = function(obj,n) {
+        //     var reg = new RegExp("\d+\.[\d]"+n);
+        //     return obj.match(reg);
+        // };
+
+        // strstr('123.1231231',3);
+
+        // var n = 3;  //指定位数
+        // var reg = new RegExp('\\d+\\.[\\d]'+"{"+n+"}");
+        // reg.exec('1111.1231321')
+
+
+        // var reg = new RegExp("h","g");
+        // reg.test('sdfah')
+       
+        $('#test2').on('keydown', function() {
+            console.log($(this).val().replace(/(?:\.\d{2})(\d*)/,''))
+        })
+
+
+    </script>
+    
+    <script>
+    (function() {
+        var a = document.getElementById('aa');
+        a.onclick = function() {
+            a.href = 'http://www.baidu.com/';
+        }
+    })()
+    </script>
+    
+    <script type="text/javascript" src="http://cbjs.baidu.com/js/m.js"></script>
+    <script type="text/javascript">
+        BAIDU_CLB_fillSlotAsync("1103880","PAGE_INS11_h_1");
+    </script>
+-->
+
+<input id="txt" type="text" value="" />
+<input id="btn" type="button" value="切换" />
+
+<script>
+    $(function() {
+        var str = '', pw = '';
+        var patten = new RegExp(unescape('%u25CF'), 'g');
+        $('#txt').on('keyup',function(event) {
+            // console.log(event.keyCode);
+            var ev = event;
+            setTimeout(function() {
+                if (ev.keyCode == 8) {  
+                    var str = str.substring(str.length-2);                    
+                }
+                str += $('#txt').val().replace(patten, ''); 
+                pw = '';
+                for (var i = 0; i < str.length; i++) {
+                    pw += unescape('%u25CF');
+                };
+                
+                $('#txt').val(pw);
+            }, 500)
+            
+        })
+    })
+
+    // var str = 'a●a●a●a●';
+    // var patten = new RegExp(unescape('%u25CF'),'g');
+    // console.log( str.replace(patten,'') );
+
+
+</script>
+    
+    <input id="input1" type="text">
+    <script>
+        document.onclick = function() {
+            console.log(document.activeElement.id)
+        }
+    </script>
+</body>
+</html>

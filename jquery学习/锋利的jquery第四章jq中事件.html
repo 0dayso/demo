@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	.active{ background: #f00;}
+	</style>
+	<script type="text/javascript" src="jquery-min.js"></script>
+</head>
+<body>
+	<div id="div1">
+		<p>
+			<span>我是span标签</span>
+		</p>
+	</div>
+	<input id="btn1" type="button" value="点击我" />
+	<input id="btn2" type="button" value="取消" />
+	<div id="test"></div>
+	<input id="txt" type="text" />
+	<script>
+		/*
+			一、jq中的事件
+				1.加载DOM  $(document).ready(function() {})  当文档结构加载完成时执行
+					window.onload 在页面中所有元素都加载完成，包括关联文件
+				$().ready(function() {}) 因为实在文档结构加载完成时就执行,所以有些未加载好的图片的宽高等属性有时可能访问不到
+				$(window).load()  load()事件 在页面所有元素加载完成时执行 locd()也可以绑定到某个元素身上
+				2.事件绑定	bind() 现在改为on()
+				3.合成事件 hover()  合成mouseenter和mouseleave两个事件的 当需要触发hover()的第二个函数时：trigger("mouseleave");
+									 toggle() 最新版本废弃了
+				4.事件冒泡 阻止事件冒泡:event.stopPropagation()  
+					当触发事件时就会生成事件对象 
+					阻止默认行为	event.preventDefault()
+					return false 可以同时阻止事件冒泡和默认行为
+				5.事件对象的属性
+					event.type  获取事件类型
+					event.preventDefault()	阻止默认行为
+					event.stopPropagation()	阻止事件冒泡
+					event.target						触发事件目标元素
+					event.relatedTarget			mouseover和mouseout事件对应的关联目标元素
+					event.pageX event.pageY	光标相对于页面的x坐标和y坐标(有滚动条一样可以获取,jq做了封装)
+					event.which							鼠标哪个键 1=左键 2=中键 3=右键  获取键盘的按键
+					event.metaKey						不同浏览器对ctrl按键解释不通 jq进行了封装
+				6.移除事件
+					off(type,target,fn)
+					one() 只执行一次
+				7.模拟操作
+					trigger(type,data)		type:触发的事件类型 data:数组形式的参数
+					会执行默认操作(光标会到$('input')元素上) 例如$('input').trigger('focus'); 	
+					triggerHandler() 不执行默认操作(光标不会到获得焦点的当前元素上)
+				8.其他用法
+
+		*/
+		//事件冒泡
+		$('#div1 span').on('click',function(e) {
+			alert('点击了span标签');
+			e.stopPropagation();		//阻止事件冒泡
+		})
+		$('#div1 p').on('click', function(e) {
+			// return false;
+			alert('点击了p标签');
+		})
+		$('#div1').on('click', function(e) {
+			// return false;
+			alert('点击了div标签');
+		})
+
+		//事件对象属性
+		$(document).on('click', function(e) {
+			console.log('事件类型是：'+e.type);			//事件类型是：click 
+			console.log('目标元素时：'+e.target);		//目标元素时：[object HTMLHtmlElement] 
+			console.log('x坐标是：'+e.pageX+'y坐标是：'+e.pageY);		//x坐标是：1069y坐标是：334 
+			console.log('按下了鼠标'+e.which+'键');			//按下了鼠标1键 
+		})
+
+		$('#btn1').on('click',fn1=function() {
+			$('#test').append('<p>我是函数1</p>');
+		}).on('click','#btn1',fn2=function() {
+			$('#test').append('<p>我是函数2</p>');
+		}).on('click',fn3=function() {
+			$('#test').append('<p>我是函数3</p>');
+		})
+		//移除事件
+		// $('#btn1').off('click');			移除#btn1上所有click事件
+		// $('#btn1').off('click',fn1);	//移除#btn1上的fn1函数
+		// $('#btn1').off('click','#btn1');	//off解绑时必须与on绑定的格式对应上	这里删除了函数2
+
+		//模拟执行事件
+		// $('#btn1').click();			//触发点击事件
+		// $('#btn1').trigger('click'); 	//触发点击事件
+		// $('#btn1').on('myClick',function(e,num1,num2) {
+		// 	alert('自定义事件myClick执行结果'+num1+num2)
+		// })
+		// $('#btn1').trigger('myClick',[1,2]);		//自定义事件myClick执行结果12
+		// $('#btn1').myClick();								//报错
+		// $('input:text').on('click',function() {
+		// 	$(this).focus();
+		// })
+		// $('input:text').one('focus',function() {		
+		// 	alert('获得了焦点')
+		// })
+		// $('input:text').trigger('focus');
+		// $('input:text').triggerHandler('focus');
+
+		//其他用法
+		// $('#div1').on('mouseover mouseout',function() {		//多个事件绑定同一个函数
+		// 	$(this).toggleClass('active');
+		// })
+		$('#div1').on({																				//多个事件绑定不同的函数
+			mouseover : function() {
+				$('body').css('backgroundColor','#00f')
+			},
+			mouseout : function() {
+				$('body').css('backgroundColor','#ccc')
+			}
+		});
+
+		//给事件自定义命名空间 方便管理
+		// $('#btn1').on('click.pp',function() {
+		// 	$('body').append('<p>click事件</p>')
+		// });
+		// $('#btn1').on('mouseover.pp',function() {
+		// 	$('body').append('<p>mouover事件</p>')
+		// })	
+		// $('#btn1').on('mouseout',function() {
+		// 	$('body').append('<p>mouseout事件</p>')
+		// })
+		// //取消所有带命名空间.pp的事件绑定 
+		// $('#btn2').on('click',function() {
+		// 	$('#btn1').off('.pp');			//只剩下了mouseout事件
+		// })
+
+		//相同元素相同事件类型不同命名空间
+		$('#btn1').on('click',function() {
+			$('body').append('<p>click事件</p>')
+		});
+		$('#btn1').on('click.plugin',function() {
+			$('body').append('<p>click.plugin事件</p>')
+		})
+
+		$('#btn2').on('click',function() {
+			// $('#btn1').trigger('click!');		click! 执行未添加命名空间事件 此处测试无效
+			$('#btn1').trigger('click');
+		})
+
+
+	</script>
+</body>
+</html>

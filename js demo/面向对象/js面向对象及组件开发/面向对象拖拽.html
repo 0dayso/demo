@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	#div1{ width: 100px; height: 100px; background: #f00; position: absolute;}
+	</style>
+</head>
+<body>
+	<script>
+	// window.onload = function() {
+	// 	var div = document.getElementById('div1'),
+	// 			disX = 0,
+	// 			disY = 0;
+	// 	div.onmousedown = 	
+	// }
+
+	//1.变形	尽量不要嵌套 可以有全局变量 onload中不是赋值语句放到单独的函数中	
+	// var div = null,
+	// 		disX = 0,
+	// 		disY = 0;
+	// window.onload = function() {
+	// 	div = document.getElementById('div1');
+	// 	init();
+	// }
+	// function init() {
+	// 	div.onmousedown = fnDown;
+	// }
+	// function fnDown(ev) {
+	// 	var ev = ev || window.event;
+	// 	disX = ev.clientX - div.offsetLeft;
+	// 	disY = ev.clientY - div.offsetTop;
+
+	// 	document.onmousemove = fnMove;
+	// 	document.onmouseup = fnUp;
+	// 	return false;
+	// }	
+	
+	// function fnMove(ev) {
+	// 	var ev = ev || event;
+	// 	div.style.left = ev.clientX - disX + 'px';
+	// 	div.style.top = ev.clientY - disY + 'px';
+	// }
+	// function fnUp() {
+	// 	document.onmousemove = document.onmouseup = null;
+	// }
+
+	//改面向对象 1.全局变量是属性 2.函数是方法 3.onload中创建对象 4.改变this指向
+	//event对象放到事件处理函数中 return false 放到初始化函数中
+	window.onload = function() {
+		var fn1 = new Drag('div1');
+		fn1.init();
+	}
+	function Drag(id) {
+		this.div = document.getElementById(id);
+		this.disX = 0;
+		this.disY = 0;
+	}
+	Drag.prototype.init = function() {
+		var _this = this;
+		this.div.onmousedown = function(ev) {
+			var ev = ev || window.event;
+			_this.fnDown(ev);
+			return false;
+		};
+	}
+	Drag.prototype.fnDown = function(ev) {
+		var _this = this;
+		this.disX = ev.clientX - this.div.offsetLeft;
+		this.disY = ev.clientY - this.div.offsetTop;
+
+		document.onmousemove = function(ev) {
+			var ev = ev || event;
+			_this.fnMove(ev);
+		}
+		document.onmouseup = this.fnUp;
+	}
+	Drag.prototype.fnMove = function(ev) {
+		this.div.style.left = ev.clientX - this.disX + 'px';
+		this.div.style.top = ev.clientY - this.disY + 'px';
+	}
+	Drag.prototype.fnUp = function() {
+		document.onmousemove = document.onmouseup = null;
+	}
+	
+
+	</script>
+	<div id="div1"></div>
+</body>
+</html>

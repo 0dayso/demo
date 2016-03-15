@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style>
+  </style>
+</head>
+<body>
+  <!-- <p>You have viewed this page <span id="count">0</span>  time(s).</p>
+	<p><input type="button" value="changeStorage" onClick="changeS()"/></p> -->
+	<label for="user">用户名：</label><input id="user" name="username" type="text">
+	<input id="btn" type="button" value="保存">
+	<input id="btn2" type="button" value="清除">
+
+	<script>
+		// if(window.localStorage){
+		//  alert('This browser supports localStorage');
+		// }else{
+		//  alert('This browser does NOT support localStorage');
+		// }
+		// var storage = window.localStorage;
+		// if (!storage.getItem("pageLoadCount")) storage.setItem("pageLoadCount",0);
+		// storage.pageLoadCount = parseInt(storage.getItem("pageLoadCount")) + 1;//必须格式转换
+		// document.getElementById("count").innerHTML = storage.pageLoadCount;
+		// showStorage();
+		// if(window.addEventListener){
+		//  window.addEventListener("storage",handle_storage,false);
+		// }else if(window.attachEvent){
+		//  window.attachEvent("onstorage",handle_storage);
+		// }
+		// function handle_storage(e){
+		//  if(!e){e=window.event;}
+		//  showObject(e);
+		// }
+		// function showObject(obj){
+		//  //递归显示object
+		//  if(!obj){return;}
+		//  for(var i in obj){
+		//   if(typeof(obj[i])!="object" || obj[i]==null){
+		//    document.write(i + " : " + obj[i] + "<br/>");
+		//   }else{
+		//    document.write(i + " : object" + "<br/>");
+		//   }
+		//  }
+		// }
+		// storage.setItem("a",5);
+		// function changeS(){
+		//  //修改一个键值，测试storage事件
+		//  if(!storage.getItem("b")){storage.setItem("b",0);}
+		//  storage.setItem('b',parseInt(storage.getItem('b'))+2);
+		// }
+		// function showStorage(){
+		//  //循环显示localStorage里的键值对
+		//  for(var i=0;i<storage.length;i++){
+		//   //key(i)获得相应的键，再用getItem()方法获得对应的值
+		//   document.write(storage.key(i)+ " : " + storage.getItem(storage.key(i)) + "<br>");
+		//  }
+		// }
+		// //设置本地存储
+		// var json = {"name":"liuwei","age":"23","sex":"男"};
+		// storage.setItem("json",JSON.stringify(json));
+		// var json = JSON.parse(storage.getItem("json"));
+		// console.log(json.name);	//liuwei
+	</script>
+
+	<script>
+	var text = document.getElementById('user'),
+			btn = document.getElementById('btn'),
+			btn2 = document.getElementById('btn2'),
+			storage = window.localStorage;
+
+	if (storage.getItem('uname')) {
+		text.value = storage.getItem('uname')
+	}
+
+	btn.onclick = function() {
+		saveData();
+	}
+
+	btn2.onclick = function() {
+		clearData();
+	}
+
+	function saveData() {
+		var username = text.value.replace(/(^\s*)|(\s*$)/g,"");	//去首位空格
+		if (!username) return;
+		storage.setItem('uname',username)
+	}
+
+	function clearData() {
+		// storage.removeItem('json');	//清除指定键'json'
+		storage.clear();	//全部清除
+		text.value = '';
+	}
+
+
+
+	</script>
+</body>
+</html>

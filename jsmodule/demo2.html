@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AMD规范</title>
+</head>
+<body>
+
+<script>
+
+    /*
+    * AMD规范:异步加载模块
+    * */
+
+    //CMD规范：同步加载math.js 浏览器可能会假死
+    var math = require('math');
+    math.add(1,2);
+
+    //AMD规范：异步加载math.js 浏览器不会假死
+    require(['math'], function(math) {
+        math.add(1,2);
+    });
+
+</script>
+
+</body>
+</html>

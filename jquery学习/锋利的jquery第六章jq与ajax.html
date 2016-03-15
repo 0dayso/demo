@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="jquery-min.js"></script>
+	<style>
+
+	</style>
+</head>
+<body>
+	<script>
+	/*
+		jquery的ajax分三层:1、最底层：$.ajax()
+											 2、第二层：$.load(url,[,data],[,callback]) 	
+											 			data:key/value  无data以GET方式发送请求 有data以POST方式发送请求
+											 			适用于请求静态页面 $.load('test.html');
+											 			$.get/$.post(url,[,data],[,callback(data,textStatus)],type)		type指定返回数据类型:html,xml,json,jsonp
+											 3、第三层  $.getScript('xxx.js',[,callback])		请求js文件并执行
+											 						$.getJSON('xxx.json',[,callback(data)])		请求json文件
+		表单提交 表单序列化:serialize();	//返回字符串形式
+												serializeArray(); //返回json数据
+												$.param()		//对一个数组或对象按照key/value进行序列化 序列化核心方法
+												var obj = {a:1,b:2,c:3};
+												var str = $.param(obj);
+												console.log(str);		//'a=1&b=2&c=3'
+		ajax中的全局事件：ajaxStart(),ajaxStop()		ajax请求开始和结束事件
+											例如 当发送ajax请求加载时间较长，添加一个loading图，显示正在加载
+											$('#loading').ajaxStart(function() {
+												$(this).show()
+											})
+											$('#loading').ajaxStop(function() {
+												$(this).hide()
+											})
+		ajax聊天室实例：1.首先读取数据库已有信息展示到聊天界面 updateMsg()
+										2.ajax提交表单信息到服务器端，服务器端存入数据库，并返回最新的数据
+											通过showMsg()函数展示到聊天界面
+										3.定时调用updateMsg()函数 此函数会发送时间戳变量到后台 后台通过时间戳变量控制信息是否更新返回status变量表示
+										  前台判断status变量值 据此来判断是否调用updateMsg()函数展示聊天数据
+										4.showMsg()函数为解析xml展示到前台
+	*/
+
+	</script>
+	</form>
+</body>
+</html>

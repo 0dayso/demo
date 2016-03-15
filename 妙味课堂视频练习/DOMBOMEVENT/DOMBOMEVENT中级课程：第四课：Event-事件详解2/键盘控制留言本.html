@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>事件绑定</title>
+<style>
+div{ padding: 40px;}
+#div1{ background: #f00;}
+#div2{ background: #ff0;}
+#div3{ background: #00f;}
+</style>
+<script>
+window.onload = function() {
+	var inp = document.getElementsByTagName('input')[0],
+	ul = document.getElementsByTagName('ul')[0];
+	
+	inp.onkeyup = function(ev) {
+		if (inp.value != '') {
+			var ev = ev || event;
+			if (ev.keyCode == 13 && ev.ctrlKey) {
+				var li = document.createElement('li');
+				li.innerHTML = this.value;
+				if (ul.childNodes[0]) {
+					ul.insertBefore(li, ul.childNodes[0])
+				} else {
+					ul.appendChild(li)
+				}
+			}
+		}
+	}
+}
+</script>
+</head>
+
+<body>
+<input type="text" />
+<ul></ul>
+</body>
+</html>

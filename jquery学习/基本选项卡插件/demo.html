@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	#tab1 a{ display: inline-block; width: 50px; height: 30px; background: #ccc; margin-right: 10px; border: 1px solid #000; text-align: center; line-height: 30px;}
+	#tab1 a.active{ background: #f00;}
+	#tab1 div{ width: 300px; height: 200px; border: 1px solid #ddd; display: none;}
+	</style>
+	<script type="text/javascript" src="../jquery-min.js"></script>
+	<script type="text/javascript" src="jquery-tabSwitch.js"></script>
+</head>
+<body>
+	<script>
+	$(function() {
+		$('#tab1').myTab({
+			menu : ['11','22','33'],
+			con : ['11111111','222222222','3333333']
+		});
+	})
+	</script>
+	<div id="tab1"></div>
+</body>
+</html>

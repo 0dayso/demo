@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>无标题文档</title>
+<style>
+body,div,p,img{ margin: 0; padding: 0;}
+input{ float: left; margin-left: 30px;}
+div{ width: 400px; height: 400px; text-align: center; float: left;}
+img{ display: block; width: 400px; height: 300px;}
+
+</style>
+<script>
+window.onload = function(){
+	var oUp = document.getElementById('up');	
+	var oDown = document.getElementById('down');
+	var oDiv1 = document.getElementById('div1');
+	var oImg1 = oDiv1.getElementsByTagName('img')[0];
+	var oP1 = oDiv1.getElementsByTagName('p')[0];
+	var oSpan1 = oDiv1.getElementsByTagName('span')[0];
+	var oDiv2 = document.getElementById('div2');
+	var oImg2 = oDiv2.getElementsByTagName('img')[0];
+	var oP2 = oDiv2.getElementsByTagName('p')[0];
+	var oSpan2 = oDiv2.getElementsByTagName('span')[0];
+	var num = 0;
+	var m = 0;
+
+	arrImg1 = ['img/1.jpg','img/2.jpg','img/3.jpg','img/4.jpg'];
+	arrP1 = ['第一组第1张','第一组第2张','第一组第3张','第一组第4张']
+	arrImg2 = ['img/5.jpg','img/6.jpg','img/7.jpg'];
+	arrP2 = ['第二组第1张','第二组第2张','第二组第3张']
+
+	function tabFn1(){					
+		if( num == 3 ){
+			num = -1;
+		}	
+		num ++;		
+		oImg1.src = arrImg1[num];
+		oP1.innerHTML = arrP1[num];
+		oSpan1.innerHTML = num + 1 + '/' + arrImg1.length;
+	}
+
+	function tabFn2(){			
+		if( m == 2 ){
+			m = -1;
+		}	
+		m ++;		
+		oImg2.src = arrImg2[m];
+		oP2.innerHTML = arrP2[m];
+		oSpan2.innerHTML = m + 1 + '/' + arrImg2.length;
+	}
+
+	function tabFn3(){	
+		num --;				
+		if( num < 0 ){
+			num = 3;
+		}		
+		oImg1.src = arrImg1[num];
+		oP1.innerHTML = arrP1[num];
+		oSpan1.innerHTML = num + 1 + '/' + arrImg1.length;
+	}
+
+	function tabFn4(){	
+		m --;		
+		if( m < 0 ){
+			m = 2;
+		}			
+		oImg2.src = arrImg2[m];
+		oP2.innerHTML = arrP2[m];
+		oSpan2.innerHTML = m + 1 + '/' + arrImg2.length;
+	}
+
+	oDown.onclick = function(){
+		tabFn1();
+		tabFn2();
+	}
+
+	oUp.onclick = function(){
+		tabFn3();
+		tabFn4();
+	}
+
+	oImg1.onclick = tabFn1;
+
+	oImg2.onclick = tabFn2;
+
+}
+
+</script>
+</head>
+
+<body>
+<input id="up" type="button" value="上一组" />
+<input id="down" type="button" value="下一组" />
+
+<div id="div1">
+	<img src="img/1.jpg" alt="">
+	<p>第一组第1张</p>
+	<span>1/4</span>
+</div>
+<div id="div2">
+	<img src="img/5.jpg" alt="">
+	<p>第二组第1张</p>
+	<span>1/3</span>
+</div>
+</body>
+</html>

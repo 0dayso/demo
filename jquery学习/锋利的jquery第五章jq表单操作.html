@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="jquery-min.js"></script>
+	<style>
+	
+	</style>
+</head>
+<body>
+	<script>
+		$(function() {
+			$('#search').keyup(function() {
+				$('table tbody tr').hide()
+				.filter(':contains("'+( $(this).val() )+'")').show();
+			}).keyup();
+			$('table>tbody>tr').click(function() {
+				var index = $(this).index();
+				alert( index )
+				// alert( $('table>tbody>tr').index(this) )
+			})
+		})
+	</script>
+	<input type="text" id="search" />
+	<table>
+		<thead><tr><th>姓名</th><th>性别</th><th>地址</th></tr></thead>
+		<tbody>
+			<tr><th>张三</th><th>男</th><th>浙江宁波</th></tr>
+			<tr><th>李四</th><th>男</th><th>浙江宁波</th></tr>
+			<tr><th>张三</th><th>男</th><th>浙江宁波</th></tr>
+			<tr><th>李四</th><th>男</th><th>浙江宁波</th></tr>
+			<tr><th>张三</th><th>男</th><th>浙江宁波</th></tr>
+			<tr><th>李四</th><th>男</th><th>浙江宁波</th></tr>
+		</tbody>
+	</table>
+</body>
+</html>

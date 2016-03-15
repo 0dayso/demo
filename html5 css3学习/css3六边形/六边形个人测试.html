@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>六边形demo</title>
+    <style>
+        * { margin: 0; padding: 0;}
+        .box { position: relative; width: 650px; height: 500px; border: 1px solid #ccc; margin: 50px auto;}
+        .line1{ position: absolute; top: 0; }
+        .line2{ position: absolute; top: 182px; left: 105px;}
+        .d1, .d2, .d3 { width: 200px; height: 250px; overflow: hidden;}
+        .d1 { transform: rotate(120deg); margin-left: 10px; float: left;}
+        .d2 { transform: rotate(-60deg);}
+        .d3 { transform: rotate(-60deg);background: #ccc; }
+    </style>
+</head>
+<body>
+<div class="box">
+    <div class="line1">
+        <div class="d1">
+            <div class="d2">
+                <div class="d3"></div>
+            </div>
+        </div>
+        <div class="d1">
+            <div class="d2">
+                <div class="d3"></div>
+            </div>
+        </div>
+        <div class="d1">
+            <div class="d2">
+                <div class="d3"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="line2">
+        <div class="d1">
+            <div class="d2">
+                <div class="d3"></div>
+            </div>
+        </div>
+        <div class="d1">
+            <div class="d2">
+                <div class="d3"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

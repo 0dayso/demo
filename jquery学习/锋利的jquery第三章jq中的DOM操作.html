@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	*{ margin:0; padding: 0;}
+	</style>
+	<script type="text/javascript" src="jquery-min.js"></script>
+</head>
+<body>
+	<form action="">
+		<select id="single">
+			<option>选中一号</option>
+			<option>选中二号</option>
+			<option>选中三号</option>
+		</select>
+		<select id="multiple" multiple="multiple" style="height:120px">
+			<option selected="selected">选中一号</option>
+			<option>选中二号</option>
+			<option>选中三号</option>
+			<option>选中四号</option>
+			<option selected="selected">选中五号</option>
+		</select>
+		<input type="checkbox" value="check1" />多选1
+		<input type="checkbox" value="check2" />多选2
+		<input type="checkbox" value="check3" />多选3
+		<input type="checkbox" value="check4" />多选4
+		<input type="radio" value="radio1" />单选1
+		<input type="radio" value="radio2" />单选2
+		<input type="radio" value="radio3" />单选3
+	</form>
+
+	<a id="aa" href="#" title="自定义title提示">自定义title提示</a>
+	<a href="#" title="自带的title提示">自带的title提示</a>
+
+	<a id="bb" href="#" title="图片预览提示"><img src="img/1.jpg" width="100" height="100" /></a>
+
+	<script>
+		/*
+			一.dom操作的分类
+				1.DOM Core(适用于任何一种标记语言编写出来的文档如：XML) 
+					document.getElementById element.getAttribute('src') 
+				2.HTML-DOM(只能处理web文档)
+					document.forms	element.src
+				3.CSS-DOM(主要作用是获取和设置style对象的各种属性)
+					element.style.color = '#000';
+			二.jquery中的DOM操作
+				1.查找节点	元素节点：选择器$('.p')		文本节点：找到元素节点之后用attr() $('.p').attr('title')
+				2.创建节点	document.append($('<div id="div1">我是动态创建的div节点包含元素、文本、属性节点</div>'));
+				3.删除节点	remove() 返回被删除节点的引用，以后可以继续使用
+										detach()	所有绑定的事件、数据不会被删除，重新追加此元素事件还将保留
+										empty()	清空元素内所有内容
+				4.复制节点	clone(true)	如果有true则复制节点同时复制绑定的事件
+				5.替换节点	replaceWith,replaceAll
+				6.包裹节点	wrap()：匹配到每个元素单独包裹 wrapAll()：匹配到的每个元素整体包裹 wrapInner()：包裹匹配元素的子节点
+				7.属性操作	attr(key,value)获取和设置属性  removeAttr()删除属性
+				8.样式操作	1.获取和设置样式 attr('class','active')
+										2.追加样式 addClass()
+										3.删除样式 removeClass() 如果不带参数则是要删除指定元素所有的class
+										4.判断是否有某个样式 hasClass('active') 如果有.active样式 返回true (该方法实则为代码易读设置内部其实是用 is('.active')判断 );
+				9.设置和获取html 文本 和 值   html() text() val()具有选中功能	 defaultValue:表单元素初始值
+				10.遍历节点	1.children() 查找某元素的子节点(只包含一级)
+										2.next() 查找某元素的下一个同辈元素
+										3.prev() 查找某元素的上一个同辈元素
+										4.siblings() 查找某元素的所有兄弟节点
+										5.closest():从自身开始逐级往上查找，返回第一个匹配元素  parent()：返回一个父节点  parents('ul')：当查找到符合的父节点时，继续向上查找，返回多个父节点
+				11.CSS-DOM操作  1.css()  
+											  2.offset()：元素在当前视窗的相对偏移offset().top,offset.left
+												3.position():元素相对定位父级的偏移 position().top	position().left
+												4.scrollTop()/scrollLeft()	获取或设置元素滚动条位置
+
+		*/
+
+		//二、
+		//插入节点
+		$('body').append( $('<div id="div1"></div>') );
+		$('#div1').append( $('<p>我是第一个p元素</p>') );
+		$('<p>我是第二个p元素</p>').appendTo( $('#div1') );
+		$('#div1').prepend( $('<p>我是第三个p元素，但是我是插到最前面的</p>') );
+		$('<p>我是第四个p元素，但是我是插到最前面的</p>').prependTo( $('#div1') );
+		$('#div1 p:eq(2)').after('<p>我是第5个p元素，插入到第三个元素后面</p>');
+		$('<p>我是第6个p元素，插入到第4个元素后面，整体排第五</p>').insertAfter( $('#div1 p:eq(3)') );
+		$('#div1 p:eq(5)').before('<p>我是第7个p元素，插入到第6个元素前面，整体排第六</p>');
+		//可以移动节点位置 把第一个节点移到最后
+		$('#div1 :first-child').appendTo($('#div1'));
+		$('#div1 :first-child').appendTo($('#div1'));
+
+		var $ul1 = $('<ul id="ul1">\
+										<li title="香蕉">香蕉</li>\
+										<li title="苹果">苹果</li>\
+										<li title="菠萝">菠萝</li>\
+										<li class="jz" title="橘子">橘子</li>\
+									</ul>');
+		$ul1.appendTo($('body'));
+		$('#ul1 li').click(function() {
+			alert($(this).html())
+		})
+		//remove()传递参数选择性的删除节点
+		// var $remove = $('#ul1 li').remove('li[title=菠萝]');	//返回的不是一个节点 而是所有li节点 不可以调整位置
+		var $remove = $('#ul1 li[title=菠萝]').remove();	 //返回被删除的节点 
+		var $remove2 = $('#ul1 li[title=苹果]').detach();
+		// var $remove = $('#ul1 li:eq(1)').remove();
+		// console.log($remove);
+		$remove.prependTo($('#ul1'));				//删除之后再追加进去的元素 没有了之前绑定的点击事件
+		$remove2.appendTo($('#ul1'));				//用detach()方法删除之后再追加进去 点击事件还在
+		//使用移动节点的方式 测试点击事件是否还在
+		$('#ul1 li[title=香蕉]').appendTo($('#ul1'));			//点击事件还在
+		$('#ul1 .jz').empty();		//清空元素内容(相当于设置html(''))
+
+		//复制节点
+		$('#ul1 li').click(function() {
+			$(this).clone(true).insertAfter( $(this) );	//复制当前节点并插入到当前节点之后
+		})
+
+		//替换节点
+		var $p = $('<p id="fav">你最喜欢的水果是？</p>')
+		var $ul2 = $('<ul id="ul2">\
+									<li title="香蕉">香蕉</li>\
+									<li title="苹果">苹果</li>\
+									<li title="菠萝">菠萝</li>\
+								</ul>');
+		$p.appendTo($('body'));
+		$ul2.appendTo($('body'));
+		//替换
+		$p.click(function() {
+			alert($(this).html())
+		})
+		$p.replaceWith('<strong id="strong">你最不喜欢的水果是？</strong>');	//替换之后原来绑定的事件就没有了
+		// $('<strong>你最喜欢的水果是？</strong>').replaceAll("#strong");
+
+		//包裹节点
+		// $('#div1 p').wrap('<b></b>');	//单独包裹
+		// $('#div1 p').wrapAll('<b></b>');	//整体包裹
+		// $('#div1').wrapInner('<b></b>');	//子节点整体包裹
+
+		//属性操作
+		$('#ul2 li').attr({'class':'sg','id':'sg'});
+		$('#ul2 li:eq(0)').removeAttr('class');
+
+		//val()选中功能
+		// $('#single').val('选中二号');
+		$('#multiple').val(['选中三号','选中二号']);
+		$(':checkbox').val(['check1','check2']);
+		$(':radio').val(['radio2']);	
+		$('#single option:eq(2)').attr('selected',true);
+		$('[value=radio3]:radio').attr('checked',true);
+	</script>
+	<script>
+	//自定义超链接title提示
+	$(function() {
+		var x = 10, y = 10;
+		$('#aa').mouseover(function(e) {
+			this.defaultTitle = this.title;
+			this.title = '';
+			var box = '<div id="box">'+this.defaultTitle+'</div>';
+			$('body').append(box);
+			$('#box').css({
+				'background':'#f2f2f2',
+				'fontSize':'12px',
+				'border':'1px solid #ccc',
+				'borderRadius':'4px',
+				'padding':'4px',
+				'position':'absolute',
+				'left':e.pageX + x + 'px',
+				'top':e.pageY + y + 'px'
+			}).show('fast');
+		}).mouseout(function() {
+			this.title = this.defaultTitle;
+			$('#box').remove();
+		}).mousemove(function(e) {
+			$('#box').css({
+				'left' : e.pageX + x + 'px',
+				'top' : e.pageY + y + 'px'
+			})
+		})
+	})
+	//图片提示效果
+	$(function() {
+		var x = 10, y = 10;
+		$('#bb').mouseover(function(e) {
+			this.defaultTitle = this.title;
+			this.title = '';
+			var box = '<div id="box2"><img src="img/1.jpg" /><p>'+this.defaultTitle+'</p></div>';
+			$('body').append(box);
+			$('#box2').css({
+				'position' : 'absolute',
+				'left' : e.pageX + x + 'px',
+				'top' : e.pageY + y + 'px',
+			}).show('fast');
+			$('#box2 img').css({
+				'width' : '200px',
+				'height' : '200px',
+			});
+			$('#box2 p').css({
+				'position' : 'absolute',
+				'bottom' : '0',
+				'width' : '200px',
+				'height' : '30px',
+				'lineHeight' : '30px',
+				'textAlign' : 'center',
+				'background' : '#000',
+				'opacity' : '0.6',
+				'color' : '#f00'
+			});
+		}).mouseout(function() {
+			this.title = this.defaultTitle;
+			$('#box2').remove();
+		}).mousemove(function(e) {
+			$('#box2').css({
+				'left' : e.pageX + x + 'px',
+				'top' : e.pageY + y + 'px'
+			})
+		})
+	})
+
+
+	</script>
+</body>
+</html>

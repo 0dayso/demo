@@ -1,0 +1,13 @@
+jQuery横向图片焦点图滚动效果，标题有打字机效果，兼容主流浏览器，懒人图库推荐下载！
+
+使用方法：
+1、head区域引用以下代码
+<link rel="stylesheet" href="css/lrtk.css" type="text/css" media="screen" />
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/lrtk.js"></script>
+
+2、在body中加注释区域代码
+
+3、在JS的slider.data 中配置标题和描述。
+
+*更多代码请访问：懒人图库 www.lanrentuku.com/js/

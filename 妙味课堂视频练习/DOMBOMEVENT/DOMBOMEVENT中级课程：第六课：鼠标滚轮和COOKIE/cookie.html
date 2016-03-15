@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>Document</title>
+<style>
+
+</style>
+<script>
+/*
+1.cookie 若想长时间保存，需要设置过期时间 document.cookie = 'username=liuwei;expires=' + oDate.toGMTString();	
+2.内容最好编码存放
+*/
+
+// alert(encodeURI('刘伟'));				//encodeURI编码
+// alert(decodeURI('%E5%88%98%E4%BC%9F')); //decodeURI解码
+
+// var oDate = new Date();
+//setDate设置时间 getDate()获取用户访问当前时间 设置oDate为用户当前访问时间加5天 也就是保存cookie五天
+// oDate.setDate( oDate.getDate() + 5 );
+//alert(typeof oDate);	//object	日期必须是string类型 oDate.toGTMString()转成string类型
+// alert(typeof oDate.toGMTString());
+
+// document.cookie = 'username=' + encodeURI('liuwei\n您好') + ';expires=' + oDate.toGMTString();	
+// document.cookie = 'age=25';
+
+// alert(decodeURI(document.cookie));
+// var oDate = new Date();
+// oDate.setDate( oDate.getDate() + 5 );
+// document.cookie = 'username=liuwei;expires=' + oDate.toGMTString();
+// document.cookie = 'age=25';
+// alert(decodeURI(document.cookie));
+
+//获取cookie函数
+function getCookie(key){
+	//通过分号空格拆分开所有cookie
+	var arr1 = document.cookie.split('; ');
+	for (var i = 0; i < arr1.length; i++) {
+		//通过等号拆分单个cookie键值
+		var arr2 = arr1[i].split('=');
+		if( arr2[0]==key ){
+			return decodeURI(arr2[1]);
+		}
+	};
+}
+
+//设置cookie函数
+function setCookie(key,value,t){
+	var oDate = new Date();
+	oDate.setDate( oDate.getDate() + t );
+	document.cookie = key + '=' + encodeURI(value) + ';expires=' + oDate.toGMTString();
+}
+
+setCookie('sex','男',10);
+
+//删除cookie函数
+// function delCookie(key){
+// 	setCookie(key,'',-1);
+// }
+// delCookie('sex');
+getCookie('sex');
+
+alert(decodeURI(document.cookie))
+
+</script>
+</head>
+
+<body>
+
+
+</body>
+</html>
