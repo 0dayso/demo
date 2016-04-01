@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>2014爱奇艺相关http://www.w3cfuns.com/forum.php?mod=viewthread&tid=5600182&extra=page%3D1%26filter%3Dtypeid%26typeid%3D177%26typeid%3D177</title>
+	<style>
+	/*		
+		1）写一种清除浮动的方法（在不添加任何语义标签的前提下）那些年我们一起清除过的浮动
+		2）CSS优先级是怎样判断的http://www.clanfei.com/2013/11/1731.html
+		3）font-family:Tahoma;font-size:14px;line-height:22px;font-weight:bold;写出CSS的缩写
+		4）CSS怎样定义才能使一个没有定义宽度的div水平居中
+		5）说说CSS Sprite的优缺点
+			优点：1、减少请求数；2、图片减小。
+			缺点：1、制作相对繁琐；2、后期维护改动困难，可能牵一发而动全身。
+		6）说说em和strong标签的语义
+			em 表示内容的着重点，strong 表示内容的重要性。strong强调性更强
+		7）.test a{}和.test .exp{}两种样式写法哪种性能比较好，说明理由
+		<div class="test">
+		        <a href="" class="exp">1</a>
+		        <a href="" class="exp">2</a>
+		        <a href="" class="exp">3</a>
+		        <a href="" class="exp">4</a>
+		</div>
+			.test .exp 写法性能较好
+			css样式查找由内到外，.test a{}首先会查找页面上所有<a> 然后再向上查找.test类  .test .exp{}则先查找所有.exp类 然后再查找.test类
+		8)javascript中怎么给一个div定义margin-top:30px样式
+			element.style.marginTop = '30px';
+
+		9)下面代码运行后，alert弹出的值为多少？
+		(function(){
+		        var a=[1,2,3];
+		        var b=a;
+		        a[0]=99;
+		        alert(b);
+		})();	[99,2,3]
+		10)写一个简单的选项卡js
+
+		附：（一些零散的面试题，大概记滴(*^__^*) ）
+		11）页面上有些图片需要放到最后加载，请基于jquery写一段大致的实现方法
+			img自定义属性data-src="图片路径";
+			$('body').on('load', function(){
+				$('img').attr('src', $('img').attr('data-src'));
+			})
+		12）在a页面点击一个连接b.html后如何将页面以无刷新的方式切换到b，且url为b.html
+
+		13）用css实现鼠标悬浮在a元素上1秒后文字颜色变红
+		14）如何实现仅加载可视区域内的图片
+			判断img的top值小于可视区+滚动条滚动高度 设置img.src = img[data-src];
+
+		15）用json表示一个数组，每个数组元素是一个对象，每个对象有两个属性
+		16）用json表示一个树结构（递归）
+		17）http请求状态码表示的意义
+			1.1xx：信息，请求收到，继续处理
+			2.2xx：成功，行为被成功地接受、理解和采纳
+			3.3xx：重定向，为了完成请求，必须进一步执行的动作
+			4.4xx：客户端错误，请求包含语法错误或者请求无法实现
+			5.5xx：服务器错误，服务器不能实现一种明显无效的请求
+
+		18）form标签里还有哪些属性
+			name method action enctype target等等
+		19）表单中有一些checkbox该如何提交值，name一样吗
+			一组checkbox name一样	
+	*/
+	/*1.清除浮动*/
+	.clearfix { *zoom:1;}
+	.clearfix:after { content: "."; display: block; height: 0; visibility: hidden; clear: both;}
+	/*2.css优先级*/
+	div:not(.outer) p { color: green; }
+	div.outer p { color: orange; }
+	/*3.css缩写*/
+	body { font: bold 14px/22px Tahoma;}
+	/*13.1s后文字颜色变红 过渡时间必须大于0 否则没有效果 */
+	a{
+        transition:all 0.1s ease 1s;
+        -ms-transition:all 0.1s ease 1s;
+        -o-transition:all 0.1s ease 1s;
+        -moz-transition:all 0.1s ease 1s;
+        -webkit-transition:all 0.1s ease 2s;
+	}
+	a:hover{color:red;}
+
+	</style>
+</head>
+<body>
+	<!--2.css优先级-->
+	<div class="outer">
+		<p>我是outer里面的文字</p>
+		<div class="inner">
+			<p>我是inner里面的文字</p>
+		</div>
+	</div>
+	<!--4.-->
+	<div style="text-align:center">
+		<div style="height:100px; display:inline-block; background:#ccc; width:200px;"></div>
+	</div>	
+	<!--12.-->
+	<a href="javascript:;">无刷新跳转到B，且url为b.html</a>
+	<!--13.1s后文字颜色变红-->
+	<a class="red" href="javascript:;">1s后文字颜色变红</a>	
+
+	<script>
+	//12 无刷新跳转到B，且url为b.html	
+	// $('a').click(function() {
+ //  		$.get('http://localhost/ceshi/b.html', function(data) {
+ //  			$('body').html(data);
+ //  			history.replaceState(null, '', 'b.html')
+ //  		})
+ //  	})	
+
+	//15.用json表示一个数组，每个数组元素是一个对象，每个对象有两个属性
+	var json = [
+		{'name':'feng', 'age':'23'},
+		{'name':'hao', 'age':'23'}
+	];
+
+	//16）用json表示一个树结构（递归）
+	var json = [{'menuid':'001','parentid':'','name':'系统管理'},
+	{'menuid':'002','parentid':'001','name':'菜单管理'},
+	{'menuid':'003','parentid':'001','name':'配置管理'},
+	{'menuid':'004','parentid':'003','name':'预警规则设置'},
+	{'menuid':'005','parentid':'004','name':'规则列表'}
+	// {'menuid':'006','parentid':'','name':'业务受理'},
+	// {'menuid':'007','parentid':'006','name':'移动故障单录入'}
+	];
+	{
+	    "name": "系统管理",
+	    "id": "001",
+	    "children": [{
+	        "name": "菜单管理",
+	        "id": "002",
+	        "children": []
+	    }, 
+	    {
+	        "name": "配置管理",
+	        "id": "003",
+	        "children": [{
+	            "name": "预警规则设置",
+	            "id": "004",
+	            "children": [{
+	                "name": "规则列表",
+	                "id": "005",
+	                "children": []
+	            }]
+	        }]
+	    }]
+	}
+
+	function toTree(json) {
+		var tmp = {},parent;
+		for (var i = 0; i < json.length; i++) {
+			if (json[i].parentid == '') {
+				parent = json[i].menuid;		
+			}
+			if (!tmp[json[i].menuid]) {
+				tmp[json[i].menuid] = {};
+			}
+			tmp[json[i].menuid].name = json[i].name;
+			tmp[json[i].menuid].id = json[i].menuid;
+			if (!('children' in tmp[json[i].menuid])) tmp[json[i].menuid].children = [];
+			
+			if(json[i].parentid != ''){   
+	            if(tmp[json[i].parentid]){
+	                tmp[json[i].parentid].children.push(tmp[json[i].menuid]);
+	            }else{
+	                tmp[json[i].parentid]={children:[tmp[json[i].menuid]]};
+	            }
+	        }
+		};
+
+		return tmp[parent];
+	}
+	console.log(JSON.stringify(toTree(json)));
+
+	</script>
+</body>
+</html>

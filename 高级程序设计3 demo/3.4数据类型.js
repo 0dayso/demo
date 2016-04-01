@@ -25,7 +25,7 @@ console.log(typeof fn);		//function
 var b;	
 b == undefined;				//true
 //未声明的变量和声明了但未初始化的变量 使用typeof操作符检测结果都为undefinde 因此显示的初始化变量是很明智的
-//这样做，当typeof检测出的结果为'undefined'时，就能判断变量未声明而不是初始化
+//这样做，当typeof检测出的结果为'undefined'时，就能判断变量未声明而不是未初始化
 console.log(typeof b);		//undefined
 console.log(typeof c);		//undefined 
 
@@ -60,7 +60,7 @@ if (0.1+0.2=0.3) {
 	alert('something')
 }
 
-//2.isFinite() 判断数值超出计算机范围
+//2.isFinite() 判断数值是否为有限数
 var result = Number.MAX_VALUE + Number.MAX_VALUE;
 console.log(isFinite(result));	//false
 

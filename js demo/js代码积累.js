@@ -1574,6 +1574,95 @@ loadXMLDoc("/ajax/test1.txt",function()
 }
 
 
+//angularjs 自定义服务及ajax缓存
+app.factory('getData', function($http, $q) {
+    return function() {
+        var defer = $q.defer();       
+        $http.get('http://i.ngroute.com/main', {cache: true}).then(function(res) {
+            defer.resolve(res.data);
+        }, function() {
+            defer.reject('请求失败');
+        });
+        return defer.promise;   
+    }
+});
+
+
+//angularjs 使用自定义服务
+app.controller('ListController', ['$scope', 'getData', function($scope, getData) {
+    getData().then(function(data) {
+        if ( !dataList ) {
+            dataList = data;
+        }
+        // console.log(dataList);
+        $scope.newsList = dataList; 
+    }, function(data) {
+        alert(data);
+    });
+}]);
+
+
+//函数式编程 
+//1.全局变量容易被修改
+var names = ['zero','one','two','three','four','five','six','seven','eight','nine'];
+var digit_name1 = function(n){
+    return names[n];
+};
+//2.每次调用digit_name2 names都会重新实例化names变量
+var digit_name2 = function(n){
+    var names = ['zero','one','two','three','four','five','six','seven','eight','nine'];
+    return names[n];
+};
+//3.立即调用表达式 names只实例化一次 不会被外部随意修改
+var digit_name3 = (function(){
+    var names = ['zero','one','two','three','four','five','six','seven','eight','nine'];
+    return function(n){
+        return names[n];
+    };
+})();
+
+
+//函数柯里化 
+//柯里化是这样的一个转换过程，把接受多个参数的函数变换成接受一个单一参数(译注：最初函数的第一个参数)的函数，如果其他的参数是必要的，返回接受余下的参数且返回结果的新函数
+
+function sub_curry(fn) {
+    var args = [].slice.call(arguments, 1);
+    return function() {
+        return fn.apply(this, args.concat([].slice.call(arguments)))
+    }
+}
+
+// var fn = function(a, b, c) { return [a, b, c]; };
+
+// fn("a", "b", "c");
+// sub_curry(fn, "a")("b", "c");
+// sub_curry(fn, "a", "b")("c");
+// sub_curry(fn, "a", "b", "c")(); //["a", "b", "c"]
+
+function curry(fn, length) {
+    // capture fn's # of parameters
+    length = length || fn.length;
+    return function () {
+        if (arguments.length < length) {
+            // not all arguments have been specified. Curry once more.
+            var combined = [fn].concat([].slice.call(arguments));
+            return length - arguments.length > 0 
+                ? curry(sub_curry.apply(this, combined), length - arguments.length)
+                : sub_curry.call(this, combined );
+        } else {
+            // all arguments have been specified, actually call function
+            return fn.apply(this, arguments);
+        }
+    };
+}
+var fn = curry(function(a, b, c) { return [a, b, c]; });
+
+fn("a", "b")("c");  //["a", "b", "c"]
+fn("a")("b", "c");  //["a", "b", "c"]
+fn("a")("b")("c");  //["a", "b", "c"]
+
+
+
 
 'http://strip.taobaocdn.com/tfscom/TB1SCIyIVXXXXaaaXXXO04pFXXX.html?name=itemdsp&url=http%3A%2F%2Fnews.sina.com.cn%2Fc%2F2016-01-05%2Fdoc-ifxncyar6383920.shtml&iswt=1&pid=tt_15890324_2192376_9022374&refpid=tt_15890324_2192376_9022374&refpos=,n,i&adx_type=0&pvid=0a67299e0000568cb37423540519a77f_0&ps_id=a8051c07ed9ab19b196633fedb50e790&fl=3&tanxdspv=http%3a%2f%2frdstat.tanx.com%2ftrd%3ff%3d%26k%3da09e279ad7f7a12a%26p%3dmm_15890324_2192376_9022374%26pvid%3d0a67299e0000568cb37423540519a77f%26s%3d300x250%26d%3d17534123%26t%3d1452061556'
 
@@ -1749,4 +1838,3 @@ eval('(' + res + ')');
 http://www.szazx.com/games/index
 <?php include_once '../games_footer.php';?>
 
-小游戏9款上线

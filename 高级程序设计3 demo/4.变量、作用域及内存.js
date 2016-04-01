@@ -14,7 +14,7 @@ b.x = 3;
 console.log(a.x) // 3 改变 复制的是a指向堆内存的一个引用指针 b和a 指向同一个对象 相互影响
 
 
-/*函数传参相当于 变量复制*/
+/*函数传参相当于 变量赋值*/
 function add(num) {
 	num += 20;
 	return num;

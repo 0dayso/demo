@@ -9,6 +9,7 @@
 
 			//参数合并 保护默认参数
 			var settings = $.extend({},defaults,options);
+			// debugger;
 
 			//创建选项卡
 			var as = '', divs = '';

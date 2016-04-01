@@ -234,3 +234,36 @@ var p2 = new Sub('fengge', 24);
 p2.sayName();	//fengge
 p2.sayAge();	//24
 console.log(p2.colors);	//["red", "yellow", "blue", exist: function] 
+
+
+//借用构造函数+原型  组合继承实例测试
+function Animal(name) {
+	this.name = name;
+	this.lies = ['cat', 'dog'];
+}
+
+Animal.prototype.sayName = function() {
+	console.log(this.name)
+}
+
+function Dog(name, age) {
+	Animal.call(this, name);
+	this.age = age;
+};
+
+Dog.prototype = new Animal('haha');
+
+Dog.prototype.sayAge = function() {
+	console.log(this.age)
+}
+
+var d1 = new Dog('dog1', 30);
+d1.sayName();	//dog1
+d1.sayAge();	//30
+d1.lies.push('gaga');
+console.log(d1.lies);	//["cat", "dog", "gaga"]
+
+var d2 = new Dog('dog2', '50');
+d2.sayName();	//dog2
+d2.sayAge();	//50
+console.log(d2.lies);	//["cat", "dog"]
