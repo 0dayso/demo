@@ -1170,6 +1170,20 @@ function _$init() {
     };
 }
 
+function delCookie() {
+    var dt = new Date(0).toUTCString(),
+    dm = '.vip.com';
+    "_adwb _adwc _adwp _adwr _jzqco _mj_c _mj_si _smt_uid vip_cps_cid".replace(/\w+/g,
+    function(a) {
+        rm(a, dm);
+    });
+    function rm(k, dm) {
+        document.cookie = k + "=; expires=" + dt + "; path=/; domain=" + dm;
+    };
+}
+
+delCookie();
+
 
 //类数组转数组
 function a(a,b,c) {

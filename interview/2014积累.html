@@ -12,49 +12,77 @@
     <input type="text" size="100" value="asdfasfasfdasdfsgasdgagsdgagasdgasgdasgagdasgagasdgasdgag" />
     <ul id="list"> <li>demo1</li><li>demo2</li><li>demo3</li><li>demo4</li><li>demo5</li></ul>
 	 <script type="text/javascript">
-        var ul = document.getElementById('list'),
+        //1.经典问题 闭包
+        /*var ul = document.getElementById('list'),
             lis = ul.getElementsByTagName('li');
         for (var i = 0, liL = lis.length; i < liL; i++) {
-            // lis[i].onclick = (function(j) {
-            //     return function() {
-            //         console.log(lis[j].innerHTML)
-            //     }
-            // })(i)
-            lis[i].onclick = function(){
-                console.log(i)
-            }
-        };
+            lis[i].onclick = (function(j) {
+                return function() {
+                    console.log(lis[j].innerHTML)
+                }
+            })(i)
+        };*/
+
 
         //5、按顺序写出alert弹出窗口的内容
-        // var name = "The Window";
-        // var object = {
-        //       name : "My Object",
-        //       getNameFunc : function(){
-        //           alert('1.' + this.name);
-        //           return function(){
-        //               return this.name;
-        //           };
-        //       }
-        // };
-        // // var func = object.getNameFunc();    //My Object
-        // alert('2.' + func());   //The Window
-        // alert('3.' + func.call(object));    //My Object
-        // alert('4.' + func.apply(object));   //My Object
+        /*var name = "The Window";
+        var object = {
+              name : "My Object",
+              getNameFunc : function(){
+                  alert('1.' + this.name);
+                  return function(){
+                      return this.name;
+                  };
+              }
+        };
+        var func = object.getNameFunc();    //My Object
+        alert('2.' + func());   //The Window
+        alert('3.' + func.call(object));    //My Object
+        alert('4.' + func.apply(object));   //My Object*/
+
+
         //6、列出三个常见的不同浏览器JS的兼容性问题。 event、addEventListener、currentStyle、getComputedStyle、DOM操作获取元素子节点、
+
+
         //7、用JS写一个实现继承的方法。
-        // function Box1() {
-        //     this.name = 'box1';
-        // }
-        // Box1.prototype.showName = function() {
-        //     alert(this.name)
-        // }
-        // function Box2() {
-        //     this.name = 'box2';
-        // }
-        // Box2.prototype = new Box1();
-        // Box2.prototype.constructor = Box2;
-        // var b2 = new Box2();
-        // b2.showName();
+        //原型链继承 有问题
+       /* function SuperType() {
+            this.colors = ['red','yellow','blue'];
+        }
+        function SubType() {
+        }
+        //继承后 超类型实例等于子类型原型 超类型原本的实例属性相对于子类型而言就成了原型属性
+        SubType.prototype = new SuperType();
+        SubType.prototype.constructor = SubType;
+        var p1 = new SubType();
+        p1.colors.push('grey');
+        console.log(p1.colors); //["red", "yellow", "blue", "grey", exist: function] 
+        var p2 = new SubType();
+        console.log(p2.colors);*/
+
+        //原型链 + 借用构造函数组合继承
+        function Super() {
+            this.colors = ['red','yellow','blue'];
+        }
+        Super.prototype.showColors = function() {
+            console.log(this.colors)
+        }
+        function Sub() {
+            Super.call(this);   //借用构造函数实现私有属性
+        }
+
+        Sub.prototype = new Super();
+        Sub.prototype.constructor = Sub;
+
+        var s1 = new Sub();
+        s1.colors.push('grey');
+        s1.showColors();
+
+        var s2 = new Sub();
+        s2.showColors();
+
+
+
         //8、用JS实现一个数组合并的方法（要求去重）
         // var arr1 = [1,2,3,2,32,31,124,13,13];
         // var arr2 = [123,13213,13,434,5,1,23,43,3];
@@ -123,7 +151,9 @@
         //         return obj;
         //     }
         // };
-        var a = ['a',{bb:'bb'},1,3,['x','y']];
+
+
+       /* var a = ['a',{bb:'bb'},1,3,['x','y']];
         var b = clone(a);
         console.log(b);
 
@@ -146,11 +176,11 @@
                 o = obj;
                 return o;
             }
-        }
+        }*/
 
 
         //数组去重
-        var arr=[1,2,3,3,4,4,5,5,6,1,9,3,25,4];
+        /*var arr=[1,2,3,3,4,4,5,5,6,1,9,3,25,4];
         function deRepeat() {
             var hash = {};
             var newArr = [];
@@ -195,7 +225,7 @@
             return function() {
                 return self.apply(context, arguments)
             }
-        };
+        };*/
 
         
     </script>
