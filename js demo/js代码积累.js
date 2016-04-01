@@ -1676,6 +1676,38 @@ fn("a")("b", "c");  //["a", "b", "c"]
 fn("a")("b")("c");  //["a", "b", "c"]
 
 
+//数据深复制 克隆 clone()
+ //1.复制数组或对象
+Object.prototype.clone = function() {
+    var o = Object.prototype.toString.call(this) === '[object Array]' ? [] : {};
+    for (var i in this) {
+        o[i] = typeof this[i] === 'object' ? this[i].clone() : this[i];
+    }
+    return o;
+}
+//2.深复制所有类型
+var clone = function(obj) {
+    var o;
+    if (obj instanceof Array) {
+        o = [];
+        var i = obj.length;
+        while (i--) {
+            o[i] = clone(obj[i]);
+        };
+        return o;
+    } else if (obj instanceof Object) {
+        o = {};
+        for (var k in obj) {
+            o[k] = clone(obj[k]);
+        }
+        return o;
+    } else {
+        return obj;
+    }
+};
+
+
+
 
 
 'http://strip.taobaocdn.com/tfscom/TB1SCIyIVXXXXaaaXXXO04pFXXX.html?name=itemdsp&url=http%3A%2F%2Fnews.sina.com.cn%2Fc%2F2016-01-05%2Fdoc-ifxncyar6383920.shtml&iswt=1&pid=tt_15890324_2192376_9022374&refpid=tt_15890324_2192376_9022374&refpos=,n,i&adx_type=0&pvid=0a67299e0000568cb37423540519a77f_0&ps_id=a8051c07ed9ab19b196633fedb50e790&fl=3&tanxdspv=http%3a%2f%2frdstat.tanx.com%2ftrd%3ff%3d%26k%3da09e279ad7f7a12a%26p%3dmm_15890324_2192376_9022374%26pvid%3d0a67299e0000568cb37423540519a77f%26s%3d300x250%26d%3d17534123%26t%3d1452061556'

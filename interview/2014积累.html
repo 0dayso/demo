@@ -61,7 +61,7 @@
         console.log(p2.colors);*/
 
         //原型链 + 借用构造函数组合继承
-        function Super() {
+        /*function Super() {
             this.colors = ['red','yellow','blue'];
         }
         Super.prototype.showColors = function() {
@@ -79,33 +79,32 @@
         s1.showColors();
 
         var s2 = new Sub();
-        s2.showColors();
-
+        s2.showColors();*/
 
 
         //8、用JS实现一个数组合并的方法（要求去重）
-        // var arr1 = [1,2,3,2,32,31,124,13,13];
-        // var arr2 = [123,13213,13,434,5,1,23,43,3];
-        // var merge = function(args) {
-        //     if (args.length == 1) return args;
-        //     var arr = [], hash = {};
-        //     for (var i = 0; i < args.length; i++) {
-        //         for (var j = 0; j < args[i].length; j++) {
-        //            if (!hash[args[i][j]]) {
-        //                 arr.push(args[i][j]);
-        //                 hash[args[i][j]] = true;
-        //            }
-        //        }
-        //     };
-        //     console.log(hash);
-        //     return arr;
-        // };
-        // merge([arr1,arr2]);
+       /* var arr1 = [1,2,3,2,32,31,124,13,13];
+        var arr2 = [123,13213,13,434,5,1,23,43,3];
+        var merge = function(args) {
+            if (args.length == 1) return args;
+            var arr = [], hash = {};
+            for (var i = 0; i < args.length; i++) {
+                for (var j = 0; j < args[i].length; j++) {
+                   if (!hash[args[i][j]]) {
+                        arr.push(args[i][j]);
+                        hash[args[i][j]] = true;
+                   }
+               }
+            };
+            console.log(hash);
+            return arr;
+        };
+        merge([arr1,arr2]);*/
 
         //9、使用正则表达式给所有string对象添加trim方法。
-        // String.prototype.trim = function() {
-        //     return this.replace(/(^\s*)|(\s*$)/g,"");
-        // }
+       /* String.prototype.trim = function() {
+            return this.replace(/(^\s*)|(\s*$)/g,"");
+        }*/
         //11、哪些方法可以提升网站前端性能？ 
         //技术热情，态度，思想，总结能力，经验。
 
@@ -124,33 +123,33 @@
 
         //复制各种数据类型的clone()函数
         //1.复制数组或对象
-        Object.prototype.clone = function() {
-            var o = this.constructor === 'Array' ? [] : {};
+        /*Object.prototype.clone = function() {
+            var o = Object.prototype.toString.call(this) === '[object Array]' ? [] : {};
             for (var i in this) {
                 o[i] = typeof this[i] === 'object' ? this[i].clone() : this[i];
             }
             return o;
-        }
+        }*/
         //2.复制所有类型
-        // var clone = function(obj) {
-        //     var o;
-        //     if (obj instanceof Array) {
-        //         o = [];
-        //         var i = obj.length;
-        //         while (i--) {
-        //             o[i] = clone(obj[i]);
-        //         };
-        //         return o;
-        //     } else if (obj instanceof Object) {
-        //         o = {};
-        //         for (var k in obj) {
-        //             o[k] = clone(obj[k]);
-        //         }
-        //         return o;
-        //     } else {
-        //         return obj;
-        //     }
-        // };
+        /*var clone = function(obj) {
+            var o;
+            if (obj instanceof Array) {
+                o = [];
+                var i = obj.length;
+                while (i--) {
+                    o[i] = clone(obj[i]);
+                };
+                return o;
+            } else if (obj instanceof Object) {
+                o = {};
+                for (var k in obj) {
+                    o[k] = clone(obj[k]);
+                }
+                return o;
+            } else {
+                return obj;
+            }
+        };*/
 
 
        /* var a = ['a',{bb:'bb'},1,3,['x','y']];
