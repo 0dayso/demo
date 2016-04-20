@@ -438,6 +438,13 @@ ff: window.updateCommands  top.netscape
 //正则表达式
 (?!pattern) 正向否定预查 例如 windows(?!98|95|2000) 能匹配window3.1中的windows 不匹配windows98中的windows
 (?:pattern) 匹配不获取 industr(?:y|ies)    industries industry
+//正则排除指定字符串
+/(?!.*初中|.*中学|.*baiduhome|.*sitehao123)^.*$/.test('www.baidu.com/?tn=sitehao123')   //false
+/(?!.*初中|.*中学|.*baiduhome|.*sitehao123)^.*$/.test('www.baidu.com/?tn=sitehao12')    //truee
+//匹配姓名2-4个中文
+^[\u4E00-\u9FA5]{2,4}$
+//匹配手机号码
+1((3\d)|(4[57])|(5\d)|(8\d))\d{8}
 
 
 //随机数+数组 随机取出数组中某个元素
@@ -1004,6 +1011,10 @@ setCookie: function (name, value, expires, path, domain, secure) {
 unsetCookie: function (name, path, domain, secure) {
     this.set(name, "", new Date(0), path, domain, secure);
 }
+//设置过期时间
+var date = new Date();
+date.setDate( date.getDate() + 1 );
+setCookie('isShowPopup', '1', date);
 
 
 //文档加载完成条件判断
@@ -1878,9 +1889,25 @@ http://x.jd.com/exsites?spread_type=2&ad_ids=1016:5&location_info=0&callback=get
 
 网易首页已有替换规则
 
-//ajax请求返回数据res字符串格式json数据解析
 eval('(' + res + ')');
 
 http://www.szazx.com/games/index
 <?php include_once '../games_footer.php';?>
 
+
+            <div class="guanzhu">
+                 <span style="position:absolute; top:0; left:0; width:90%; height:40px; z-index:100001; color:#fff; font-size:15px; line-height:40px; text-align:center;">更多信息请搜索关注微信公众号：一元奇遇</span>
+                <span style="position:absolute; top:0; left:0; width:90%; height:40px; background:rgba(0, 0, 0, 0.5); z-index:100000;"></span>
+                <span class="guanzhu-close" style="position:absolute; right:0; top:0; width:10%; height:40px; z-index:100002; background:rgba(0, 0, 0, 0.6); font-size:48px; color:#fff; text-align:center; line-height:36px; font-weight:lighter; cursor:pointer;">×</span>
+            </div>      
+
+            //关闭顶部提示
+        $('.guanzhu .guanzhu-close').on('click', function() {
+            $('.guanzhu').hide();
+        })
+
+1.绑定手机弹框样式修改；
+2.图文详情content.js整合到商品信息detail.js；
+3.夺宝确认订单框，添加按钮选择和抽中几率；
+4.首页添加中奖信息文字滚动；
+5.已开奖商品页面添加前往最新一期按钮；

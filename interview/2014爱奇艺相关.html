@@ -94,18 +94,18 @@
 		<div style="height:100px; display:inline-block; background:#ccc; width:200px;"></div>
 	</div>	
 	<!--12.-->
-	<a href="javascript:;">无刷新跳转到B，且url为b.html</a>
+	<a class="jump" href="javascript:;">无刷新跳转到B，且url为b.html</a>
 	<!--13.1s后文字颜色变红-->
 	<a class="red" href="javascript:;">1s后文字颜色变红</a>	
 
 	<script>
 	//12 无刷新跳转到B，且url为b.html	
-	// $('a').click(function() {
- //  		$.get('http://localhost/ceshi/b.html', function(data) {
- //  			$('body').html(data);
- //  			history.replaceState(null, '', 'b.html')
- //  		})
- //  	})	
+	$('.jump').click(function() {
+  		$.get('http://localhost/ceshi/b.html', function(data) {
+  			$('body').html(data);
+  			history.replaceState(null, '', 'b.html')
+  		})
+  	})	
 
 	//15.用json表示一个数组，每个数组元素是一个对象，每个对象有两个属性
 	var json = [
