@@ -34,8 +34,6 @@
 		        alert(b);
 		})();	[99,2,3]
 		10)写一个简单的选项卡js
-
-		附：（一些零散的面试题，大概记滴(*^__^*) ）
 		11）页面上有些图片需要放到最后加载，请基于jquery写一段大致的实现方法
 			img自定义属性data-src="图片路径";
 			$('body').on('load', function(){
@@ -170,6 +168,20 @@
 		return tmp[parent];
 	}
 	console.log(JSON.stringify(toTree(json)));
+
+	function f(){
+		var i = 0;
+		return function(){
+			console.log(i++)
+		}
+	};
+	var f1 = f(),f2 =f();
+	console.log(f1);
+	f1();
+	f1();
+	f2();
+
+	
 
 	</script>
 </body>

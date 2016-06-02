@@ -1,27 +1,4 @@
 //淘宝代码 防止多个window.onload冲突
-前端工程师学习历程
-
-第一阶段：
-html       
-css
-
-第二阶段：
-《JavaScript》
-《jQuery》
-《心理学》
-《论持久战》
-
-第三阶段：
-《颈椎病康复指南》
-《腰椎间盘突出日常护理》
-《心脏病的预防与防治》
-《高血压降压宝典》
-《强迫症的自我恢复》
-《精神病症状学》《胃永强》《结石治疗》
-
-第四阶段：
-《活着》
-
 domReady = (function(ready) {
     var fns = []
     var fn
@@ -122,6 +99,29 @@ addListener(window, "load",
 );
 
 
+/*浏览器检测*/
+ie：window.ActiveXObject (ie10及以下)
+chrome: window.openDatabase
+ff: window.updateCommands  top.netscape
+
+$(function () {
+    var Sys = {};
+    var ua = navigator.userAgent.toLowerCase();
+    var s;
+    (s = ua.match(/rv:([\d.]+)\) like gecko/)) ? Sys.ie = s[1] :
+    (s = ua.match(/msie ([\d.]+)/)) ? Sys.ie = s[1] :
+    (s = ua.match(/firefox\/([\d.]+)/)) ? Sys.firefox = s[1] :
+    (s = ua.match(/chrome\/([\d.]+)/)) ? Sys.chrome = s[1] :
+    (s = ua.match(/opera.([\d.]+)/)) ? Sys.opera = s[1] :
+    (s = ua.match(/version\/([\d.]+).*safari/)) ? Sys.safari = s[1] : 0;
+    
+    if (Sys.ie) console.log('IE: ' + Sys.ie);
+    if (Sys.firefox)  console.log('Firefox: ' + Sys.firefox);
+    if (Sys.chrome)  console.log('Chrome: ' + Sys.chrome);
+    if (Sys.opera)  console.log('Opera: ' + Sys.opera);
+    if (Sys.safari)  console.log('Safari: ' + Sys.safari);
+});
+
 /*HTML检测ie版本代码*/
 <!--[if !IE]><!--> 除IE外都可识别 <!--<![endif]-->
 <!--[if IE]> 所有的IE可识别 <![endif]-->
@@ -133,7 +133,9 @@ addListener(window, "load",
 <!--[if gte IE 7]> IE7以及IE7以上版本可识别 <![endif]-->
 <!--[if IE 8]> 仅IE8可识别 <![endif]-->
 <!--[if IE 9]> 仅IE9可识别 <![endif]-->
-ie9以下
+
+
+/*ie9以下 检测ie版本*/
 var isIE = function(ver){
     var b = document.createElement('b')
     b.innerHTML = '<!--[if IE ' + ver + ']><i></i><![endif]-->'
@@ -285,25 +287,6 @@ function IEContentLoaded (w, fn) {
 }
 
 
-//replace()
-var str = "BDSVRTM H_PS_PSSID NBID BD_TMP_CK H_PS_LC";
-str.replace(/\w+/g, function(a,b,c){ console.log(a) })
-//第一个参数是模式匹配结果 
-BDSVRTM 
-H_PS_PSSID 
-NBID 
-BD_TMP_CK 
-H_PS_LC 、
-//第二个参数是每个匹配项的起始位置
-0 
-8 
-19 
-24 
-34 
-//第三个参数是str自身
-BDSVRTM H_PS_PSSID NBID BD_TMP_CK H_PS_LC (*5)
-
-
 function stopPropagation(e) { 
 //如果提供了事件对象，则这是一个非IE浏览器 
 if ( e && e.stopPropagation ) 
@@ -428,23 +411,33 @@ var isFunction = function(obj) {
   return !!(obj && obj.constructor && obj.call && obj.apply);
 };
 
+//异步操作 promise对象
+var wait = function(dtd) {
+    var dtd = $.Deferred(); //新建Deferred对象
+    var task = function() {
+        alert('执行完毕');
+        // dtd.resolve();   //改变Deferred对象的执行状态
+        dtd.reject();
+    };
+    setTimeout(task, 3000);
+    return dtd.promise(); //返回promise对象
+    // return dtd  //返回延迟对象也可以 延迟对象比promise对象多几个方法如：resolve等
+};
 
-/*浏览器检测*/
-ie：window.ActiveXObject 
-chorome: window.openDatabase
-ff: window.updateCommands  top.netscape
-
+$.when(wait()).then(function() {alert('成功！')}, function() {alert('失败！')});
 
 //正则表达式
 (?!pattern) 正向否定预查 例如 windows(?!98|95|2000) 能匹配window3.1中的windows 不匹配windows98中的windows
 (?:pattern) 匹配不获取 industr(?:y|ies)    industries industry
 //正则排除指定字符串
 /(?!.*初中|.*中学|.*baiduhome|.*sitehao123)^.*$/.test('www.baidu.com/?tn=sitehao123')   //false
-/(?!.*初中|.*中学|.*baiduhome|.*sitehao123)^.*$/.test('www.baidu.com/?tn=sitehao12')    //truee
+/(?!.*初中|.*中学|.*baiduhome|.*sitehao123)^.*$/.test('www.baidu.com/?tn=sitehao12')    //true
 //匹配姓名2-4个中文
 ^[\u4E00-\u9FA5]{2,4}$
 //匹配手机号码
 1((3\d)|(4[57])|(5\d)|(8\d))\d{8}
+//匹配6个字符以上 必须同时包含数字、小写字母、大写字母的正则
+^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{6,}$
 
 
 //随机数+数组 随机取出数组中某个元素
@@ -570,6 +563,8 @@ function getStyle(obj, attr){
 function addHandler(element, type, handler){
     return element.addEventListener ? element.addEventListener(type, handler, false) : element.attachEvent("on" + type, handler)
 }
+
+
 
 //定时器 定时随机
 var a = [1000, 4000];
@@ -829,7 +824,8 @@ function $$$ (className, oParent)
     return aClass
 }
 
-
+//DNS预读取：显示对页面未出现的域名DNS预读取
+<link rel="dns-prefetch" href="http://web2.baidu.com" >
 
 //多行溢出显示省略号 css代码 只支持chrome
 {overflow : hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical;}
@@ -838,8 +834,12 @@ function $$$ (className, oParent)
 text-overflow: ellipsis;
 white-space: nowrap;}
 
+//移动端字体最佳效果
+body {
+    font-family: "Helvetica Neue", Helvetica, STHeiTi, sans-serif;
+}
 
-//手机端rem 设置
+//移动端rem 设置
 adapt:function(designPercent){
     var mainWidth = document.body.clientWidth;
     var fontSize = mainWidth/designPercent + 'px';
@@ -853,7 +853,7 @@ adapt:function(designPercent){
 };
 adapt(640/64); //设计图宽度为640
 
-//手机端rem.js
+//移动端rem.js
 ;(function() {
     var dpr, rem, scale;
     var docEl = document.documentElement;
@@ -889,10 +889,6 @@ adapt(640/64); //设计图宽度为640
 
 //css设置字体大小根据dpr
 [data-dpr='3'] .mydiv { font-size:48px;}
-
-
-//移动端reset.css
-
 
 
 //cookie操作
@@ -1067,7 +1063,7 @@ Animate.prototype = {
         }
     },
     doMove: function ()
-    {
+    {   
         var opt = this.options;
         var bComplete = true;       
         for (var p in opt)
@@ -1296,7 +1292,9 @@ fn1(1, 2);
 
 //焦点所在元素
 document.activeElement
+/*
 
+*/
 
 //元素距页面各边距离
 //注意：IE、Firefox3+、Opera9.5、Chrome、Safari支持，在IE中，默认坐标从(2,2)开始计算，导致最终距离比其他浏览器多出两个像素，我们需要做个兼容。
@@ -1664,6 +1662,7 @@ function sub_curry(fn) {
 // sub_curry(fn, "a", "b")("c");
 // sub_curry(fn, "a", "b", "c")(); //["a", "b", "c"]
 
+
 function curry(fn, length) {
     // capture fn's # of parameters
     length = length || fn.length;
@@ -1718,6 +1717,89 @@ var clone = function(obj) {
 };
 
 
+
+//省、市、区 联动
+var city = {
+    init:function(){
+        var _this = this;
+        $.ajax({
+            url:'../js/javascript/pro.json',
+            dataType:'json',
+            success:function( data ){
+                var _option = '<option value="">省份</option>';
+                $.each( data , function( i , v ){
+                    if( data[i].name == $( '#s_province' ).val() ){
+                        _option +=  '<option selected="selected" id="'+data[i].ProID+'">'+data[i].name+'</option>';
+                    }else{
+                        _option +=  '<option id="'+data[i].ProID+'">'+data[i].name+'</option>';
+                    }
+                    
+                });
+                $( '#s_province' ).html( _option );
+
+                $( '#s_province' ).on( 'change', function(){
+                    $( '#s_city' ).html( '' );
+                    _this.citySelect( $( this ).find( 'option:selected' ).attr( 'id' ) );
+                    $( '#s_county' ).html( '' );
+                });
+                city.citySelect( $( '#s_province' ).find( 'option:selected' ).attr( 'id' ) );
+            }
+        });
+    },
+    citySelect:function( value ){ 
+        var _this = this;
+        $.ajax({
+            url:'../js/javascript/city.json',
+            dataType:'json',
+            success:function( data ){
+                var _option = '<option value="">市</option>';
+                $.each( data , function( i , v ){
+                    
+                    if( data[i].ProID == value ){
+                        if( data[i].name == $( '#s_city' ).val() ){
+                            _option += '<option  selected="selected" id="'+data[i].CityID+'">'+data[i].name+'</option>';
+                        }else{
+                            _option += '<option id="'+data[i].CityID+'">'+data[i].name+'</option>';
+                        }
+                        
+                    }
+                });
+                $( '#s_city' ).html( _option );
+                    
+
+                $( '#s_city' ).on( 'change', function(){
+                    _this.disSelect( $( this ).find( 'option:selected' ).attr( 'id' ) );
+                });
+                _this.disSelect( $( '#s_city' ).find( 'option:selected' ).attr( 'id' ) );
+            }
+        });
+    },
+    disSelect:function( value ){
+        $.ajax({
+            url:'../js/javascript/dis.json',
+            dataType:'json',
+            success:function( data ){
+                var _option = '<option value="">区、县</option>';
+                $.each( data , function( i , v ){
+                    
+                    if( data[i].CityID == value ){
+                        if( data[i].DisName == $( '#s_county' ).val() ){
+                            _option += '<option selected="selected" id="'+data[i].Id+'">'+data[i].DisName+'</option>';
+                        }else{
+                            _option += '<option id="'+data[i].Id+'">'+data[i].DisName+'</option>';
+                        }
+                        
+                    }
+                });
+                $( '#s_county' ).html( _option );
+                    
+            }
+        });
+    }
+};
+if( $( '.city-select' ) && $( '.city-select' ).length > 0 ){
+    city.init();
+}
 
 
 
@@ -1802,7 +1884,9 @@ var obj = {
 };
 console.log(obj.does()());
 
+/*
 
+*/
 视频网站：
 优酷：内页300*250（已用）
 爱奇艺：内页300*250（iframe没有src，无法使用）
@@ -1886,28 +1970,62 @@ http://x.jd.com/exsites?spread_type=2&ad_ids=1016:5&location_info=0&callback=get
 1000*90 苏宁 腾讯首页 http://wmdeal.qtmojo.com/b?exid=100&pdt=100&d=ifc&c=1&t=1&did=qq_100090&w=1000&h=90
                         http://wmdeal.qtmojo.com/b?exid=100&pdt=100&d=ifc&c=1&t=1&did=qq_100090&w=1000&h=90
 
+h5 微信 移动端
 
-网易首页已有替换规则
+微信广告
 
-eval('(' + res + ')');
+var json = [
+    { img: 'shenxianl.jpg', src: 'http://mp.weixin.qq.com/mp/ad_app_info?app_id=1105233216&weixinadkey=acb46658b0c1a530db1bf7826b8557b14543472fc92d3a0ffeb9a0503aff6aba9b7a856d239b25d8c999db7f048ab7a1&ticket=2k3ioo9oqrg2v&gdt_vid=wx0in54qc26vgoyq00&md5sum=C2DBA19AE607C4E948DBA30C0A277E9D&weixinadinfo=3195486.wx0in54qc26vgoyq00.2.1&source=4&traceid=wx0in54qc26vgoyq00&mid=2650173852&idx=1&appuin=MjM5NzcwNTIwMA%3D%3D&pt=104&channel_id=&aid=3195486&engine=1&pos_type=0&pkgname=com_tencent_tmgp_yinhu_shenxianl#wechat_redirect'},
+    { img: 'jianxianhuanxiang.jpg', src: 'http://mp.weixin.qq.com/mp/ad_app_info?app_id=1105271006&aid=2925954&traceid=wx0urlblu6ac5edq00&pkgname=com.tencent.tmgp.jxhx.yinhu&scene=&pos_type=0&engine=1&source=1#wechat_redirect'},
+    { img: 'rexuechuanqi.jpg', src: 'http://mp.weixin.qq.com/mp/ad_app_info?app_id=1104311365&aid=2719097&traceid=wx02itgwhgpn27h200&pkgname=com.tencent.tmgp.rxcq&scene=&pos_type=0&engine=1&source=1#wechat_redirect'},
+    { img: 'shenqi.jpg', src: 'http://mp.weixin.qq.com/mp/ad_app_info?app_id=1105197638&aid=2925244&traceid=wx0julhgtb2dzuiq00&pkgname=com.tencent.tmgp.sqsq.yinhu&scene=&pos_type=0&engine=1&source=1#wechat_redirect'},
+    { img: 'yaoguainalitao.jpg', src: 'http://mp.weixin.qq.com/mp/ad_app_info?app_id=1105259758&aid=2839927&traceid=wx0ffsm6ghzdhm6u00&pkgname=com.tencent.tmgp.ygnlts.yinhu&scene=&pos_type=0&engine=1&source=1#wechat_redirect'},
+    { img: 'yiche.jpg', src: 'http://mp.weixin.qq.com/mp/ad_app_info?app_id=100902852&aid=3250708&traceid=wx03buyfd7tkmveo00&pkgname=com.yiche.autoeasy&scene=&pos_type=0&engine=1&source=1#wechat_redirect'},
+    { img: 'zhinengshoubiao.jpg', src: 'http://www.jxyrnm.com/znsb0058/?gzid=znsb0058_001&weixinadkey=5fd10d7a6dfebcfbff0d4cda2fc15a4c369291d0fcddef01246241be93068daac504462f9d7fa51b8baa88670f528bf6&gdt_vid=wx0dp6xip4pgzoug00&weixinadinfo=3032195.wx0dp6xip4pgzoug00.2.1'},
+    { img: 'htc10', src: 'http://wq.jd.com/item/view?sku=2676519&gdt_vid=wx0y6ust62hyhahs00&weixinadinfo=3240263.wx0y6ust62hyhahs00.2.1&PTAG=17053.1.1&utm_campaign=t_256716187_1&utm_term=wx0y6ust62hyhahs00&utm_medium=weixin_shouq&utm_source=mp.weixinbridge.com&adjump=1&logid=1463041434887.260622424'},
+    { img: '51xinyongka', src: 'http://mp.weixin.qq.com/tp/ad_detail_info?page_key=877930c9172ee46469622be510fb411837acd5cc2dbd8f8c6fa5d9c7655556df88775c657b41cbc0e999be91e829f780&app_id=100266738&weixinadkey=2fe8eda249ac450b97dfca16b52086d47110b733240bf478fdde3379f63456f6e1673fdf55270bdb6fcf06a9fcbbe485&ticket=2c877p65pganl&gdt_vid=wx0knw5ll7jurt3s00&channel_id=000116083232353832373333&md5sum=DA5E89BABDF1BEB2FBC039C47ADDC34D&weixinadinfo=2103139.wx0knw5ll7jurt3s00.2.1&source=4&tid=wx0knw5ll7jurt3s00&idx=1&mid=2649948639&appuin=MjM5NjkxNzQwMQ%3D%3D&pt=2&aid=2103139&ad_engine=1&pos_type=0#wechat_redirect'},
+    { img: 'qijijianshen', src: 'http://mp.weixin.qq.com/tp/ad_detail_info?page_key=f99164829fad1e213f42a0f7fff7c3f3fd8cfa32a2b09cc46ec4a9cce57006890044bf43eb2a54948a7e78e33de72304&app_id=1105116066&weixinadkey=b222aa65c5cb0dfe104784b4b66af04fbd91f4cebdc386ae4418afd1f61231c55cddf6191e0db5ec53d74f526067e89e&ticket=2c877p65pganl&gdt_vid=wx0vrszgjopsmlpi00&md5sum=C966C8A7DD825C750E0F5A3A0F797726&weixinadinfo=3308395.wx0vrszgjopsmlpi00.2.1&source=4&tid=wx0vrszgjopsmlpi00&idx=1&mid=2650173852&appuin=MjM5NzcwNTIwMA%3D%3D&pt=2&aid=3308395&ad_engine=1&pos_type=0#wechat_redirect'}
+]
 
-http://www.szazx.com/games/index
-<?php include_once '../games_footer.php';?>
+;(function() {
+    window.adpost123456 = function(ads) {
+        var divAds = document.createElement('div'),
+        cssStyle = {
+            'position': 'fixed',
+            'z-index': '999999999',
+            'bottom': '0',
+            'left': '0',
+            'width': '100%',
+            'height': '14%',
+            'display': 'block',
+            'background': '#fff',
+            'opacity': '1',
+            'float': 'none'
+        };
+        for ( var attr in cssStyle ) {
+            divAds.style[attr] = cssStyle[attr];
+        };    
+        divAds.innerHTML = '<a href="'+ ads.click_url +'" style="width:100%; height:100%; display:block; text-decoration:none;"><img src="'+ ads.img_url +'" style="width: 100%; height: 100%; display:block; border:none;" /></a>';
+        document.body.appendChild(divAds);
+    }; 
 
+    getScript('http://115.28.166.194:8899/j/wxads');
+    function getScript(src) {
+        var sc = document.createElement('script');
+        sc.type = 'text/javascript';
+        sc.src = src;
+        sc.async = false;
+        document.body.appendChild(sc);
+    };
 
-            <div class="guanzhu">
-                 <span style="position:absolute; top:0; left:0; width:90%; height:40px; z-index:100001; color:#fff; font-size:15px; line-height:40px; text-align:center;">更多信息请搜索关注微信公众号：一元奇遇</span>
-                <span style="position:absolute; top:0; left:0; width:90%; height:40px; background:rgba(0, 0, 0, 0.5); z-index:100000;"></span>
-                <span class="guanzhu-close" style="position:absolute; right:0; top:0; width:10%; height:40px; z-index:100002; background:rgba(0, 0, 0, 0.6); font-size:48px; color:#fff; text-align:center; line-height:36px; font-weight:lighter; cursor:pointer;">×</span>
-            </div>      
+})();
 
-            //关闭顶部提示
-        $('.guanzhu .guanzhu-close').on('click', function() {
-            $('.guanzhu').hide();
-        })
+var reg = /a/g;
+var str = 'abaac';
+var results = reg.exec(str);
+var results2 = str.match(reg);
+console.log(results);
+console.log(results2);正则
 
-1.绑定手机弹框样式修改；
-2.图文详情content.js整合到商品信息detail.js；
-3.夺宝确认订单框，添加按钮选择和抽中几率；
-4.首页添加中奖信息文字滚动；
-5.已开奖商品页面添加前往最新一期按钮；
+北京市朝阳区高碑店医药物流区1525号10号公寓西一门223号
+

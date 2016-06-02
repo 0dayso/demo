@@ -4,14 +4,44 @@
 	<meta charset="UTF-8">
 	<title></title>
 	<style>
-	
+	   /*css问答
+            一、css3动画 animation
+            1.动画名称、动画执行时间、动画函数、延迟播放、播放次数、播放方向、播放后状态、暂停播放
+            2.动画函数种类及效果 ease（默认 先加速后减速） linear（匀速） ease-in（加速） ease-out（减速）ease-in-out（先加速后减速） 贝塞尔曲线
+            二、transform 变换
+            1.种类：scale、translate、rotate、skew、matrix、perspective 
+            三、transition 过度
+            1.过渡属性、过渡时间、延迟时间、过渡动画函数
+            四、清除浮动 
+            .clearfix { *zoom:1;}
+            .clearfix:after { content:''; display:block; height:0; visibility: hidden; clear: both;}
+       */
+
 	</style>
 </head>
 <body>
     <!-- div.aa$*10 -->
     <input type="text" size="100" value="asdfasfasfdasdfsgasdgagsdgagasdgasgdasgagdasgagasdgasdgag" />
     <ul id="list"> <li>demo1</li><li>demo2</li><li>demo3</li><li>demo4</li><li>demo5</li></ul>
-	 <script type="text/javascript">
+
+    <!-- html5问答 -->
+        <!-- html5控件 -->
+        颜色：<input type="color" value>
+        日期：<input type="date">
+        range: <input type="range">
+
+        <!-- 
+            1.canvas和svg区别及使用场景
+                canvas: 1.绘制后不能加事件处理；
+                        2.速度较快，
+            2. 例如 a.html中有iframe的src为b.html b向a发送数据
+                a.html下： window.addEventListener('message', function() {}, false) 监听message事件 
+                b.html下： 获取到父级a的window对象window.parent 发送数据 window.parent.postMessage(data, '域名 *为任何域名都可以接受数据')         
+         -->
+        
+    <!-- html5问答 -->       
+
+	<script type="text/javascript">
         //1.经典问题 闭包
         /*var ul = document.getElementById('list'),
             lis = ul.getElementsByTagName('li');
@@ -22,7 +52,6 @@
                 }
             })(i)
         };*/
-
 
         //5、按顺序写出alert弹出窗口的内容
         /*var name = "The Window";
@@ -59,6 +88,8 @@
         console.log(p1.colors); //["red", "yellow", "blue", "grey", exist: function] 
         var p2 = new SubType();
         console.log(p2.colors);*/
+
+        //
 
         //原型链 + 借用构造函数组合继承
         /*function Super() {
@@ -106,6 +137,11 @@
             return this.replace(/(^\s*)|(\s*$)/g,"");
         }*/
         //11、哪些方法可以提升网站前端性能？ 
+       /* 1.减少http请求。a.合并css,js文件 b.css sprite图 c.ajax缓存 
+        2.页面上：减少dom操作、延迟加载 、代码复用、事件委托等  
+        3.使用CDN */
+
+
         //技术热情，态度，思想，总结能力，经验。
 
         //12输出结果
@@ -121,15 +157,33 @@
 		//   })(i),0);  
 		// }; 
 
+
+        //作用域问题
+        /*var name = 'word';
+        (function() {
+            if (typeof name === 'undefined') {
+                var name = 'Jack';  //var声明提前 name在函数内为undefined
+                alert(name)
+            } else {
+                alert('hello' + name);
+            }
+        })(); //执行结果为Jack*/
+
         //复制各种数据类型的clone()函数
         //1.复制数组或对象
         /*Object.prototype.clone = function() {
-            var o = Object.prototype.toString.call(this) === '[object Array]' ? [] : {};
+            var o = Object.prototype.toString.call(this) == '[object Array]' ? [] : {};
             for (var i in this) {
-                o[i] = typeof this[i] === 'object' ? this[i].clone() : this[i];
-            }
+                o[i] = typeof this[i] == 'object' ? this[i].clone() : this[i];
+            };
             return o;
-        }*/
+        };
+
+        var arr = [1, 2, 'x', {x: 1}];
+        var b = arr.clone();
+        console.log(b);*/
+
+
         //2.复制所有类型
         /*var clone = function(obj) {
             var o;
@@ -191,20 +245,21 @@
             };
             return newArr;
         }
-        deRepeat(arr); //[1, 2, 3, 4, 5, 6, 9, 25]
+        deRepeat(arr); //[1, 2, 3, 4, 5, 6, 9, 25]*/
 
-        String.prototype.addSpace = function() {
+        /*String.prototype.addSpace = function() {
             return this.replace(/\s/g,'').split('').join(' ');
         }
-        'hello abc'.addSpace(); //"h e l l o a b c"
+        'hello abc'.addSpace(); //"h e l l o a b c"*/
 
         //写一个方法log代替console.log
-        function log() {
+      /*  function log() {
             console.log.apply(console, arguments)
         }
-        log('a','b');   //a b
+        log('a','b');   //a b*/
 
 
+        /*
         //对this的理解
         var User = {
           count: 1,        
@@ -216,7 +271,7 @@
          
         var func = User.getCount.bind(User);
         func(); //undefined
-        //如何使func()也为1  console.log(func.call(User));  
+        //如何使func()也为1  console.log(func.call(User)); 
 
         Function.prototype.bind = Function.prototype.bind || function(context) {
             var self = this;
@@ -224,9 +279,72 @@
             return function() {
                 return self.apply(context, arguments)
             }
-        };*/
+        };
+
+
+        12.事件绑定
+        function addHandle(element, type, fn) {
+            return element.addEventListener ? element.addEventListener(type, fn, false) : attachEvent(element, 'on' + type, fn);
+        }
+
+
+        13.浏览器检测
+        1.通过浏览器特定的属性
+        window.ActiveXObject(ie10-)
+        widow.openDatabase(chrome)
+        window.updateCommands(firefox)
+        //ie9以下 检测ie版本
+        var isIE = function(ver){
+            var b = document.createElement('b')
+            b.innerHTML = '<!--[if IE ' + ver + ']><i></i><![endif]-->'
+            return b.getElementsByTagName('i').length === 1
+        };
+        2.navigator.userAgent.toLowerCase()检测
+
+
+        14.原生js获取css样式
+        function getStyle(elem, attr) {
+            return elem.currentStyle ? elem.currentStyle[attr] : getComputedStyle(elem, null)[attr];
+        }
+
+        15.阻止冒泡 阻止默认行为:a链接点击跳转，右键菜单，图片文字等默认拖拽行为
+        function stopPropagation(e) {
+            if ( e && e.stopPropagation ) {
+                e.stopPropagation();
+            } else {
+                window.event.cancelBubble = true;
+            }
+        }
+        function preventDefault(e) {
+            if ( e && e.preventDefault ) {
+                e.preventDefault()
+            } else {
+                window.event.returnValue = false;
+            }
+            return false;
+        }
+
+
+        16.判断数据类型
+        object.prototype.toString.call([]) == '[obejct Array]'
+        function isFunction(obj) {
+            return !!( obj && obj.construtor && obj.call && obj.apply ); 
+        };
+
+        17.arguments转数组
+        Array.prototype.slice.call(arguments);
+        function a() {
+            var args = Array.prototype.slice.call(arguments);
+            console.log(args instanceof Array)  //true
+        }
+        a(1,2);
+        
+
+        
+        */      
 
         
     </script>
+
 </body>
 </html>

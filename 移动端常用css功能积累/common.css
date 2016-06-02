@@ -12,6 +12,11 @@ html, body, button, input, select, textarea {
 
 a,img,button,input,textarea,div{-webkit-tap-highlight-color:rgba(255,255,255,0);}
 
+/*移动端字体最佳效果*/
+body {
+    font-family: "Helvetica Neue", Helvetica, STHeiTi, sans-serif;
+}
+
 body {
     font-size: 0.46875rem;
     background-color: #f2f2f2;

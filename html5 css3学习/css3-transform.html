@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>css3-transform</title>
+    <style type="text/css">
+        .demo_box{
+            border:1px solid #3DA5DC;background:#a4dcf9;height:100px;width:200px; text-align:center;color:#fff;
+        }
+        .demo_rotate{
+            -webkit-transition:1s ease all;
+            -moz-transition:1s ease all;
+            padding:10px;
+            margin:90px auto;
+        }
+        .demo_rotate:hover{
+             /*-webkit-transform:rotate(360deg) scale(1.2,1.2);
+            -moz-transform:rotate(360deg) scale(1.2,1.2);*/
+            -webkit-transform: rotate3d(0, 1, 1, 360deg) scale(1.2, 1.2);
+            -moz-transform: rotate3d(0, 1, 1, 360deg) scale(1.2, 1.2);
+            -ms-transform: rotate3d(0, 1, 1, 360deg) scale(1.2, 1.2);
+            -o-transform: rotate3d(0, 1, 1, 360deg) scale(1.2, 1.2);
+            transform: rotate3d(0, 1, 1, 360deg) scale(1.2, 1.2);
+            background:#ff9900;
+        }
+        .demo_perspective {
+            margin: 50px;
+            float: left;
+        }
+        .perspective_none {
+            -webkit-animation: perspective_none 4s infinite linear;
+        }
+        .perspective_value {
+            -webkit-animation: perspective_value 4s infinite linear;
+        }
+        @-webkit-keyframes perspective_none {
+            0%{ -webkit-transform: rotateX(0deg);}
+            100%{ -webkit-transform: rotateX(360deg);}
+        }
+        @-webkit-keyframes perspective_value {
+            0%{ -webkit-transform: perspective(500px) rotateX(0deg);}
+            100%{ -webkit-transform: perspective(500px) rotateX(360deg);}
+        }
+    </style>
+</head>
+<body>
+    <div class="demo_box demo_rotate">鼠标经过变大1.2倍、旋转360度并改变背景色。</div>
+    <div class="demo_box demo_perspective perspective_none">perspective为0</div>
+    <div class="demo_box demo_perspective perspective_value">perspective为500</div>
+</body>
+</html>
